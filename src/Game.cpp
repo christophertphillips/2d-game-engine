@@ -59,5 +59,7 @@ void Game::Render(){
 }
 
 void Game::Destroy(){
-
+    SDL_DestroyRenderer(renderer);                                                      // destroy SDL renderer instance
+    SDL_DestroyWindow(window);                                                          // destroy SDL window instance
+    SDL_Quit();                                                                         // close SDL
 }
