@@ -47,6 +47,8 @@ void Game::Initialize(){
         return;
     }
 
+    SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);                             // set window to (real) fullscreen
+
     isRunning = true;                                                                   // set isRunning to true once game is initialized
 }
 
