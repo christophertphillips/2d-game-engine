@@ -46,7 +46,11 @@ void Game::Initialize(){
 }
 
 void Game::Run(){
-
+    while(isRunning){                                                                   // execute game loop while isRunning is true
+        ProcessInput();                                                                 // process inputs
+        Update();                                                                       // update game state
+        Render();                                                                       // render display
+    }
 }
 
 void Game::ProcessInput(){
