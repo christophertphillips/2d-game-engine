@@ -81,10 +81,14 @@ void Game::Update(){
 }
 
 void Game::Render(){
-    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);                                   // set renderer color to red
+    SDL_SetRenderDrawColor(renderer, 21, 21, 21, 255);                                  // set renderer color to dark gray (background)
     SDL_RenderClear(renderer);                                                          // clear renderer
 
-    SDL_RenderPresent(renderer);                                                        // paint window with renderer
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);                               // set renderer color to white (rectangle)
+    SDL_Rect player = { 10, 10, 20, 20 };                                               // create + initialize SDL rect struct
+    SDL_RenderFillRect(renderer, &player);                                              // draw rectangle
+
+    SDL_RenderPresent(renderer);                                                        // swap back buffer with front buffer
 }
 
 void Game::Destroy(){
