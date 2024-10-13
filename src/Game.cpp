@@ -17,12 +17,17 @@ void Game::Initialize(){
         return;
     }
 
+    SDL_DisplayMode sdlDisplayMode;                                                     // create SDL display mode struct
+    SDL_GetCurrentDisplayMode(0, &sdlDisplayMode);                                      // set values of display mode struct
+    windowWidth = sdlDisplayMode.w;                                                     // set windowWidth public member
+    windowHeight = sdlDisplayMode.h;                                                    // set windowHeight public member
+
     window = SDL_CreateWindow(                                                          // create SDL window instance
         NULL,                                                                           // window title
         SDL_WINDOWPOS_CENTERED,                                                         // x position
         SDL_WINDOWPOS_CENTERED,                                                         // y position
-        800,                                                                            // width
-        600,                                                                            // height
+        windowWidth,                                                                    // width
+        windowHeight,                                                                   // height
         SDL_WINDOW_BORDERLESS                                                           // flags
     );
 
