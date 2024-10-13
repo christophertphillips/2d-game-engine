@@ -19,8 +19,8 @@ void Game::Initialize(){
 
     SDL_DisplayMode sdlDisplayMode;                                                     // create SDL display mode struct
     SDL_GetCurrentDisplayMode(0, &sdlDisplayMode);                                      // set values of display mode struct
-    windowWidth = sdlDisplayMode.w;                                                     // set windowWidth public member
-    windowHeight = sdlDisplayMode.h;                                                    // set windowHeight public member
+    windowWidth = 800; //sdlDisplayMode.w;                                              // set windowWidth public member
+    windowHeight = 600; //sdlDisplayMode.h;                                             // set windowHeight public member
 
     window = SDL_CreateWindow(                                                          // create SDL window instance
         NULL,                                                                           // window title
