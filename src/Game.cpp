@@ -50,7 +50,19 @@ void Game::Run(){
 }
 
 void Game::ProcessInput(){
-
+    SDL_Event sdlEvent;                                                                 // create SDL event struct
+    while(SDL_PollEvent(&sdlEvent)){                                                    // poll SDL events
+        switch(sdlEvent.type){                                                          // switch on type of SDL event
+            case SDL_QUIT:                                                              // if user clicked 'X" button, set isRunning to false
+                isRunning = false;
+                break;
+            case SDL_KEYDOWN:                                                           // is user pressed "Escape", set isRunning to False
+                if(sdlEvent.key.keysym.sym == SDLK_ESCAPE){
+                    isRunning = false;
+                }
+                break;
+        }
+    }
 }
 
 void Game::Update(){
