@@ -16,7 +16,7 @@ void Game::Initialize(){
         return;
     }
 
-    SDL_Window* window = SDL_CreateWindow(                                              // create SDL window instance
+    window = SDL_CreateWindow(                                                          // create SDL window instance
         NULL,                                                                           // window title
         SDL_WINDOWPOS_CENTERED,                                                         // x position
         SDL_WINDOWPOS_CENTERED,                                                         // y position
@@ -30,7 +30,7 @@ void Game::Initialize(){
         return;
     }
 
-    SDL_Renderer* renderer = SDL_CreateRenderer(                                        // create SDL renderer to go inside SDL window
+    renderer = SDL_CreateRenderer(                                                      // create SDL renderer to go inside SDL window
         window,                                                                         // associated window
         -1,                                                                             // associated display (-1 = default)
         0                                                                               // flags
