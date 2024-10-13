@@ -70,7 +70,10 @@ void Game::Update(){
 }
 
 void Game::Render(){
+    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);                                   // set renderer color to red
+    SDL_RenderClear(renderer);                                                          // clear renderer
 
+    SDL_RenderPresent(renderer);                                                        // paint window with renderer
 }
 
 void Game::Destroy(){
