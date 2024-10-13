@@ -3,6 +3,7 @@
 #include <iostream>
 
 Game::Game(){
+    isRunning = false;                                                                  // set isRunning to false until game is initialized
     std::cout << "Game constructor called!" << std::endl;
 }
 
@@ -40,6 +41,8 @@ void Game::Initialize(){
         std::cerr << "Error creating SDL renderer." << std::endl;
         return;
     }
+
+    isRunning = true;                                                                   // set isRunning to true once game is initialized
 }
 
 void Game::Run(){
