@@ -1,5 +1,6 @@
 #include "Game.h"
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 #include <iostream>
 
 Game::Game(){
@@ -84,9 +85,28 @@ void Game::Render(){
     SDL_SetRenderDrawColor(renderer, 21, 21, 21, 255);                                  // set renderer color to dark gray (background)
     SDL_RenderClear(renderer);                                                          // clear renderer
 
-    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);                               // set renderer color to white (rectangle)
-    SDL_Rect player = { 10, 10, 20, 20 };                                               // create + initialize SDL rect struct
-    SDL_RenderFillRect(renderer, &player);                                              // draw rectangle
+    SDL_Surface* surface = IMG_Load("./assets/images/tank-tiger-right.png");            // create surface from PNG image
+    SDL_Texture* texture = SDL_CreateTextureFromSurface(                                // create texture from surface
+        renderer,
+        surface
+    );
+    SDL_FreeSurface(surface);                                                           // destroy surface
+
+    SDL_Rect dstRect = {                                                                // create a destination rectangle for the texture
+        10,                                                                             // x position
+        10,                                                                             // y position
+        32,                                                                             // width
+        32                                                                              // height
+    };
+
+    SDL_RenderCopy(                                                                     // copy texture to renderer
+        renderer,
+        texture,
+        NULL,                                                                           // source rectangle (NULL = capture entire source texture)
+        &dstRect                                                                        // reference to destination rectangle
+    );
+
+    SDL_DestroyTexture(texture);                                                        // destroy texture
 
     SDL_RenderPresent(renderer);                                                        // swap back buffer with front buffer
 }
