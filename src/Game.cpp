@@ -67,7 +67,14 @@ glm::vec2 playerPosition;                                                       
 glm::vec2 playerVelocity;                                                               // 2D GLM vector used to store player velocity
 
 void Game::Setup(){
-
+    playerPosition = glm::vec2(                                                         // initialize playerPosition GLM vector
+        10.0,                                                                           // X position
+        20.0                                                                            // Y position
+    );
+    playerVelocity = glm::vec2(                                                         // initialize playerVelocity GLM vector
+        1.0,                                                                            // X velocity
+        0.0                                                                             // Y velocity
+    );
 }
 
 void Game::ProcessInput(){
