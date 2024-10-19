@@ -94,10 +94,10 @@ void Game::ProcessInput(){
 }
 
 void Game::Update(){
-    while(!SDL_TICKS_PASSED(                                                            // waste cycles until MILLISECS_PER_FRAME is reached and next frame is to start
-        SDL_GetTicks(),                                                                 // current milliseconds
-        millisecsPreviousFrame + MILLISECS_PER_FRAME                                    // previous milliseconds offseted by milliseconds per frame
-    ));
+    int timeToWait = MILLISECS_PER_FRAME - (SDL_GetTicks() - millisecsPreviousFrame);   // calculate time to wait until next frame should begin
+    if(timeToWait > 0 && timeToWait <= MILLISECS_PER_FRAME){                            // delay if timeToWait is within bounds (latter bound provided for thoroughness)
+        SDL_Delay(timeToWait);                                                          // delay necessary time until next frame should begin
+    }
 
     millisecsPreviousFrame = SDL_GetTicks();                                            // set current milliseconds for next Update() call
 
