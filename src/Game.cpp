@@ -94,7 +94,8 @@ void Game::ProcessInput(){
 }
 
 void Game::Update(){
-
+    playerPosition.x += playerVelocity.x;                                               // Update player's X position
+    playerPosition.y += playerVelocity.y;                                               // Update player's Y position
 }
 
 void Game::Render(){
