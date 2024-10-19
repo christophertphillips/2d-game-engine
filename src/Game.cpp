@@ -54,6 +54,7 @@ void Game::Initialize(){
 }
 
 void Game::Run(){
+    Setup();                                                                            // configure stuff before game loop starts
     while(isRunning){                                                                   // execute game loop while isRunning is true
         ProcessInput();                                                                 // process inputs
         Update();                                                                       // update game state
