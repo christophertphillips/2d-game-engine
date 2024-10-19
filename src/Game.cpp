@@ -1,6 +1,7 @@
 #include "Game.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <glm/glm.hpp>
 #include <iostream>
 
 Game::Game(){
@@ -61,6 +62,9 @@ void Game::Run(){
         Render();                                                                       // render display
     }
 }
+
+glm::vec2 playerPosition;                                                               // 2D GLM vector used to store player position
+glm::vec2 playerVelocity;                                                               // 2D GLM vector used to store player velocity
 
 void Game::Setup(){
 
