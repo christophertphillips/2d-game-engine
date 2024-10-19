@@ -94,6 +94,11 @@ void Game::ProcessInput(){
 }
 
 void Game::Update(){
+    while(!SDL_TICKS_PASSED(                                                            // waste cycles until MILLISECS_PER_FRAME is reached and next frame is to start
+        SDL_GetTicks(),                                                                 // current milliseconds
+        millisecsPreviousFrame + MILLISECS_PER_FRAME                                    // previous milliseconds offseted by milliseconds per frame
+    ));
+
     millisecsPreviousFrame = SDL_GetTicks();                                            // set current milliseconds for next Update() call
 
     playerPosition.x += playerVelocity.x;                                               // Update player's X position
