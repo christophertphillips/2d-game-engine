@@ -110,8 +110,8 @@ void Game::Render(){
     SDL_FreeSurface(surface);                                                           // destroy surface
 
     SDL_Rect dstRect = {                                                                // create a destination rectangle for the texture
-        10,                                                                             // x position
-        10,                                                                             // y position
+        static_cast<int>(playerPosition.x),                                             // x position
+        static_cast<int>(playerPosition.y),                                             // y position
         32,                                                                             // width
         32                                                                              // height
     };
