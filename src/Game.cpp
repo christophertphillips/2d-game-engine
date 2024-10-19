@@ -94,6 +94,8 @@ void Game::ProcessInput(){
 }
 
 void Game::Update(){
+    millisecsPreviousFrame = SDL_GetTicks();                                            // set current milliseconds for next Update() call
+
     playerPosition.x += playerVelocity.x;                                               // Update player's X position
     playerPosition.y += playerVelocity.y;                                               // Update player's Y position
 }
