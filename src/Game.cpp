@@ -61,6 +61,10 @@ void Game::Run(){
     }
 }
 
+void Game::Setup(){
+
+}
+
 void Game::ProcessInput(){
     SDL_Event sdlEvent;                                                                 // create SDL event struct
     while(SDL_PollEvent(&sdlEvent)){                                                    // poll SDL events
