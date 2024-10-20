@@ -72,7 +72,7 @@ void Game::Setup(){
         20.0                                                                            // Y position
     );
     playerVelocity = glm::vec2(                                                         // initialize playerVelocity GLM vector
-        1.0,                                                                            // X velocity
+        100.0,                                                                          // X velocity
         0.0                                                                             // Y velocity
     );
 }
@@ -103,8 +103,8 @@ void Game::Update(){
 
     millisecsPreviousFrame = SDL_GetTicks();                                            // set current milliseconds for next Update() call
 
-    playerPosition.x += playerVelocity.x;                                               // Update player's X position
-    playerPosition.y += playerVelocity.y;                                               // Update player's Y position
+    playerPosition.x += playerVelocity.x * deltaTime;                                   // Update player's X position
+    playerPosition.y += playerVelocity.y * deltaTime;                                   // Update player's Y position
 }
 
 void Game::Render(){
