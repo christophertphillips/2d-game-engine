@@ -99,6 +99,8 @@ void Game::Update(){
         SDL_Delay(timeToWait);                                                          // delay necessary time until next frame should begin
     }
 
+    double deltaTime = (SDL_GetTicks() - millisecsPreviousFrame) / 1000.0;              // difference in time since last frame (converted to seconds)
+
     millisecsPreviousFrame = SDL_GetTicks();                                            // set current milliseconds for next Update() call
 
     playerPosition.x += playerVelocity.x;                                               // Update player's X position
