@@ -2,6 +2,7 @@
 #define LOGGER_H
 
 #include <string>
+#include <vector>
 
 enum LogType{
     LOG_INFO,
@@ -16,6 +17,7 @@ struct LogEntry{
 
 class Logger{
     public:
+        static std::vector<LogEntry> messages;
         static void Log(const std::string& message);
         static void Err(const std::string& message);
 };

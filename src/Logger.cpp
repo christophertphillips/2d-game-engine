@@ -2,6 +2,8 @@
 #include <ctime>
 #include <iostream>
 
+std::vector<LogEntry> Logger::messages;
+
 std::string curDateTimeStr(){
     // alternate method using chrono
     // std::time_t now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
