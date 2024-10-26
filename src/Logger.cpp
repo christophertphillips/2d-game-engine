@@ -19,11 +19,17 @@ std::string curDateTimeStr(){
 }
 
 void Logger::Log(const std::string& message){
-    std::string output = "LOG [ " + curDateTimeStr() + " ] - " + message;               // generate output string
-    std::cout << "\x1B[1;32m" <<  output << "\x1B[0m" << std::endl;                     // send string to cout
+    LogEntry logEntry;
+    logEntry.type = LOG_INFO;
+    logEntry.message = "LOG [ " + curDateTimeStr() + " ] - " + message;                 // generate output string
+    std::cout << "\x1B[1;32m" <<  logEntry.message << "\x1B[0m" << std::endl;           // send string to cout
+    messages.push_back(logEntry);
 }
 
 void Logger::Err(const std::string& message){
-    std::string output = "ERR [ " + curDateTimeStr() + " ] - " + message;               // generate output string
-    std::cout << "\x1B[1;31m" <<  output << "\x1B[0m" << std::endl;                     // send string to cout
+    LogEntry logEntry;
+    logEntry.type = LOG_ERROR;
+    logEntry.message = "ERR [ " + curDateTimeStr() + " ] - " + message;                 // generate log output string
+    std::cout << "\x1B[1;31m" <<  logEntry.message << "\x1B[0m" << std::endl;           // send string to cout
+    messages.push_back(logEntry);
 }
