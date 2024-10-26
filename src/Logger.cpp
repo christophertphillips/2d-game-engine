@@ -1,5 +1,6 @@
 #include "Logger.h"
 #include <ctime>
+#include <iostream>
 
 std::string curDateTimeStr(){
     // alternate method using chrono
@@ -16,9 +17,11 @@ std::string curDateTimeStr(){
 }
 
 void Logger::Log(const std::string& message){
-
+    std::string output = "LOG [ " + curDateTimeStr() + " ] - " + message;               // generate output string
+    std::cout << "\x1B[1;32m" <<  output << "\x1B[0m" << std::endl;                     // send string to cout
 }
 
 void Logger::Err(const std::string& message){
-
+    std::string output = "ERR [ " + curDateTimeStr() + " ] - " + message;               // generate output string
+    std::cout << "\x1B[1;31m" <<  output << "\x1B[0m" << std::endl;                     // send string to cout
 }
