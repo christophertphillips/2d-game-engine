@@ -25,6 +25,14 @@ class System{
     private:
         Signature componentSignature;                                                   // signature indicating which components are required by the system
         std::vector<Entity> entities;                                                   // vector of entities associated with the system
+
+    public:
+        System() = default;                                                             // System constructor
+        ~System() = default;                                                            // System destructor
+        void AddEntityToSystem(Entity entity);
+        void RemoveEntityFromSystem(Entity entity);
+        std::vector<Entity> GetSystemEntities() const;                                  // get vector of entities
+        Signature& GetComponentSignature() const;                                       // get reference to component signature
 };
 
 class Registry{
