@@ -2,6 +2,7 @@
 #define ECS_H
 
 #include <bitset>
+#include <vector>
 
 // (the bitset defines (1) which components an entity has, and (2) which components a system is interested in)
 const unsigned int MAX_COMPONENTS = 32;                                                 // define bitset length = 32 bits
@@ -21,7 +22,9 @@ class Entity{
 };
 
 class System{
-
+    private:
+        Signature componentSignature;                                                   // signature indicating which components are required by the system
+        std::vector<Entity> entities;                                                   // vector of entities associated with the system
 };
 
 class Registry{
