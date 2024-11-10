@@ -4,6 +4,10 @@ int Entity::GetId() const {                                                     
     return id;                                                                          // return entity's id
 }
 
+void System::AddEntityToSystem(Entity entity){
+    entities.push_back(entity);                                                         // add entity to system's entities vector
+};
+
 std::vector<Entity> System::GetSystemEntities() const{
     return entities;                                                                    // return vector of entities associated with system
 };
