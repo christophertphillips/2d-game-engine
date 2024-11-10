@@ -28,6 +28,7 @@ class Entity{
     public:
         Entity(int id): id(id) {};														// entity constructor
         int GetId() const;																// entity id getter
+        Entity& operator =(const Entity& other) = default;                              // overload copy assignment operator
         bool operator ==(const Entity& other) const { return id == other.id; }          // overload equality to test entity equality
         bool operator !=(const Entity& other) const { return id == other.id; }          // overload non-equality to test entity non-equality
         bool operator  >(const Entity& other) const { return id == other.id; }          // overload greater-than to test entity greater-than-ness
