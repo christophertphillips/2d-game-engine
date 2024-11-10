@@ -20,7 +20,7 @@ void System::RemoveEntityFromSystem(Entity entity){
         std::remove_if(                                                                 // returns iterator to first matching elmenet (in this case, only one is possible)
             entities.begin(),
             entities.end(),
-            [&entity](Entity other) { return entity.GetId() == other.GetId(); }         // lambda function that matches 'other' entity to 'entity' entity
+            [&entity](Entity other) { return entity == other; }                         // lambda function that matches 'other' entity to 'entity' entity
         ),
         entities.end()                                                                  // iterator of last element
     );
