@@ -42,10 +42,18 @@ class System{
         void RemoveEntityFromSystem(Entity entity);
         std::vector<Entity> GetSystemEntities() const;                                  // get vector of entities
         Signature& GetComponentSignature() const;                                       // get reference to component signature
+        template <typename T> void RequireComponent();                                  // defines component required by the system
 };
 
 class Registry{
 
 };
+
+// (templates are implemented in the header file)
+template <typename T>
+void System::RequireComponent(){
+    const auto componentId = Component<T>::GetId();                                     // get id associated with component to require
+    componentSignature.set(componentId);                                                // toggle bit corresponding to component id
+}
 
 #endif
