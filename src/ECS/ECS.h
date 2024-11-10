@@ -8,8 +8,9 @@
 const unsigned int MAX_COMPONENTS = 32;                                                 // define bitset length = 32 bits
 typedef std::bitset<MAX_COMPONENTS> Signature;                                          // define 32-bit bitset type
 
-class Component{
-
+struct IComponent{                                                                      // (base class containing shared 'counter' variable)
+    protected:
+        static int nextId;                                                              // (shared 'counter' used to assign ids to components)
 };
 
 class Entity{
