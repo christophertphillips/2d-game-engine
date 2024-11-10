@@ -7,3 +7,7 @@ int Entity::GetId() const {                                                     
 std::vector<Entity> System::GetSystemEntities() const{
     return entities;                                                                    // return vector of entities associated with system
 };
+
+const Signature& System::GetComponentSignature() const{
+    return componentSignature;                                                          // return signature indicating which components are required by the system
+};
