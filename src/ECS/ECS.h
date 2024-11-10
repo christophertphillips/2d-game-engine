@@ -28,6 +28,10 @@ class Entity{
     public:
         Entity(int id): id(id) {};														// entity constructor
         int GetId() const;																// entity id getter
+        bool operator ==(const Entity& other) const { return id == other.id; }          // overload equality to test entity equality
+        bool operator !=(const Entity& other) const { return id == other.id; }          // overload non-equality to test entity non-equality
+        bool operator  >(const Entity& other) const { return id == other.id; }          // overload greater-than to test entity greater-than-ness
+        bool operator  <(const Entity& other) const { return id == other.id; }          // overload less-than to test entity less-than-ness
 };
 
 class System{
