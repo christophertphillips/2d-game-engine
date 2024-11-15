@@ -111,6 +111,9 @@ class Registry{
         // (entityComponentSignature index = entity id)
         std::vector<Signature> entityComponentSignatures;                               // vector containing component signatures per entity
         std::unordered_map<std::type_index, System*> systems;                           // unordered map containing pointers to systems
+
+    public:
+        Registry() = default;
 };
 
 // (templates are implemented in the header file)
