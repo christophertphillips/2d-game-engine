@@ -51,6 +51,11 @@ class System{
         template <typename T> void RequireComponent();                                  // defines component required by the system
 };
 
+class IPool{                                                                            // (base class used to allow creation of componentPool w/o specifying T)
+    public:
+        virtual ~IPool() {}
+};
+
 template <typename T>
 class Pool{
     private:
