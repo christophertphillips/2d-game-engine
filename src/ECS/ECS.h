@@ -104,7 +104,10 @@ class Pool: public IPool{
 class Registry{
     private:
         int numEntities = 0;                                                            // how many entities we have in our world
+        // (componentPools index = component id, Pool index = entity ID)
         std::vector<IPool*> componentPools;                                             // vector containing pointers to all component pools
+        // (entityComponentSignature index = entity id)
+        std::vector<Signature> entityComponentSignatures;                               // vector containing component signatures per entity
 };
 
 // (templates are implemented in the header file)
