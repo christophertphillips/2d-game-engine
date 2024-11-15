@@ -3,6 +3,8 @@
 
 #include <bitset>
 #include <vector>
+#include <unordered_map>
+#include <typeindex>
 
 // (the bitset defines (1) which components an entity has, and (2) which components a system is interested in)
 const unsigned int MAX_COMPONENTS = 32;                                                 // define bitset length = 32 bits
@@ -108,6 +110,7 @@ class Registry{
         std::vector<IPool*> componentPools;                                             // vector containing pointers to all component pools
         // (entityComponentSignature index = entity id)
         std::vector<Signature> entityComponentSignatures;                               // vector containing component signatures per entity
+        std::unordered_map<std::type_index, System*> systems;                           // unordered map containing pointers to systems
 };
 
 // (templates are implemented in the header file)
