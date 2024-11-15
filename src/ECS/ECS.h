@@ -57,7 +57,7 @@ class IPool{                                                                    
 };
 
 template <typename T>
-class Pool{
+class Pool: public IPool{
     private:
         std::vector<T> data;                                                            // vector that is "wrapped" by the Pool class
 
@@ -66,7 +66,7 @@ class Pool{
             data.resize(size);
         }
 
-        ~Pool() = default;
+        virtual ~Pool() = default;                                                      // (virtual is probably unnecessary here)
 
         bool IsEmpty() const {
             return data.empty();                                                        // return pool "emptiness" value
