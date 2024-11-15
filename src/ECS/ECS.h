@@ -102,7 +102,9 @@ class Pool: public IPool{
 };
 
 class Registry{
-
+    private:
+        int numEntities = 0;                                                            // how many entities we have in our world
+        std::vector<IPool*> componentPools;                                             // vector containing pointers to all component pools
 };
 
 // (templates are implemented in the header file)
