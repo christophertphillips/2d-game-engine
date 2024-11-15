@@ -51,6 +51,51 @@ class System{
         template <typename T> void RequireComponent();                                  // defines component required by the system
 };
 
+template <typename T>
+class Pool{
+    private:
+        std::vector<T> data;                                                            // vector that is "wrapped" by the Pool class
+
+    public:
+        Pool(int size = 100){                                                           // default pool size = 100
+            data.resize(size);
+        }
+
+        ~Pool() = default;
+
+        bool IsEmpty() const {
+            return data.empty();                                                        // return pool "emptiness" value
+        }
+
+        int GetSize() const {
+            return data.size();                                                         // return size of pool
+        }
+
+        void Resize(int n) {
+            data.resize(n);                                                             // resize pool
+        }
+
+        void Clear(){
+            data.clear();                                                               // clear data from pool
+        }
+
+        void Add(T object){
+            data.push_back(object);                                                     // add object to pool
+        }
+
+        void Set(int index, T object){
+            data[index] = object;                                                       // set object at specified pool index
+        }
+
+        T& Get(int index){
+            return static_cast<T&>(data[index]);                                        // return object at specified pool index
+        }                                                                               // (static cast is probably unnecessary here)
+
+        T& operator [](unsigned int index){
+            return data[index];                                                         // return object at specified pool index
+        }
+};
+
 class Registry{
 
 };
