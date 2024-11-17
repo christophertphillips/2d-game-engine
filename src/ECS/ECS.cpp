@@ -1,4 +1,5 @@
 #include "ECS.h"
+#include "../Logger/Logger.h"
 
 int Entity::GetId() const {                                                             // (const indicates method doesn't change members)
     return id;                                                                          // return entity's id
@@ -32,4 +33,12 @@ std::vector<Entity> System::GetSystemEntities() const{
 
 const Signature& System::GetComponentSignature() const{
     return componentSignature;                                                          // return signature indicating which components are required by the system
+};
+
+Entity Registry::createEntity(){
+    int entityId = numEntities++;                                                       // generate entity id
+    Entity entity(entityId);                                                            // create entity (on stack)
+    entitiesToBeAdded.insert(entity);                                                   // add entity to entitiesToBeAdded set
+    Logger::Log("Entity created with id = " + std::to_string(entityId));                // log entity creation message
+    return entity;                                                                      // return (copy of) entity
 };

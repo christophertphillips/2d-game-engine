@@ -117,6 +117,7 @@ class Registry{
 
     public:
         Registry() = default;
+        Entity createEntity();                                                          // create entity, add to entitiesToBeAdded, and return copy
 };
 
 // (templates are implemented in the header file)
