@@ -5,6 +5,7 @@
 #include <vector>
 #include <unordered_map>
 #include <typeindex>
+#include <set>
 
 // (the bitset defines (1) which components an entity has, and (2) which components a system is interested in)
 const unsigned int MAX_COMPONENTS = 32;                                                 // define bitset length = 32 bits
@@ -111,6 +112,8 @@ class Registry{
         // (entityComponentSignature index = entity id)
         std::vector<Signature> entityComponentSignatures;                               // vector containing component signatures per entity
         std::unordered_map<std::type_index, System*> systems;                           // unordered map containing pointers to systems
+        std::set<Entity> entitiesToBeAdded;                                             // set containing entities to be added at end of frame
+        std::set<Entity> entitiesToBeKilled;                                            // set containing entities to be killed at end of frame
 
     public:
         Registry() = default;
