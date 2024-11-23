@@ -121,6 +121,7 @@ class Registry{
         template <typename T, typename ...TArgs> void AddComponent(Entity entity, TArgs&& ...args); // add component of type T and args of types TArgs to specified entity
         template <typename T> void RemoveComponent(Entity entity);                      // remove component of type T from specified entity
         template <typename T> bool HasComponent(Entity entity);                         // determine if specified entity has component of type T
+        template <typename T, typename ...TArgs> void AddSystem(TArgs&& ...args);       // add system of type T and args of type TArgs to systems unordered map
 };
 
 // (templates are implemented in the header file)
@@ -169,6 +170,12 @@ bool Registry::HasComponent(Entity entity){
     const auto entityId = entity.GetId();                                               // get entity id
 
     return entityComponentSignatures[entityId].test(componentId);                       // return bool result of testing component's bit in entity's component signature bitset
+}
+
+template <typename T, typename ...TArgs>
+void Registry::AddSystem(TArgs&& ...args){                                              // add system of type T and args of type TArgs to systems unordered map
+    T* newSystem = new T(std::forward<TArgs>(args)...);                                 // create new system of type T on heap, forwarding component args
+    systems.insert(std::make_pair(std::type_index(typeid(T)), newSystem));              // insert pointer to new system in systems unordered map at (type_index(T), newSystem*)
 }
 
 #endif
