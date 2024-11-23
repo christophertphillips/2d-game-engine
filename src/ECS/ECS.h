@@ -119,6 +119,7 @@ class Registry{
         Registry() = default;
         Entity createEntity();                                                          // create entity, add to entitiesToBeAdded, and return copy
         template <typename T, typename ...TArgs> void AddComponent(Entity entity, TArgs&& ...args); // add component of type T and args of types TArgs to specified entity
+        template <typename T> void RemoveComponent(Entity entity);                      // remove component of type T from specified entity
 };
 
 // (templates are implemented in the header file)
@@ -151,6 +152,14 @@ void Registry::AddComponent(Entity entity, TArgs&& ...args){                    
     T newComponent(std::forward<TArgs>(args)...);                                       // create new component of type T on stack, forwarding component args
     componentPool->Set(entityId, newComponent);                                         // set component at specified entity index in componentPool
     entityComponentSignatures[entityId].set(componentId);                               // set component bit to 1 in entity's component signature bitset
+}
+
+template <typename T>
+void Registry::RemoveComponent(Entity entity){                                          // remove component of type T from specified entity
+    const auto componentId = Component<T>::GetId();                                     // get id associated with component type T
+    const auto entityId = entity.GetId();                                               // get entity id
+
+    entityComponentSignatures[entityId].set(componentId, false);                        // set component bit to 0 in entity's component signature bitset
 }
 
 #endif
