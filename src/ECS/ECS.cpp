@@ -1,6 +1,8 @@
 #include "ECS.h"
 #include "../Logger/Logger.h"
 
+int IComponent::nextId = 0;
+
 int Entity::GetId() const {                                                             // (const indicates method doesn't change members)
     return id;                                                                          // return entity's id
 }
