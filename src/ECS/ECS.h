@@ -118,6 +118,7 @@ class Registry{
     public:
         Registry() = default;
         Entity createEntity();                                                          // create entity, add to entitiesToBeAdded, and return copy
+        template <typename T, typename ...TArgs> void AddComponent(Entity entity, TArgs&& ...args); // add component of type T and args of types TArgs to specified entity
 };
 
 // (templates are implemented in the header file)
@@ -125,6 +126,31 @@ template <typename T>
 void System::RequireComponent(){
     const auto componentId = Component<T>::GetId();                                     // get id associated with component to require
     componentSignature.set(componentId);                                                // toggle bit corresponding to component id
+}
+
+template <typename T, typename ...TArgs>
+void Registry::AddComponent(Entity entity, TArgs&& ...args){                            // add component of type T and args of types TArgs to specified entity
+    const auto componentId = Component<T>::GetID();                                     // get id associated with component type T
+    const auto entityId = entity.GetId();                                               // get entity id
+
+    if(componentId >= componentPools.size()){                                           // if component type can't fit in componentPools...
+        componentPools.resize(componentId + 1, nullptr);                                // ... increase componentPool size by 1
+    }
+
+    if(!componentPools[componentId]){                                                   // if componentPools doesn't have a pointer to a pool for the specified component...
+        Pool<T>* newComponentPool = new Pool<T>();                                      // ... create a new pool...
+        componentPools[componentId] = newComponentPool;                                 // ... and assign its pointer to the relevant componentPools vector index
+    }
+
+    Pool<T>* componentPool = componentPools[componentId];                               // get component pool associated with component id
+
+    if(entityId >= componentPool->GetSize()){                                           // if component pool isn't big enough to accomodate entity...
+        componentPool->Resize(numEntities);                                             // ... increase size of component pool to match # of entities
+    }
+
+    T newComponent(std::forward<TArgs>(args)...);                                       // create new component of type T on stack, forwarding component args
+    componentPool->Set(entityId, newComponent);                                         // set component at specified entity index in componentPool
+    entityComponentSignatures[entityId].set(componentId);                               // set component bit to 1 in entity's component signature bitset
 }
 
 #endif
