@@ -122,6 +122,7 @@ class Registry{
         template <typename T> void RemoveComponent(Entity entity);                      // remove component of type T from specified entity
         template <typename T> bool HasComponent(Entity entity);                         // determine if specified entity has component of type T
         template <typename T, typename ...TArgs> void AddSystem(TArgs&& ...args);       // add system of type T and args of type TArgs to systems unordered map
+        template <typename T> void RemoveSystem();                                      // remove system of type T from systems undordered map
 };
 
 // (templates are implemented in the header file)
@@ -176,6 +177,12 @@ template <typename T, typename ...TArgs>
 void Registry::AddSystem(TArgs&& ...args){                                              // add system of type T and args of type TArgs to systems unordered map
     T* newSystem = new T(std::forward<TArgs>(args)...);                                 // create new system of type T on heap, forwarding component args
     systems.insert(std::make_pair(std::type_index(typeid(T)), newSystem));              // insert pointer to new system in systems unordered map at (type_index(T), newSystem*)
+}
+
+template <typename T>
+void Registry::RemoveSystem(){                                                          // remove system of type T from systems undordered map
+    auto systemsIterator = systems.find(std::type_index(typeid(T)));                    // get iterator pointing to system of type T in the systems unordered map
+    systems.erase(systemsIterator);                                                     // remove system of type T from the systems unordered map
 }
 
 #endif
