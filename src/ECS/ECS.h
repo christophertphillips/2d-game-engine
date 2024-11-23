@@ -123,6 +123,7 @@ class Registry{
         template <typename T> bool HasComponent(Entity entity);                         // determine if specified entity has component of type T
         template <typename T, typename ...TArgs> void AddSystem(TArgs&& ...args);       // add system of type T and args of type TArgs to systems unordered map
         template <typename T> void RemoveSystem();                                      // remove system of type T from systems undordered map
+        template <typename T> bool HasSystem() const;                                   // determine if systems unordered map has system of type T
 };
 
 // (templates are implemented in the header file)
@@ -183,6 +184,11 @@ template <typename T>
 void Registry::RemoveSystem(){                                                          // remove system of type T from systems undordered map
     auto systemsIterator = systems.find(std::type_index(typeid(T)));                    // get iterator pointing to system of type T in the systems unordered map
     systems.erase(systemsIterator);                                                     // remove system of type T from the systems unordered map
+}
+
+template <typename T>
+bool Registry::HasSystem() const{                                                       // determine if systems unordered map has system of type T
+    return systems.find(std::type_index(typeid(T))) != systems.end();                   // return bool result of comparing find iterator to iterator pointing to end of systems unordered map 
 }
 
 #endif
