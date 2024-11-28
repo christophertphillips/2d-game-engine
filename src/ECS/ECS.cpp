@@ -59,3 +59,10 @@ void Registry::AddEntityToSystems(Entity entity){                               
         }
     }
 }
+
+void Registry::Update(){                                                                // add/remove entities waiting to be added/removed
+    for (auto entity: entitiesToBeAdded){                                               // iterate through all entities to be added
+        AddEntityToSystems(entity);                                                     // add entity to all systems interested in the entity
+    }
+    entitiesToBeAdded.clear();                                                          // clear entitiesToBeAdded set after all entities have been added
+};
