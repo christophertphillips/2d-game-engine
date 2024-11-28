@@ -44,3 +44,18 @@ Entity Registry::createEntity(){
     Logger::Log("Entity created with id = " + std::to_string(entityId));                // log entity creation message
     return entity;                                                                      // return (copy of) entity
 };
+
+void Registry::AddEntityToSystems(Entity entity){                                       // add entity to *all* systems that are interested in that entity
+    const auto entityId = entity.GetId();                                               // get entity id of specified entity
+    const auto& entityComponentSignature = entityComponentSignatures[entityId];         // get component signature associated with specified entity
+
+    for (auto& systemsRef: systems){                                                    // loop through each system
+        const auto& systemComponentSignature = systemsRef.second->GetComponentSignature();  // get the component signature associated with systemsRef
+
+        bool isInterested = (entityComponentSignature & systemComponentSignature) == systemComponentSignature; // return bool result indicating whether systemRef is interested in specified entity
+
+        if (isInterested){                                                              // if system is intereted in entity...
+            systemsRef.second->AddEntityToSystem(entity);                               // ... then add entity to system
+        }
+    }
+}
