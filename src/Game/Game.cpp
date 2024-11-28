@@ -4,6 +4,7 @@
 #include <SDL2/SDL_image.h>
 #include <glm/glm.hpp>
 #include <iostream>
+#include "../ECS/ECS.h"
 
 Game::Game(){
     isRunning = false;                                                                  // set isRunning to false until game is initialized
@@ -64,18 +65,8 @@ void Game::Run(){
     }
 }
 
-glm::vec2 playerPosition;                                                               // 2D GLM vector used to store player position
-glm::vec2 playerVelocity;                                                               // 2D GLM vector used to store player velocity
-
 void Game::Setup(){
-    playerPosition = glm::vec2(                                                         // initialize playerPosition GLM vector
-        10.0,                                                                           // X position
-        20.0                                                                            // Y position
-    );
-    playerVelocity = glm::vec2(                                                         // initialize playerVelocity GLM vector
-        100.0,                                                                          // X velocity
-        0.0                                                                             // Y velocity
-    );
+
 }
 
 void Game::ProcessInput(){
@@ -103,37 +94,11 @@ void Game::Update(){
     double deltaTime = (SDL_GetTicks() - millisecsPreviousFrame) / 1000.0;              // difference in time since last frame (converted to seconds)
 
     millisecsPreviousFrame = SDL_GetTicks();                                            // set current milliseconds for next Update() call
-
-    playerPosition.x += playerVelocity.x * deltaTime;                                   // Update player's X position
-    playerPosition.y += playerVelocity.y * deltaTime;                                   // Update player's Y position
 }
 
 void Game::Render(){
     SDL_SetRenderDrawColor(renderer, 21, 21, 21, 255);                                  // set renderer color to dark gray (background)
     SDL_RenderClear(renderer);                                                          // clear renderer
-
-    SDL_Surface* surface = IMG_Load("./assets/images/tank-tiger-right.png");            // create surface from PNG image
-    SDL_Texture* texture = SDL_CreateTextureFromSurface(                                // create texture from surface
-        renderer,
-        surface
-    );
-    SDL_FreeSurface(surface);                                                           // destroy surface
-
-    SDL_Rect dstRect = {                                                                // create a destination rectangle for the texture
-        static_cast<int>(playerPosition.x),                                             // x position
-        static_cast<int>(playerPosition.y),                                             // y position
-        32,                                                                             // width
-        32                                                                              // height
-    };
-
-    SDL_RenderCopy(                                                                     // copy texture to renderer
-        renderer,
-        texture,
-        NULL,                                                                           // source rectangle (NULL = capture entire source texture)
-        &dstRect                                                                        // reference to destination rectangle
-    );
-
-    SDL_DestroyTexture(texture);                                                        // destroy texture
 
     SDL_RenderPresent(renderer);                                                        // swap back buffer with front buffer
 }
