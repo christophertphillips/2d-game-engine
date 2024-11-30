@@ -108,7 +108,7 @@ class Registry{
     private:
         int numEntities = 0;                                                            // how many entities we have in our world
         // (componentPools index = component id, Pool index = entity ID)
-        std::vector<IPool*> componentPools;                                             // vector containing pointers to all component pools
+        std::vector<std::shared_ptr<IPool>> componentPools;                             // vector containing pointers to all component pools
         // (entityComponentSignature index = entity id)
         std::vector<Signature> entityComponentSignatures;                               // vector containing component signatures per entity
         std::unordered_map<std::type_index, std::shared_ptr<System>> systems;           // unordered map containing pointers to systems
@@ -146,11 +146,11 @@ void Registry::AddComponent(Entity entity, TArgs&& ...args){                    
     }
 
     if(!componentPools[componentId]){                                                   // if componentPools doesn't have a pointer to a pool for the specified component...
-        Pool<T>* newComponentPool = new Pool<T>();                                      // ... create a new pool...
+        std::shared_ptr<Pool<T>> newComponentPool = std::make_shared<Pool<T>>();        // ... create a new pool...
         componentPools[componentId] = newComponentPool;                                 // ... and assign its pointer to the relevant componentPools vector index
     }
 
-    Pool<T>* componentPool = componentPools[componentId];                               // get component pool associated with component id
+    std::shared_ptr<Pool<T>> componentPool = std::static_pointer_cast<Pool<T>>(componentPools[componentId]);    // get component pool associated with component id
 
     if(entityId >= componentPool->GetSize()){                                           // if component pool isn't big enough to accomodate entity...
         componentPool->Resize(numEntities);                                             // ... increase size of component pool to match # of entities
