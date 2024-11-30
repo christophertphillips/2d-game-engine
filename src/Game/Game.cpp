@@ -8,7 +8,7 @@
 
 Game::Game(){
     isRunning = false;                                                                  // set isRunning to false until game is initialized
-    registry = new Registry();                                                          // instantiate Registry object
+    registry = std::make_unique<Registry>();                                            // instantiate Registry object
     Logger::Log("Game constructor called!");
 }
 
