@@ -111,7 +111,7 @@ class Registry{
         std::vector<IPool*> componentPools;                                             // vector containing pointers to all component pools
         // (entityComponentSignature index = entity id)
         std::vector<Signature> entityComponentSignatures;                               // vector containing component signatures per entity
-        std::unordered_map<std::type_index, System*> systems;                           // unordered map containing pointers to systems
+        std::unordered_map<std::type_index, std::shared_ptr<System>> systems;           // unordered map containing pointers to systems
         std::set<Entity> entitiesToBeAdded;                                             // set containing entities to be added at end of frame
         std::set<Entity> entitiesToBeKilled;                                            // set containing entities to be killed at end of frame
 
@@ -179,7 +179,7 @@ bool Registry::HasComponent(Entity entity){
 
 template <typename T, typename ...TArgs>
 void Registry::AddSystem(TArgs&& ...args){                                              // add system of type T and args of type TArgs to systems unordered map
-    T* newSystem = new T(std::forward<TArgs>(args)...);                                 // create new system of type T on heap, forwarding component args
+    std::shared_ptr<T> newSystem = std::make_shared<T>(std::forward<TArgs>(args)...);   // create new system of type T on heap, forwarding component args
     systems.insert(std::make_pair(std::type_index(typeid(T)), newSystem));              // insert pointer to new system in systems unordered map at (type_index(T), newSystem*)
 }
 
