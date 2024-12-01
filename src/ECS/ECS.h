@@ -138,7 +138,7 @@ void System::RequireComponent(){
 
 template <typename T, typename ...TArgs>
 void Registry::AddComponent(Entity entity, TArgs&& ...args){                            // add component of type T and args of types TArgs to specified entity
-    const auto componentId = Component<T>::GetID();                                     // get id associated with component type T
+    const auto componentId = Component<T>::GetId();                                     // get id associated with component type T
     const auto entityId = entity.GetId();                                               // get entity id
 
     if(componentId >= componentPools.size()){                                           // if component type can't fit in componentPools...
