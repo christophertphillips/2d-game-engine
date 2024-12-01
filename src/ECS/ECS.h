@@ -18,10 +18,11 @@ struct IComponent{                                                              
 
 template <typename T>
 class Component: public IComponent{                                                     // (inherit from IComponent to access shared "counter" variable)
-    static int GetId(){
-        static auto id = nextId++;                                                      // use "counter" to assign id to component
-        return id;                                                                      // (using static ensures that the id is only initialized once and thus never changes)
-    }
+    public:
+        static int GetId(){
+            static auto id = nextId++;                                                  // use "counter" to assign id to component
+            return id;                                                                  // (using static ensures that the id is only initialized once and thus never changes)
+        }
 };
 
 class Entity{
