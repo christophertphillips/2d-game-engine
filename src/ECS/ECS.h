@@ -6,6 +6,7 @@
 #include <unordered_map>
 #include <typeindex>
 #include <set>
+#include "../Logger/Logger.h"
 
 // (the bitset defines (1) which components an entity has, and (2) which components a system is interested in)
 const unsigned int MAX_COMPONENTS = 32;                                                 // define bitset length = 32 bits
@@ -160,6 +161,8 @@ void Registry::AddComponent(Entity entity, TArgs&& ...args){                    
     T newComponent(std::forward<TArgs>(args)...);                                       // create new component of type T on stack, forwarding component args
     componentPool->Set(entityId, newComponent);                                         // set component at specified entity index in componentPool
     entityComponentSignatures[entityId].set(componentId);                               // set component bit to 1 in entity's component signature bitset
+
+    Logger::Log("Component id = " + std::to_string(componentId) + " was added to entity id = " + std::to_string(entityId));
 }
 
 template <typename T>
