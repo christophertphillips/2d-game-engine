@@ -44,6 +44,7 @@ class Entity{
         template <typename T, typename ...TArgs> void AddComponent(TArgs&& ...args);    // add component of type T and args of types TArgs
         template <typename T> void RemoveComponent();                                   // remove component of type T
         template <typename T> bool HasComponent();                                      // determine if component of type T is present
+        template <typename T> T& GetComponent() const;                                  // get component of type T
 };
 
 class System{
@@ -151,6 +152,11 @@ void Entity::RemoveComponent(){                                                 
 template <typename T>
 bool Entity::HasComponent(){                                                            // determine if component of type T is present
     return registry->HasComponent<T>(*this);                                            // call Registry::HasComponent()
+}
+
+template <typename T>
+T& Entity::GetComponent() const{                                                        // get component of type T
+    return registry->GetComponent<T>(*this);                                            // call Registry::GetComponent()
 }
 
 template <typename T>
