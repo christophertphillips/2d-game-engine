@@ -36,9 +36,9 @@ class Entity{
         int GetId() const;																// entity id getter
         Entity& operator =(const Entity& other) = default;                              // overload copy assignment operator
         bool operator ==(const Entity& other) const { return id == other.id; }          // overload equality to test entity equality
-        bool operator !=(const Entity& other) const { return id == other.id; }          // overload non-equality to test entity non-equality
-        bool operator  >(const Entity& other) const { return id == other.id; }          // overload greater-than to test entity greater-than-ness
-        bool operator  <(const Entity& other) const { return id == other.id; }          // overload less-than to test entity less-than-ness
+        bool operator !=(const Entity& other) const { return id != other.id; }          // overload non-equality to test entity non-equality
+        bool operator  >(const Entity& other) const { return id > other.id; }           // overload greater-than to test entity greater-than-ness
+        bool operator  <(const Entity& other) const { return id < other.id; }           // overload less-than to test entity less-than-ness
         class Registry* registry;                                                       // pointer to registry object (to access registry methods via entity)
                                                                                         // (note that forward declaration is needed since Registry class is defined later)
         template <typename T, typename ...TArgs> void AddComponent(TArgs&& ...args);    // add component of type T and args of types TArgs
