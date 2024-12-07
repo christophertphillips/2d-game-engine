@@ -123,6 +123,7 @@ class Registry{
         template <typename T, typename ...TArgs> void AddComponent(Entity entity, TArgs&& ...args); // add component of type T and args of types TArgs to specified entity
         template <typename T> void RemoveComponent(Entity entity);                      // remove component of type T from specified entity
         template <typename T> bool HasComponent(Entity entity);                         // determine if specified entity has component of type T
+        template <typename T> T& GetComponent(Entity entity) const;                     // get component of type T from specified entity
         template <typename T, typename ...TArgs> void AddSystem(TArgs&& ...args);       // add system of type T and args of type TArgs to systems unordered map
         template <typename T> void RemoveSystem();                                      // remove system of type T from systems undordered map
         template <typename T> bool HasSystem() const;                                   // determine if systems unordered map has system of type T
@@ -179,6 +180,15 @@ bool Registry::HasComponent(Entity entity){
     const auto entityId = entity.GetId();                                               // get entity id
 
     return entityComponentSignatures[entityId].test(componentId);                       // return bool result of testing component's bit in entity's component signature bitset
+}
+
+template <typename T>
+T& Registry::GetComponent(Entity entity) const{
+    const auto componentId = Component<T>::GetId();                                     // get id associated with component type T
+    const auto entityId = entity.GetId();                                               // get entity id
+
+    auto componentPool = std::static_pointer_cast<Pool<T>>(componentPools[componentId]);    // get component pool associated with component id
+    return componentPool->Get(entityId);                                                // return component (associated with specified entity)
 }
 
 template <typename T, typename ...TArgs>
