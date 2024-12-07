@@ -8,6 +8,7 @@
 #include "../Components/TransformComponent.h"
 #include "../Components/RigidBodyComponent.h"
 #include "../Systems/MovementSystem.h"
+#include "../Systems/RenderSystem.h"
 
 Game::Game(){
     isRunning = false;                                                                  // set isRunning to false until game is initialized
@@ -71,6 +72,7 @@ void Game::Run(){
 
 void Game::Setup(){
     registry->AddSystem<MovementSystem>();                                              // add movement system
+    registry->AddSystem<RenderSystem>();                                                // add render system
 
     Entity tank = registry->createEntity();                                             // create tank entity
 
