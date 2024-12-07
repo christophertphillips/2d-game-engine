@@ -7,6 +7,7 @@
 #include "../ECS/ECS.h"
 #include "../Components/TransformComponent.h"
 #include "../Components/RigidBodyComponent.h"
+#include "../Systems/MovementSystem.h"
 
 Game::Game(){
     isRunning = false;                                                                  // set isRunning to false until game is initialized
@@ -69,6 +70,8 @@ void Game::Run(){
 }
 
 void Game::Setup(){
+    registry->AddSystem<MovementSystem>();                                              // add movement system
+
     Entity tank = registry->createEntity();                                             // create tank entity
 
     registry->AddComponent<TransformComponent>(tank, glm::vec2(10.0, 30.0), glm::vec2(1.0, 1.0), 0.0);  // add transform component to tank
