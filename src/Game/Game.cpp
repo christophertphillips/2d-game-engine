@@ -105,6 +105,8 @@ void Game::Update(){
     millisecsPreviousFrame = SDL_GetTicks();                                            // set current milliseconds for next Update() call
 
     registry->GetSystem<MovementSystem>().Update();                                     // update movement system
+
+    registry->Update();                                                                 // update registry (add and remove entities)
 }
 
 void Game::Render(){
