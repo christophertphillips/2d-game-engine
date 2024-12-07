@@ -41,6 +41,7 @@ class Entity{
         bool operator  <(const Entity& other) const { return id == other.id; }          // overload less-than to test entity less-than-ness
         class Registry* registry;                                                       // pointer to registry object (to access registry methods via entity)
                                                                                         // (note that forward declaration is needed since Registry class is defined later)
+        template <typename T, typename ...TArgs> void AddComponent(TArgs&& ...args);    // add component of type T and args of types TArgs
 };
 
 class System{
@@ -135,6 +136,11 @@ class Registry{
 };
 
 // (templates are implemented in the header file)
+template <typename T, typename ...TArgs>
+void Entity::AddComponent(TArgs&& ...args){                                             // add component of type T and args of types TArgs
+    registry->AddComponent<T>(*this, std::forward<TArgs>(args)...);                     // call Registry::AddComponent()
+}
+
 template <typename T>
 void System::RequireComponent(){
     const auto componentId = Component<T>::GetId();                                     // get id associated with component to require
