@@ -39,6 +39,8 @@ class Entity{
         bool operator !=(const Entity& other) const { return id == other.id; }          // overload non-equality to test entity non-equality
         bool operator  >(const Entity& other) const { return id == other.id; }          // overload greater-than to test entity greater-than-ness
         bool operator  <(const Entity& other) const { return id == other.id; }          // overload less-than to test entity less-than-ness
+        class Registry* registry;                                                       // pointer to registry object (to access registry methods via entity)
+                                                                                        // (note that forward declaration is needed since Registry class is defined later)
 };
 
 class System{

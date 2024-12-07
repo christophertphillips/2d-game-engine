@@ -40,6 +40,7 @@ const Signature& System::GetComponentSignature() const{
 Entity Registry::createEntity(){
     int entityId = numEntities++;                                                       // generate entity id
     Entity entity(entityId);                                                            // create entity (on stack)
+    entity.registry = this;                                                             // set Entity's registry member to point to registry object
     entitiesToBeAdded.insert(entity);                                                   // add entity to entitiesToBeAdded set
 
     if(entityId >= entityComponentSignatures.size()){                                   // if entity's component signature can't fit in entityComponentSignatures...
