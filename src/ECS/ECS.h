@@ -43,6 +43,7 @@ class Entity{
                                                                                         // (note that forward declaration is needed since Registry class is defined later)
         template <typename T, typename ...TArgs> void AddComponent(TArgs&& ...args);    // add component of type T and args of types TArgs
         template <typename T> void RemoveComponent();                                   // remove component of type T
+        template <typename T> bool HasComponent();                                      // determine if component of type T is present
 };
 
 class System{
@@ -145,6 +146,11 @@ void Entity::AddComponent(TArgs&& ...args){                                     
 template <typename T>
 void Entity::RemoveComponent(){                                                         // remove component of type T
     registry->RemoveComponent<T>(*this);                                                // call Registry::RemoveComponent()
+}
+
+template <typename T>
+bool Entity::HasComponent(){                                                            // determine if component of type T is present
+    return registry->HasComponent<T>(*this);                                            // call Registry::HasComponent()
 }
 
 template <typename T>
