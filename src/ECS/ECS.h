@@ -42,6 +42,7 @@ class Entity{
         class Registry* registry;                                                       // pointer to registry object (to access registry methods via entity)
                                                                                         // (note that forward declaration is needed since Registry class is defined later)
         template <typename T, typename ...TArgs> void AddComponent(TArgs&& ...args);    // add component of type T and args of types TArgs
+        template <typename T> void RemoveComponent();                                   // remove component of type T
 };
 
 class System{
@@ -139,6 +140,11 @@ class Registry{
 template <typename T, typename ...TArgs>
 void Entity::AddComponent(TArgs&& ...args){                                             // add component of type T and args of types TArgs
     registry->AddComponent<T>(*this, std::forward<TArgs>(args)...);                     // call Registry::AddComponent()
+}
+
+template <typename T>
+void Entity::RemoveComponent(){                                                         // remove component of type T
+    registry->RemoveComponent<T>(*this);                                                // call Registry::RemoveComponent()
 }
 
 template <typename T>
