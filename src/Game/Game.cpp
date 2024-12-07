@@ -9,6 +9,7 @@
 #include "../Components/RigidBodyComponent.h"
 #include "../Systems/MovementSystem.h"
 #include "../Systems/RenderSystem.h"
+#include "../Components/SpriteComponent.h"
 
 Game::Game(){
     isRunning = false;                                                                  // set isRunning to false until game is initialized
@@ -78,6 +79,7 @@ void Game::Setup(){
 
     registry->AddComponent<TransformComponent>(tank, glm::vec2(10.0, 30.0), glm::vec2(1.0, 1.0), 0.0);  // add transform component to tank
     registry->AddComponent<RigidBodyComponent>(tank, glm::vec2(10.0, 50.0));             // add rigid body component to tank
+    registry->AddComponent<SpriteComponent>(tank, 10, 10);                              // add sprite component to tank
 }
 
 void Game::ProcessInput(){
