@@ -12,13 +12,13 @@ class MovementSystem: public System{
             RequireComponent<RigidBodyComponent>();                                     // require rigid body component
         }
 
-        void Update(){
+        void Update(double deltaTime){
             for(auto entity: GetSystemEntities()){
                 auto& transformComponent = entity.GetComponent<TransformComponent>();       // get entity's transform component
                 const auto rigidBodyComponent = entity.GetComponent<RigidBodyComponent>();  // get entity's rigid body component
 
-                transformComponent.position.x += rigidBodyComponent.velocity.x;         // set entity x position using velocity x offset
-                transformComponent.position.y += rigidBodyComponent.velocity.y;         // set entity y position using velocity y offset
+                transformComponent.position.x += rigidBodyComponent.velocity.x * deltaTime; // set entity x position using velocity x offset
+                transformComponent.position.y += rigidBodyComponent.velocity.y * deltaTime; // set entity y position using velocity y offset
 
                 // Logger::Log(
                 //     "Entity id = " +

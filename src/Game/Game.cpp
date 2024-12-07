@@ -75,7 +75,7 @@ void Game::Setup(){
     Entity tank = registry->createEntity();                                             // create tank entity
 
     registry->AddComponent<TransformComponent>(tank, glm::vec2(10.0, 30.0), glm::vec2(1.0, 1.0), 0.0);  // add transform component to tank
-    registry->AddComponent<RigidBodyComponent>(tank, glm::vec2(50.0, 0.0));             // add rigid body component to tank
+    registry->AddComponent<RigidBodyComponent>(tank, glm::vec2(10.0, 50.0));             // add rigid body component to tank
 }
 
 void Game::ProcessInput(){
@@ -104,7 +104,7 @@ void Game::Update(){
 
     millisecsPreviousFrame = SDL_GetTicks();                                            // set current milliseconds for next Update() call
 
-    registry->GetSystem<MovementSystem>().Update();                                     // update movement system
+    registry->GetSystem<MovementSystem>().Update(deltaTime);                            // update movement system
 
     registry->Update();                                                                 // update registry (add and remove entities)
 }
