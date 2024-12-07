@@ -43,7 +43,7 @@ class Entity{
                                                                                         // (note that forward declaration is needed since Registry class is defined later)
         template <typename T, typename ...TArgs> void AddComponent(TArgs&& ...args);    // add component of type T and args of types TArgs
         template <typename T> void RemoveComponent();                                   // remove component of type T
-        template <typename T> bool HasComponent();                                      // determine if component of type T is present
+        template <typename T> bool HasComponent() const;                                // determine if component of type T is present
         template <typename T> T& GetComponent() const;                                  // get component of type T
 };
 
@@ -128,7 +128,7 @@ class Registry{
         Entity createEntity();                                                          // create entity, add to entitiesToBeAdded, and return copy
         template <typename T, typename ...TArgs> void AddComponent(Entity entity, TArgs&& ...args); // add component of type T and args of types TArgs to specified entity
         template <typename T> void RemoveComponent(Entity entity);                      // remove component of type T from specified entity
-        template <typename T> bool HasComponent(Entity entity);                         // determine if specified entity has component of type T
+        template <typename T> bool HasComponent(Entity entity) const;                   // determine if specified entity has component of type T
         template <typename T> T& GetComponent(Entity entity) const;                     // get component of type T from specified entity
         template <typename T, typename ...TArgs> void AddSystem(TArgs&& ...args);       // add system of type T and args of type TArgs to systems unordered map
         template <typename T> void RemoveSystem();                                      // remove system of type T from systems undordered map
@@ -150,7 +150,7 @@ void Entity::RemoveComponent(){                                                 
 }
 
 template <typename T>
-bool Entity::HasComponent(){                                                            // determine if component of type T is present
+bool Entity::HasComponent() const{                                                      // determine if component of type T is present
     return registry->HasComponent<T>(*this);                                            // call Registry::HasComponent()
 }
 
@@ -201,7 +201,7 @@ void Registry::RemoveComponent(Entity entity){                                  
 }
 
 template <typename T>
-bool Registry::HasComponent(Entity entity){
+bool Registry::HasComponent(Entity entity) const{
     const auto componentId = Component<T>::GetId();                                     // get id associated with component type T
     const auto entityId = entity.GetId();                                               // get entity id
 
