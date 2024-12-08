@@ -8,6 +8,9 @@
 #include <set>
 #include "../Logger/Logger.h"
 
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Component
+
 // (the bitset defines (1) which components an entity has, and (2) which components a system is interested in)
 const unsigned int MAX_COMPONENTS = 32;                                                 // define bitset length = 32 bits
 typedef std::bitset<MAX_COMPONENTS> Signature;                                          // define 32-bit bitset type
@@ -25,6 +28,9 @@ class Component: public IComponent{                                             
             return id;                                                                  // (using static ensures that the id is only initialized once and thus never changes)
         }
 };
+
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Entity
 
 class Entity{
     private:
@@ -47,6 +53,9 @@ class Entity{
         template <typename T> T& GetComponent() const;                                  // get component of type T
 };
 
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// System
+
 class System{
     private:
         Signature componentSignature;                                                   // signature indicating which components are required by the system
@@ -61,6 +70,9 @@ class System{
         const Signature& GetComponentSignature() const;                                 // get reference to component signature
         template <typename T> void RequireComponent();                                  // defines component required by the system
 };
+
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Pool
 
 class IPool{                                                                            // (base class used to allow creation of componentPool w/o specifying T)
     public:
@@ -112,6 +124,9 @@ class Pool: public IPool{
         }
 };
 
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Registry
+
 class Registry{
     private:
         int numEntities = 0;                                                            // how many entities we have in our world
@@ -138,6 +153,12 @@ class Registry{
         void Update();                                                                  // add/remove entities waiting to be added/removed
 };
 
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Method templates
+
+// ------------------------------------------------------------------------------------------------
+// Entity method templates
+
 // (templates are implemented in the header file)
 template <typename T, typename ...TArgs>
 void Entity::AddComponent(TArgs&& ...args){                                             // add component of type T and args of types TArgs
@@ -159,11 +180,17 @@ T& Entity::GetComponent() const{                                                
     return registry->GetComponent<T>(*this);                                            // call Registry::GetComponent()
 }
 
+// ------------------------------------------------------------------------------------------------
+// System method templates
+
 template <typename T>
 void System::RequireComponent(){
     const auto componentId = Component<T>::GetId();                                     // get id associated with component to require
     componentSignature.set(componentId);                                                // toggle bit corresponding to component id
 }
+
+// ------------------------------------------------------------------------------------------------
+// Registry method templates
 
 template <typename T, typename ...TArgs>
 void Registry::AddComponent(Entity entity, TArgs&& ...args){                            // add component of type T and args of types TArgs to specified entity
