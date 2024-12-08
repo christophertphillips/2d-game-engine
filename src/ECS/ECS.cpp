@@ -1,11 +1,20 @@
 #include "ECS.h"
 #include "../Logger/Logger.h"
 
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Component
+
 int IComponent::nextId = 0;
+
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Entity
 
 int Entity::GetId() const {                                                             // (const indicates method doesn't change members)
     return id;                                                                          // return entity's id
 }
+
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// System
 
 void System::AddEntityToSystem(Entity entity){
     entities.push_back(entity);                                                         // add entity to system's entities vector
@@ -36,6 +45,9 @@ std::vector<Entity> System::GetSystemEntities() const{
 const Signature& System::GetComponentSignature() const{
     return componentSignature;                                                          // return signature indicating which components are required by the system
 };
+
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Registry
 
 Entity Registry::createEntity(){
     int entityId = numEntities++;                                                       // generate entity id
