@@ -14,6 +14,7 @@
 Game::Game(){
     isRunning = false;                                                                  // set isRunning to false until game is initialized
     registry = std::make_unique<Registry>();                                            // instantiate Registry object
+    assetStore = std::make_unique<AssetStore>();                                        // instantiate AssetStore object
     Logger::Log("Game constructor called!");
 }
 
