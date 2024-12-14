@@ -5,6 +5,7 @@
 #include "../Components/TransformComponent.h"
 #include "../Components/SpriteComponent.h"
 #include <SDL2/SDL.h>
+#include "../AssetStore/AssetStore.h"
 
 class RenderSystem: public System {
     public:
@@ -13,7 +14,7 @@ class RenderSystem: public System {
             RequireComponent<SpriteComponent>();                                        // require sprite component
         }
 
-    void Update(SDL_Renderer* renderer){
+    void Update(SDL_Renderer* renderer, std::unique_ptr<AssetStore>& assetStore){
         for(auto entity: GetSystemEntities()){
             const auto transformComponent = entity.GetComponent<TransformComponent>();  // get entity's transform component
             const auto spriteComponent = entity.GetComponent<SpriteComponent>();        // get entity's sprite component

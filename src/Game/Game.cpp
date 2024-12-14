@@ -125,7 +125,7 @@ void Game::Render(){
     SDL_SetRenderDrawColor(renderer, 21, 21, 21, 255);                                  // set renderer color to dark gray (background)
     SDL_RenderClear(renderer);                                                          // clear renderer
 
-    registry->GetSystem<RenderSystem>().Update(renderer);                               // update render system
+    registry->GetSystem<RenderSystem>().Update(renderer, assetStore);                   // update render system
 
     SDL_RenderPresent(renderer);                                                        // swap back buffer with front buffer
 }
