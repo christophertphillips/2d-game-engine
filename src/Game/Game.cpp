@@ -76,6 +76,9 @@ void Game::Setup(){
     registry->AddSystem<MovementSystem>();                                              // add movement system
     registry->AddSystem<RenderSystem>();                                                // add render system
 
+    assetStore->AddTexture(renderer, "tank-image", "./assets/images/tank-panther-right.png");   // add tank texture
+    assetStore->AddTexture(renderer, "truck-image", "./assets/images/truck-ford-right.png");    // add truck texture
+
     Entity tank = registry->createEntity();                                             // create tank entity
     tank.AddComponent<TransformComponent>(glm::vec2(10.0, 10.0), glm::vec2(1.0, 1.0), 0.0);  // add transform component to tank
     tank.AddComponent<RigidBodyComponent>(glm::vec2(40.0, 0.0));                        // add rigid body component to tank
