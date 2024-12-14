@@ -27,6 +27,16 @@ class RenderSystem: public System {
                 static_cast<int>(spriteComponent.width * transformComponent.scale.x),
                 static_cast<int>(spriteComponent.height * transformComponent.scale.y)
             };
+
+            SDL_RenderCopyEx(
+                renderer,                                                               // renderer (SDL renderer pointer)
+                assetStore->GetTexture(spriteComponent.assetId),                        // id for asset to display as sprite (string)
+                &srcRect,                                                               // source rectangle (SDL rectangle pointer)
+                &dstRect,                                                               // destination rectangle (SDL rectangle pointer)
+                transformComponent.rotation,                                            // angle of rotation (double)
+                NULL,                                                                   // center of rotation (NULL == cetroid of sprite)
+                SDL_FLIP_NONE                                                           // sprite flipping (none specified)
+            );
         }
     }
 };
