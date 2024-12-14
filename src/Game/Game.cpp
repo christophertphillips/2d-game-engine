@@ -77,10 +77,14 @@ void Game::Setup(){
     registry->AddSystem<RenderSystem>();                                                // add render system
 
     Entity tank = registry->createEntity();                                             // create tank entity
-
-    tank.AddComponent<TransformComponent>(glm::vec2(10.0, 30.0), glm::vec2(1.0, 1.0), 0.0);  // add transform component to tank
-    tank.AddComponent<RigidBodyComponent>(glm::vec2(10.0, 50.0));                       // add rigid body component to tank
+    tank.AddComponent<TransformComponent>(glm::vec2(10.0, 10.0), glm::vec2(1.0, 1.0), 0.0);  // add transform component to tank
+    tank.AddComponent<RigidBodyComponent>(glm::vec2(40.0, 0.0));                        // add rigid body component to tank
     tank.AddComponent<SpriteComponent>(10, 10);                                         // add sprite component to tank
+
+    Entity truck = registry->createEntity();                                             // create truck entity
+    truck.AddComponent<TransformComponent>(glm::vec2(50.0, 100.0), glm::vec2(1.0, 1.0), 0.0);  // add transform component to truck
+    truck.AddComponent<RigidBodyComponent>(glm::vec2(0.0, 50.0));                        // add rigid body component to truck
+    truck.AddComponent<SpriteComponent>(10, 50);                                         // add sprite component to truck
 }
 
 void Game::ProcessInput(){
