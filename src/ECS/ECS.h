@@ -139,7 +139,12 @@ class Registry{
         std::set<Entity> entitiesToBeKilled;                                            // set containing entities to be killed at end of frame
 
     public:
-        Registry() = default;
+        Registry(){                                                                     // registry constructor
+            Logger::Log("Registry constructor called!");
+        };
+        ~Registry(){                                                                    // registry destructor
+            Logger::Log("Registry destructor called!");
+        };
         Entity createEntity();                                                          // create entity, add to entitiesToBeAdded, and return copy
         template <typename T, typename ...TArgs> void AddComponent(Entity entity, TArgs&& ...args); // add component of type T and args of types TArgs to specified entity
         template <typename T> void RemoveComponent(Entity entity);                      // remove component of type T from specified entity
