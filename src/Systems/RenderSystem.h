@@ -19,6 +19,13 @@ class RenderSystem: public System {
             const auto transformComponent = entity.GetComponent<TransformComponent>();  // get entity's transform component
             const auto spriteComponent = entity.GetComponent<SpriteComponent>();        // get entity's sprite component
 
+            SDL_Rect dstRect = {                                                        // create destination rectangle for sprite
+                static_cast<int>(transformComponent.position.x),
+                static_cast<int>(transformComponent.position.y),
+                static_cast<int>(spriteComponent.width * transformComponent.scale.x),
+                static_cast<int>(spriteComponent.height * transformComponent.scale.y)
+            };
+
             SDL_Rect rect = {                                                           // set position, size of SDL rectangle
                 static_cast<int>(transformComponent.position.x),
                 static_cast<int>(transformComponent.position.y),
