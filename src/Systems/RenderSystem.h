@@ -27,16 +27,6 @@ class RenderSystem: public System {
                 static_cast<int>(spriteComponent.width * transformComponent.scale.x),
                 static_cast<int>(spriteComponent.height * transformComponent.scale.y)
             };
-
-            SDL_Rect rect = {                                                           // set position, size of SDL rectangle
-                static_cast<int>(transformComponent.position.x),
-                static_cast<int>(transformComponent.position.y),
-                spriteComponent.width,
-                spriteComponent.height,
-            };
-
-            SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);                       // set color of SDL rectangle
-            SDL_RenderFillRect(renderer, &rect);                                        // render SDL rectangle
         }
     }
 };
