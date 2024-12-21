@@ -10,6 +10,8 @@
 #include "../Systems/MovementSystem.h"
 #include "../Systems/RenderSystem.h"
 #include "../Components/SpriteComponent.h"
+#include <fstream>
+#include <sstream>
 
 Game::Game(){
     isRunning = false;                                                                  // set isRunning to false until game is initialized
@@ -78,16 +80,58 @@ void Game::Setup(){
 
     assetStore->AddTexture(renderer, "tank-image", "./assets/images/tank-panther-right.png");   // add tank texture
     assetStore->AddTexture(renderer, "truck-image", "./assets/images/truck-ford-right.png");    // add truck texture
+    assetStore->AddTexture(renderer, "jungle-map", "./assets/tilemaps/jungle.png");     // add jungle texture
+
+    int tileSize = 32;                                                                  // initialize tile size (32 x 32)
+    double tileScale = 1.0;                                                             // initialize tile scale
+    int tileIndexX = 0;                                                                 // initialize tile x index
+    int tileIndexY = 0;                                                                 // initialize tile y index
+    std::string fileLine;                                                               // delare string to hold current line
+    std::ifstream fileStream("./assets/tilemaps/jungle.map");                           // create input stream from file
+
+    while(std::getline(fileStream, fileLine)){                                          // iterate through lines of file
+
+        std::string fileToken;                                                          // declare string to hold current token from current line
+        std::istringstream fileLineStream(fileLine);                                    // create input stream from current line
+        while(std::getline(fileLineStream, fileToken, ',')){                            // iterate through current line
+
+            int srcRectX = tileSize * std::stoi(fileToken.substr(1,1));                 // calculate source rect x position
+            int srcRectY = tileSize * std::stoi(fileToken.substr(0,1));                 // calculate source rect y position
+            double backgroundTileXPos = tileIndexX * tileSize * tileScale;              // calculate background tile x position
+            double backgroundTileYPos = tileIndexY * tileSize * tileScale;              // calculate background tile y position
+
+            Entity backgroundTile = registry->createEntity();                           // create background tile entity
+
+            backgroundTile.AddComponent<TransformComponent>(                            // add transform component to background tile entity
+                glm::vec2(backgroundTileXPos, backgroundTileYPos),                      // position
+                glm::vec2(tileScale, tileScale),                                        // scale
+                0.0                                                                     // rotation
+            );
+            backgroundTile.AddComponent<SpriteComponent>(                               // add sprite component to background tile entity
+                "jungle-map",                                                           // asset id
+                tileSize,                                                               // width
+                tileSize,                                                               // height
+                srcRectX,                                                               // source rect x position
+                srcRectY                                                                // source rect y position
+            );
+
+            tileIndexX++;                                                               // increase tile x index
+        }
+
+        tileIndexX = 0;                                                                 // reset tile x index
+        tileIndexY++;                                                                   // increase tile y index
+    }
+    fileStream.close();                                                                 // close file stream
 
     Entity tank = registry->createEntity();                                             // create tank entity
     tank.AddComponent<TransformComponent>(glm::vec2(10.0, 10.0), glm::vec2(1.0, 1.0), 0.0);  // add transform component to tank
     tank.AddComponent<RigidBodyComponent>(glm::vec2(40.0, 0.0));                        // add rigid body component to tank
-    tank.AddComponent<SpriteComponent>("tank-image", 10, 10);                           // add sprite component to tank
+    tank.AddComponent<SpriteComponent>("tank-image", 32, 32);                           // add sprite component to tank
 
     Entity truck = registry->createEntity();                                             // create truck entity
     truck.AddComponent<TransformComponent>(glm::vec2(50.0, 100.0), glm::vec2(1.0, 1.0), 0.0);  // add transform component to truck
     truck.AddComponent<RigidBodyComponent>(glm::vec2(0.0, 50.0));                        // add rigid body component to truck
-    truck.AddComponent<SpriteComponent>("truck-image", 10, 50);                         // add sprite component to truck
+    truck.AddComponent<SpriteComponent>("truck-image", 32, 32);                         // add sprite component to truck
 }
 
 void Game::ProcessInput(){
