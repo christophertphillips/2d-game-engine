@@ -111,6 +111,7 @@ void Game::Setup(){
                 "jungle-map",                                                           // asset id
                 tileSize,                                                               // width
                 tileSize,                                                               // height
+                0,                                                                      // z-index
                 srcRectX,                                                               // source rect x position
                 srcRectY                                                                // source rect y position
             );
@@ -126,12 +127,12 @@ void Game::Setup(){
     Entity tank = registry->createEntity();                                             // create tank entity
     tank.AddComponent<TransformComponent>(glm::vec2(10.0, 10.0), glm::vec2(1.0, 1.0), 0.0);  // add transform component to tank
     tank.AddComponent<RigidBodyComponent>(glm::vec2(40.0, 0.0));                        // add rigid body component to tank
-    tank.AddComponent<SpriteComponent>("tank-image", 32, 32);                           // add sprite component to tank
+    tank.AddComponent<SpriteComponent>("tank-image", 32, 32, 1);                        // add sprite component to tank
 
     Entity truck = registry->createEntity();                                             // create truck entity
     truck.AddComponent<TransformComponent>(glm::vec2(50.0, 100.0), glm::vec2(1.0, 1.0), 0.0);  // add transform component to truck
     truck.AddComponent<RigidBodyComponent>(glm::vec2(0.0, 50.0));                        // add rigid body component to truck
-    truck.AddComponent<SpriteComponent>("truck-image", 32, 32);                         // add sprite component to truck
+    truck.AddComponent<SpriteComponent>("truck-image", 32, 32, 1);                      // add sprite component to truck
 }
 
 void Game::ProcessInput(){
