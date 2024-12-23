@@ -15,7 +15,12 @@ class RenderSystem: public System {
         }
 
     void Update(SDL_Renderer* renderer, std::unique_ptr<AssetStore>& assetStore){
-        for(auto entity: GetSystemEntities()){
+        std::vector<Entity> entities = GetSystemEntities();                             // get all entities associated with system
+        std::sort(entities.begin(), entities.end(), [](Entity& entity0, Entity& entity1){   // sort entities by ascending z-index
+            return entity0.GetComponent<SpriteComponent>().zIndex < entity1.GetComponent<SpriteComponent>().zIndex;
+        });
+
+        for(auto entity: entities){                                                     // iterate through all (sorted) entities associated with system
             const auto transformComponent = entity.GetComponent<TransformComponent>();  // get entity's transform component
             const auto spriteComponent = entity.GetComponent<SpriteComponent>();        // get entity's sprite component
 
