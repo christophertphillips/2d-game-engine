@@ -84,6 +84,7 @@ void Game::Setup(){
     assetStore->AddTexture(renderer, "tank-image", "./assets/images/tank-panther-right.png");   // add tank texture
     assetStore->AddTexture(renderer, "truck-image", "./assets/images/truck-ford-right.png");    // add truck texture
     assetStore->AddTexture(renderer, "chopper-image", "./assets/images/chopper.png");   // add chopper texture
+    assetStore->AddTexture(renderer, "radar-image", "./assets/images/radar.png");       // add radar texture
     assetStore->AddTexture(renderer, "jungle-map", "./assets/tilemaps/jungle.png");     // add jungle texture
 
     int tileSize = 32;                                                                  // initialize tile size (32 x 32)
@@ -133,6 +134,12 @@ void Game::Setup(){
     chopper.AddComponent<RigidBodyComponent>(glm::vec2(0.0, 0.0));                      // add rigid body component to chopper
     chopper.AddComponent<SpriteComponent>("chopper-image", 32, 32, 1);                  // add sprite component to chopper
     chopper.AddComponent<AnimationComponent>(2, 15);                                    // add animation component to chopper
+
+    Entity radar = registry->createEntity();                                            // add radar entity
+    radar.AddComponent<TransformComponent>(glm::vec2(windowWidth - 74, 10.0), glm::vec2(1.0, 1.0), 0.0);    // add transform component to radar
+    // radar.AddComponent<RigidBodyComponent>(glm::vec2(0.0, 0.0));                     // add rigid body component to radar
+    radar.AddComponent<SpriteComponent>("radar-image", 64, 64, 1);                      // add sprite component to chopper
+    radar.AddComponent<AnimationComponent>(8,5);                                        // add animation component to chopper
 
     Entity tank = registry->createEntity();                                             // create tank entity
     tank.AddComponent<TransformComponent>(glm::vec2(10.0, 10.0), glm::vec2(1.0, 1.0), 0.0);  // add transform component to tank
