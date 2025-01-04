@@ -13,6 +13,7 @@
 #include <fstream>
 #include <sstream>
 #include "../Systems/AnimationSystem.h"
+#include "../Components/AnimationComponent.h"
 
 Game::Game(){
     isRunning = false;                                                                  // set isRunning to false until game is initialized
@@ -82,6 +83,7 @@ void Game::Setup(){
 
     assetStore->AddTexture(renderer, "tank-image", "./assets/images/tank-panther-right.png");   // add tank texture
     assetStore->AddTexture(renderer, "truck-image", "./assets/images/truck-ford-right.png");    // add truck texture
+    assetStore->AddTexture(renderer, "chopper-image", "./assets/images/chopper.png");   // add chopper texture
     assetStore->AddTexture(renderer, "jungle-map", "./assets/tilemaps/jungle.png");     // add jungle texture
 
     int tileSize = 32;                                                                  // initialize tile size (32 x 32)
@@ -125,6 +127,12 @@ void Game::Setup(){
         tileIndexY++;                                                                   // increase tile y index
     }
     fileStream.close();                                                                 // close file stream
+
+    Entity chopper = registry->createEntity();                                          // create chopper entity
+    chopper.AddComponent<TransformComponent>(glm::vec2(100.0, 100.0), glm::vec2(1.0, 1.0), 0.0);    // add transform component to chopper
+    chopper.AddComponent<RigidBodyComponent>(glm::vec2(0.0, 0.0));                      // add rigid body component to chopper
+    chopper.AddComponent<SpriteComponent>("chopper-image", 32, 32, 1);                  // add sprite component to chopper
+    chopper.AddComponent<AnimationComponent>(2, 15);                                    // add animation component to chopper
 
     Entity tank = registry->createEntity();                                             // create tank entity
     tank.AddComponent<TransformComponent>(glm::vec2(10.0, 10.0), glm::vec2(1.0, 1.0), 0.0);  // add transform component to tank
