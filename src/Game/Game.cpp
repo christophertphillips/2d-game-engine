@@ -12,6 +12,7 @@
 #include "../Components/SpriteComponent.h"
 #include <fstream>
 #include <sstream>
+#include "../Systems/AnimationSystem.h"
 
 Game::Game(){
     isRunning = false;                                                                  // set isRunning to false until game is initialized
@@ -77,6 +78,7 @@ void Game::Run(){
 void Game::Setup(){
     registry->AddSystem<MovementSystem>();                                              // add movement system
     registry->AddSystem<RenderSystem>();                                                // add render system
+    registry->AddSystem<AnimationSystem>();                                             // add animation system
 
     assetStore->AddTexture(renderer, "tank-image", "./assets/images/tank-panther-right.png");   // add tank texture
     assetStore->AddTexture(renderer, "truck-image", "./assets/images/truck-ford-right.png");    // add truck texture
@@ -162,6 +164,7 @@ void Game::Update(){
     millisecsPreviousFrame = SDL_GetTicks();                                            // set current milliseconds for next Update() call
 
     registry->GetSystem<MovementSystem>().Update(deltaTime);                            // update movement system
+    registry->GetSystem<AnimationSystem>().Update();                                    // update animation system
 
     registry->Update();                                                                 // update registry (add and remove entities)
 }
