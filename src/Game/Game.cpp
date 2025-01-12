@@ -16,6 +16,7 @@
 #include "../Components/AnimationComponent.h"
 #include "../Systems/CollisionSystem.h"
 #include "../Components/BoxColliderComponent.h"
+#include "../Systems/RenderCollisionSystem.h"
 
 Game::Game(){
     isRunning = false;                                                                  // set isRunning to false until game is initialized
@@ -84,6 +85,7 @@ void Game::Setup(){
     registry->AddSystem<RenderSystem>();                                                // add render system
     registry->AddSystem<AnimationSystem>();                                             // add animation system
     registry->AddSystem<CollisionSystem>();                                             // add collision system
+    registry->AddSystem<RenderCollisionSystem>();                                       // add render-collision system
 
     assetStore->AddTexture(renderer, "tank-image", "./assets/images/tank-panther-right.png");   // add tank texture
     assetStore->AddTexture(renderer, "truck-image", "./assets/images/truck-ford-right.png");    // add truck texture
@@ -199,6 +201,9 @@ void Game::Render(){
     SDL_RenderClear(renderer);                                                          // clear renderer
 
     registry->GetSystem<RenderSystem>().Update(renderer, assetStore);                   // update render system
+    if(isDebug){                                                                        // if debug mode is active...
+        registry->GetSystem<RenderCollisionSystem>().Update(renderer);                  // ...update render-collision system
+    }
 
     SDL_RenderPresent(renderer);                                                        // swap back buffer with front buffer
 }
