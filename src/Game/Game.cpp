@@ -19,6 +19,7 @@
 
 Game::Game(){
     isRunning = false;                                                                  // set isRunning to false until game is initialized
+    isDebug = false;                                                                    // set isDebug to false by default
     registry = std::make_unique<Registry>();                                            // instantiate Registry object
     assetStore = std::make_unique<AssetStore>();                                        // instantiate AssetStore object
     Logger::Log("Game constructor called!");
@@ -167,6 +168,9 @@ void Game::ProcessInput(){
             case SDL_KEYDOWN:                                                           // is user pressed "Escape", set isRunning to False
                 if(sdlEvent.key.keysym.sym == SDLK_ESCAPE){
                     isRunning = false;
+                }
+                else if(sdlEvent.key.keysym.sym == SDLK_d){                             // if user pressed "d", toggle isDebug
+                    isDebug = !isDebug;
                 }
                 break;
         }
