@@ -145,7 +145,7 @@ class Registry{
         ~Registry(){                                                                    // registry destructor
             Logger::Log("Registry destructor called!");
         };
-        Entity createEntity();                                                          // create entity, add to entitiesToBeAdded, and return copy
+        Entity CreateEntity();                                                          // create entity, add to entitiesToBeAdded, and return copy
         template <typename T, typename ...TArgs> void AddComponent(Entity entity, TArgs&& ...args); // add component of type T and args of types TArgs to specified entity
         template <typename T> void RemoveComponent(Entity entity);                      // remove component of type T from specified entity
         template <typename T> bool HasComponent(Entity entity) const;                   // determine if specified entity has component of type T

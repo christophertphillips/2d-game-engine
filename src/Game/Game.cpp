@@ -111,7 +111,7 @@ void Game::Setup(){
             double backgroundTileXPos = tileIndexX * tileSize * tileScale;              // calculate background tile x position
             double backgroundTileYPos = tileIndexY * tileSize * tileScale;              // calculate background tile y position
 
-            Entity backgroundTile = registry->createEntity();                           // create background tile entity
+            Entity backgroundTile = registry->CreateEntity();                           // create background tile entity
 
             backgroundTile.AddComponent<TransformComponent>(                            // add transform component to background tile entity
                 glm::vec2(backgroundTileXPos, backgroundTileYPos),                      // position
@@ -135,25 +135,25 @@ void Game::Setup(){
     }
     fileStream.close();                                                                 // close file stream
 
-    Entity chopper = registry->createEntity();                                          // create chopper entity
+    Entity chopper = registry->CreateEntity();                                          // create chopper entity
     chopper.AddComponent<TransformComponent>(glm::vec2(100.0, 100.0), glm::vec2(1.0, 1.0), 0.0);    // add transform component to chopper
     chopper.AddComponent<RigidBodyComponent>(glm::vec2(0.0, 0.0));                      // add rigid body component to chopper
     chopper.AddComponent<SpriteComponent>("chopper-image", 32, 32, 1);                  // add sprite component to chopper
     chopper.AddComponent<AnimationComponent>(2, 15);                                    // add animation component to chopper
 
-    Entity radar = registry->createEntity();                                            // add radar entity
+    Entity radar = registry->CreateEntity();                                            // add radar entity
     radar.AddComponent<TransformComponent>(glm::vec2(windowWidth - 74, 10.0), glm::vec2(1.0, 1.0), 0.0);    // add transform component to radar
     // radar.AddComponent<RigidBodyComponent>(glm::vec2(0.0, 0.0));                     // add rigid body component to radar
     radar.AddComponent<SpriteComponent>("radar-image", 64, 64, 1);                      // add sprite component to chopper
     radar.AddComponent<AnimationComponent>(8,5);                                        // add animation component to chopper
 
-    Entity tank = registry->createEntity();                                             // create tank entity
+    Entity tank = registry->CreateEntity();                                             // create tank entity
     tank.AddComponent<TransformComponent>(glm::vec2(10.0, 10.0), glm::vec2(1.0, 1.0), 0.0);  // add transform component to tank
     tank.AddComponent<RigidBodyComponent>(glm::vec2(50.0, 0.0));                        // add rigid body component to tank
     tank.AddComponent<SpriteComponent>("tank-image", 32, 32, 1);                        // add sprite component to tank
     tank.AddComponent<BoxColliderComponent>(32, 32);
 
-    Entity truck = registry->createEntity();                                             // create truck entity
+    Entity truck = registry->CreateEntity();                                             // create truck entity
     truck.AddComponent<TransformComponent>(glm::vec2(250.0, 10.0), glm::vec2(1.0, 1.0), 0.0);  // add transform component to truck
     truck.AddComponent<RigidBodyComponent>(glm::vec2(-50.0, 0.0));                        // add rigid body component to truck
     truck.AddComponent<SpriteComponent>("truck-image", 32, 32, 1);                      // add sprite component to truck

@@ -49,7 +49,7 @@ const Signature& System::GetComponentSignature() const{
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // Registry
 
-Entity Registry::createEntity(){
+Entity Registry::CreateEntity(){
     int entityId = numEntities++;                                                       // generate entity id
     Entity entity(entityId);                                                            // create entity (on stack)
     entity.registry = this;                                                             // set Entity's registry member to point to registry object
