@@ -93,4 +93,11 @@ void Registry::Update(){                                                        
         AddEntityToSystems(entity);                                                     // add entity to all systems interested in the entity
     }
     entitiesToBeAdded.clear();                                                          // clear entitiesToBeAdded set after all entities have been added
+
+    for(auto entity: entitiesToBeKilled){                                               // iterate through all entities to be removed
+        RemoveEntityFromSystems(entity);                                                // remove entity from all systems
+        entityComponentSignatures[entity.GetId()].reset();                              // clear entity's component signature
+        freeEntityIds.push_back(entity.GetId());                                        // add entity id to freeEntityIds for reuse
+    }
+    entitiesToBeKilled.clear();                                                         // clear entitiesToBeKilled set after all entities have been added
 };
