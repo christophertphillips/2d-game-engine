@@ -7,6 +7,7 @@
 #include <typeindex>
 #include <set>
 #include "../Logger/Logger.h"
+#include <deque>
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // Component
@@ -137,6 +138,7 @@ class Registry{
         std::unordered_map<std::type_index, std::shared_ptr<System>> systems;           // unordered map containing pointers to systems
         std::set<Entity> entitiesToBeAdded;                                             // set containing entities to be added at end of frame
         std::set<Entity> entitiesToBeKilled;                                            // set containing entities to be killed at end of frame
+        std::deque<int> freeEntityIds;                                                  // deque of previously-used entity ids that are available for reuse
 
     public:
         Registry(){                                                                     // registry constructor
