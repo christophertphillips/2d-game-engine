@@ -63,6 +63,10 @@ Entity Registry::CreateEntity(){
     return entity;                                                                      // return (copy of) entity
 };
 
+void Registry::KillEntity(Entity entity){                                               // remove entity from registry
+    entitiesToBeKilled.insert(entity);                                                  // add entity to entitiesToBeKilled set
+}
+
 void Registry::AddEntityToSystems(Entity entity){                                       // add entity to *all* systems that are interested in that entity
     const auto entityId = entity.GetId();                                               // get entity id of specified entity
     const auto& entityComponentSignature = entityComponentSignatures[entityId];         // get component signature associated with specified entity
