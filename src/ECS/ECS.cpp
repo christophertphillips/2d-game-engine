@@ -13,6 +13,10 @@ int Entity::GetId() const {                                                     
     return id;                                                                          // return entity's id
 }
 
+void Entity::KillEntity(){                                                              // remove entity from registry
+    registry->KillEntity(*this);                                                        // call Registry::KillEntity()
+}
+
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // System
 

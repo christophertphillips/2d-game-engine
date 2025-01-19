@@ -41,6 +41,7 @@ class Entity{
         Entity(int id): id(id) {};														// entity constructor
         Entity(const Entity& entity) = default;                                         // entity copy constructor
         int GetId() const;																// entity id getter
+        void KillEntity();                                                              // remove entity from registry
         Entity& operator =(const Entity& other) = default;                              // overload copy assignment operator
         bool operator ==(const Entity& other) const { return id == other.id; }          // overload equality to test entity equality
         bool operator !=(const Entity& other) const { return id != other.id; }          // overload non-equality to test entity non-equality
