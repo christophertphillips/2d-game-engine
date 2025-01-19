@@ -158,6 +158,7 @@ class Registry{
         template <typename T> bool HasSystem() const;                                   // determine if systems unordered map has system of type T
         template <typename T> T& GetSystem() const;                                     // get system of type T from systems unordered map
         void AddEntityToSystems(Entity entity);                                         // add entity to *all* systems that are interested in that entity
+        void RemoveEntityFromSystems(Entity entity);                                    // remove entity from all systems
         void Update();                                                                  // add/remove entities waiting to be added/removed
 };
 
