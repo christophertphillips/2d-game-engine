@@ -54,14 +54,23 @@ const Signature& System::GetComponentSignature() const{
 // Registry
 
 Entity Registry::CreateEntity(){
-    int entityId = numEntities++;                                                       // generate entity id
+    int entityId;                                                                       // declare variable to store entity id
+
+    if(freeEntityIds.empty()){                                                          // are any free entity ids available?
+        entityId = numEntities++;                                                       // if no, create a new (incremented) entity id
+
+        if(entityId >= entityComponentSignatures.size()){                               // if entity's component signature can't fit in entityComponentSignatures...
+            entityComponentSignatures.resize(entityId + 1);                             // ... increase entityComponentSignatures size by 1
+        }
+    }
+    else{
+        entityId = freeEntityIds.front();                                               // else, get a previously-used entity id from the front of the deque
+        freeEntityIds.pop_front();                                                      // pop the id to remove it from the deque
+    }
+
     Entity entity(entityId);                                                            // create entity (on stack)
     entity.registry = this;                                                             // set Entity's registry member to point to registry object
     entitiesToBeAdded.insert(entity);                                                   // add entity to entitiesToBeAdded set
-
-    if(entityId >= entityComponentSignatures.size()){                                   // if entity's component signature can't fit in entityComponentSignatures...
-        entityComponentSignatures.resize(entityId + 1);                                 // ... increase entityComponentSignatures size by 1
-    }
 
     Logger::Log("Entity created with id = " + std::to_string(entityId));                // log entity creation message
     return entity;                                                                      // return (copy of) entity
