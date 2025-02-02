@@ -19,6 +19,7 @@
 #include "../Systems/RenderCollisionSystem.h"
 #include "../Systems/DamageSystem.h"
 #include "../Systems/KeyboardControlSystem.h"
+#include "../Events/KeyPressedEvent.h"
 
 Game::Game(){
     isRunning = false;                                                                  // set isRunning to false until game is initialized
@@ -179,6 +180,7 @@ void Game::ProcessInput(){
                 else if(sdlEvent.key.keysym.sym == SDLK_d){                             // if user pressed "d", toggle isDebug
                     isDebug = !isDebug;
                 }
+                eventBus->EmitEvent<KeyPressedEvent>(sdlEvent.key.keysym.sym);          // emit KeyPressed event and pass SDL Keycode for key pressed
                 break;
         }
     }
