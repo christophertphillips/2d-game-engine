@@ -23,6 +23,7 @@ Game::Game(){
     isDebug = false;                                                                    // set isDebug to false by default
     registry = std::make_unique<Registry>();                                            // instantiate Registry object
     assetStore = std::make_unique<AssetStore>();                                        // instantiate AssetStore object
+    eventBus = std::make_unique<EventBus>();                                            // instantiate EventBus object
     Logger::Log("Game constructor called!");
 }
 
