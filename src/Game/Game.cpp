@@ -192,7 +192,7 @@ void Game::Update(){
 
     registry->GetSystem<MovementSystem>().Update(deltaTime);                            // update movement system
     registry->GetSystem<AnimationSystem>().Update();                                    // update animation system
-    registry->GetSystem<CollisionSystem>().Update();                                    // update collision system
+    registry->GetSystem<CollisionSystem>().Update(eventBus);                            // update collision system
 
     registry->Update();                                                                 // update registry (add and remove entities)
 }
