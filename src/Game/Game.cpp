@@ -17,6 +17,7 @@
 #include "../Systems/CollisionSystem.h"
 #include "../Components/BoxColliderComponent.h"
 #include "../Systems/RenderCollisionSystem.h"
+#include "../Systems/DamageSystem.h"
 
 Game::Game(){
     isRunning = false;                                                                  // set isRunning to false until game is initialized
@@ -87,6 +88,7 @@ void Game::Setup(){
     registry->AddSystem<AnimationSystem>();                                             // add animation system
     registry->AddSystem<CollisionSystem>();                                             // add collision system
     registry->AddSystem<RenderCollisionSystem>();                                       // add render-collision system
+    registry->AddSystem<DamageSystem>();                                                // add damage system
 
     assetStore->AddTexture(renderer, "tank-image", "./assets/images/tank-panther-right.png");   // add tank texture
     assetStore->AddTexture(renderer, "truck-image", "./assets/images/truck-ford-right.png");    // add truck texture
@@ -189,6 +191,9 @@ void Game::Update(){
     double deltaTime = (SDL_GetTicks() - millisecsPreviousFrame) / 1000.0;              // difference in time since last frame (converted to seconds)
 
     millisecsPreviousFrame = SDL_GetTicks();                                            // set current milliseconds for next Update() call
+
+    eventBus->Reset();                                                                  // reset event bus subscribers
+    registry->GetSystem<DamageSystem>().SubscribeToEvents(eventBus);                    // subscribe damage system to event bus
 
     registry->GetSystem<MovementSystem>().Update(deltaTime);                            // update movement system
     registry->GetSystem<AnimationSystem>().Update();                                    // update animation system
