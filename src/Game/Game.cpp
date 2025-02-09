@@ -101,7 +101,7 @@ void Game::Setup(){
     assetStore->AddTexture(renderer, "jungle-map", "./assets/tilemaps/jungle.png");     // add jungle texture
 
     int tileSize = 32;                                                                  // initialize tile size (32 x 32)
-    double tileScale = 1.0;                                                             // initialize tile scale
+    double tileScale = 2.0;                                                             // initialize tile scale
     int tileIndexX = 0;                                                                 // initialize tile x index
     int tileIndexY = 0;                                                                 // initialize tile y index
     std::string fileLine;                                                               // delare string to hold current line
