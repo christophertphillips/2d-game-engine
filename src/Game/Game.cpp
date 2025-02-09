@@ -22,6 +22,9 @@
 #include "../Events/KeyPressedEvent.h"
 #include "../Components/KeyboardControlledComponent.h"
 
+int Game::windowWidth;
+int Game::windowHeight;
+
 Game::Game(){
     isRunning = false;                                                                  // set isRunning to false until game is initialized
     isDebug = false;                                                                    // set isDebug to false by default

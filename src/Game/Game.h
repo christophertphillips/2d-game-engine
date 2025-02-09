@@ -32,8 +32,8 @@ class Game{
         void Render();
         void Destroy();
 
-        int windowWidth;
-        int windowHeight;
+        static int windowWidth;
+        static int windowHeight;
 };
 
 #endif
