@@ -22,6 +22,7 @@
 #include "../Events/KeyPressedEvent.h"
 #include "../Components/KeyboardControlledComponent.h"
 #include "../Components/CameraFollowComponent.h"
+#include "../Systems/CameraMovementSystem.h"
 
 int Game::windowWidth;
 int Game::windowHeight;
@@ -104,6 +105,7 @@ void Game::Setup(){
     registry->AddSystem<RenderCollisionSystem>();                                       // add render-collision system
     registry->AddSystem<DamageSystem>();                                                // add damage system
     registry->AddSystem<KeyboardControlSystem>();                                       // add keyboard control system
+    registry->AddSystem<CameraMovementSystem>();
 
     assetStore->AddTexture(renderer, "tank-image", "./assets/images/tank-panther-right.png");   // add tank texture
     assetStore->AddTexture(renderer, "truck-image", "./assets/images/truck-ford-right.png");    // add truck texture
@@ -222,6 +224,7 @@ void Game::Update(){
     registry->GetSystem<MovementSystem>().Update(deltaTime);                            // update movement system
     registry->GetSystem<AnimationSystem>().Update();                                    // update animation system
     registry->GetSystem<CollisionSystem>().Update(eventBus);                            // update collision system
+    registry->GetSystem<CameraMovementSystem>().Update(camera);                         // update camera movement system
 
     registry->Update();                                                                 // update registry (add and remove entities)
 }
