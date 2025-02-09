@@ -73,6 +73,11 @@ void Game::Initialize(){
 
     SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);                             // set window to (real) fullscreen
 
+    camera.x = 0;                                                                       // initialize camera x position
+    camera.y = 0;                                                                       // initialize camera y position
+    camera.w = windowWidth;                                                             // initialize camera width
+    camera.h = windowHeight;                                                            // initialize camera height
+
     isRunning = true;                                                                   // set isRunning to true once game is initialized
 }
 
