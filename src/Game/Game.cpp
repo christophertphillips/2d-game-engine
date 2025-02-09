@@ -218,7 +218,7 @@ void Game::Render(){
     SDL_SetRenderDrawColor(renderer, 21, 21, 21, 255);                                  // set renderer color to dark gray (background)
     SDL_RenderClear(renderer);                                                          // clear renderer
 
-    registry->GetSystem<RenderSystem>().Update(renderer, assetStore);                   // update render system
+    registry->GetSystem<RenderSystem>().Update(renderer, assetStore, camera);           // update render system
     if(isDebug){                                                                        // if debug mode is active...
         registry->GetSystem<RenderCollisionSystem>().Update(renderer);                  // ...update render-collision system
     }
