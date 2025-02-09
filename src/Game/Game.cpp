@@ -95,7 +95,7 @@ void Game::Setup(){
 
     assetStore->AddTexture(renderer, "tank-image", "./assets/images/tank-panther-right.png");   // add tank texture
     assetStore->AddTexture(renderer, "truck-image", "./assets/images/truck-ford-right.png");    // add truck texture
-    assetStore->AddTexture(renderer, "chopper-image", "./assets/images/chopper.png");   // add chopper texture
+    assetStore->AddTexture(renderer, "chopper-image", "./assets/images/chopper-spritesheet.png");   // add chopper spritesheet
     assetStore->AddTexture(renderer, "radar-image", "./assets/images/radar.png");       // add radar texture
     assetStore->AddTexture(renderer, "jungle-map", "./assets/tilemaps/jungle.png");     // add jungle texture
 
