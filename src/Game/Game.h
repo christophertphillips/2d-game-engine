@@ -34,6 +34,8 @@ class Game{
 
         static int windowWidth;
         static int windowHeight;
+        static int fieldWidth;
+        static int fieldHeight;
 };
 
 #endif

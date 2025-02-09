@@ -24,6 +24,8 @@
 
 int Game::windowWidth;
 int Game::windowHeight;
+int Game::fieldWidth;
+int Game::fieldHeight;
 
 Game::Game(){
     isRunning = false;                                                                  // set isRunning to false until game is initialized
@@ -112,6 +114,7 @@ void Game::Setup(){
     double tileScale = 2.0;                                                             // initialize tile scale
     int tileIndexX = 0;                                                                 // initialize tile x index
     int tileIndexY = 0;                                                                 // initialize tile y index
+    int tilesAdded = 0;                                                                 // initialize tiles added
     std::string fileLine;                                                               // delare string to hold current line
     std::ifstream fileStream("./assets/tilemaps/jungle.map");                           // create input stream from file
 
@@ -127,6 +130,7 @@ void Game::Setup(){
             double backgroundTileYPos = tileIndexY * tileSize * tileScale;              // calculate background tile y position
 
             Entity backgroundTile = registry->CreateEntity();                           // create background tile entity
+            tilesAdded++;                                                               // increment tiles added
 
             backgroundTile.AddComponent<TransformComponent>(                            // add transform component to background tile entity
                 glm::vec2(backgroundTileXPos, backgroundTileYPos),                      // position
@@ -149,6 +153,9 @@ void Game::Setup(){
         tileIndexY++;                                                                   // increase tile y index
     }
     fileStream.close();                                                                 // close file stream
+
+    fieldWidth = (tilesAdded / tileIndexY) * tileSize * tileScale;                      // calculate width of field = (num of tiles wide) * (tile size in pixels) * (tile scale)
+    fieldHeight = tileIndexY * tileSize * tileScale;                                    // calculate height of field = (num of tiles tall) * (tile size in pixels) * (tile scale)
 
     Entity chopper = registry->CreateEntity();                                          // create chopper entity
     chopper.AddComponent<TransformComponent>(glm::vec2(100.0, 100.0), glm::vec2(1.0, 1.0), 0.0);    // add transform component to chopper
