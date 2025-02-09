@@ -21,9 +21,30 @@ class KeyboardControlSystem: public System{
         }
 
         void onKeyPressed(KeyPressedEvent& event){
-            std::string keyCode = std::to_string(event.symbol);                                                             // extract key code from KeyPressed event (SDL Keycode)
-            std::string keySymbol(1, event.symbol);                                                                         // extract key symbol from KeyPressed event (SDL Keycode)
-            Logger::Log("Key pressed event emitted: [" + keyCode + "] " + keySymbol);                                         // log key code + key symbol to logger
+            for(auto entity: GetSystemEntities()){
+                const auto keyboardControlledComponent = entity.GetComponent<KeyboardControlledComponent>();                // get entity's keyboard controlled component
+                auto& spriteComponent = entity.GetComponent<SpriteComponent>();                                             // get entity's sprite component
+                auto& rigidBodyComponent = entity.GetComponent<RigidBodyComponent>();                                       // get entity's rigid body component
+
+                switch(event.symbol){
+                    case SDLK_UP:                                                                                           // UP key presed
+                        rigidBodyComponent.velocity = keyboardControlledComponent.upVelocity;                               // set entity's rigid body component velocity to upVelocity
+                        spriteComponent.srcRect.y = spriteComponent.height * 0;                                             // set entity's sprite component source rectangle to first row
+                        break;
+                    case SDLK_RIGHT:                                                                                        // DOWN key pressed
+                        rigidBodyComponent.velocity = keyboardControlledComponent.rightVelocity;                            // set entity's rigid body component velocity to rightVelocity
+                        spriteComponent.srcRect.y = spriteComponent.height * 1;                                             // set entity's sprite component source rectangle to second row
+                        break;
+                    case SDLK_DOWN:                                                                                         // RIGHT key pressed
+                        rigidBodyComponent.velocity = keyboardControlledComponent.downVelocity;                             // set entity's rigid body component velocity to downVelocity
+                        spriteComponent.srcRect.y = spriteComponent.height * 2;                                             // set entity's sprite component source rectangle to third row
+                        break;
+                    case SDLK_LEFT:                                                                                         // LEFT key pressed
+                        rigidBodyComponent.velocity = keyboardControlledComponent.leftVelocity;                             // set entity's rigid body component velocity to leftVelocity
+                        spriteComponent.srcRect.y = spriteComponent.height * 3;                                             // set entity's sprite component source rectangle to fourth row
+                        break;
+                }
+            }
         }
 
         void Update() {
