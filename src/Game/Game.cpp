@@ -21,6 +21,7 @@
 #include "../Systems/KeyboardControlSystem.h"
 #include "../Events/KeyPressedEvent.h"
 #include "../Components/KeyboardControlledComponent.h"
+#include "../Components/CameraFollowComponent.h"
 
 int Game::windowWidth;
 int Game::windowHeight;
@@ -163,6 +164,7 @@ void Game::Setup(){
     chopper.AddComponent<SpriteComponent>("chopper-image", 32, 32, 1);                  // add sprite component to chopper
     chopper.AddComponent<AnimationComponent>(2, 15);                                    // add animation component to chopper
     chopper.AddComponent<KeyboardControlledComponent>(glm::vec2(0, -80), glm::vec2(80, 0), glm::vec2(0, 80), glm::vec2(-80, 0)); // add keyboard controlled component to chopper
+    chopper.AddComponent<CameraFollowComponent>();                                      // add camera follow component to chopper
 
     Entity radar = registry->CreateEntity();                                            // add radar entity
     radar.AddComponent<TransformComponent>(glm::vec2(windowWidth - 74, 10.0), glm::vec2(1.0, 1.0), 0.0);    // add transform component to radar
