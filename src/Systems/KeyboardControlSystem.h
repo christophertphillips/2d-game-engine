@@ -4,10 +4,17 @@
 #include "../ECS/ECS.h"
 #include "../EventBus/EventBus.h"
 #include "../Events/KeyPressedEvent.h"
+#include "../Components/KeyboardControlledComponent.h"
+#include "../Components/SpriteComponent.h"
+#include "../Components/RigidBodyComponent.h"
 
 class KeyboardControlSystem: public System{
     public:
-        KeyboardControlSystem(){}
+        KeyboardControlSystem(){
+            RequireComponent<KeyboardControlledComponent>();                                                                // entity must have keyboard controlled component
+            RequireComponent<SpriteComponent>();                                                                            // entity must have sprite component
+            RequireComponent<RigidBodyComponent>();                                                                         // entity must have rigid body component
+        }
 
         void SubscribeToEvents(std::unique_ptr<EventBus>& eventBus){
             eventBus->SubscribeEventCallback<KeyboardControlSystem, KeyPressedEvent>(this, &KeyboardControlSystem::onKeyPressed); // subscribe onKeyPressed callback function pointer to event bus
