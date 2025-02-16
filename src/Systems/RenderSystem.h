@@ -27,8 +27,8 @@ class RenderSystem: public System {
             SDL_Rect srcRect = spriteComponent.srcRect;                                 // get source rectangle for sprite
 
             SDL_Rect dstRect = {                                                        // create destination rectangle for sprite
-                static_cast<int>(transformComponent.position.x - camera.x),             // set destination rectangle x position, adjusting relative to camera x position
-                static_cast<int>(transformComponent.position.y - camera.y),             // set destination rectangle y position, adjusting relative to camera y position
+                static_cast<int>(transformComponent.position.x - (spriteComponent.isFixed ? 0 : camera.x)), // set destination rectangle x position, adjusting relative to camera x position
+                static_cast<int>(transformComponent.position.y - (spriteComponent.isFixed ? 0 : camera.y)), // set destination rectangle y position, adjusting relative to camera y position
                 static_cast<int>(spriteComponent.width * transformComponent.scale.x),
                 static_cast<int>(spriteComponent.height * transformComponent.scale.y)
             };
