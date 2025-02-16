@@ -13,14 +13,14 @@ class RenderCollisionSystem: public System{
             RequireComponent<BoxColliderComponent>();                                                                           // entity must have box collider component
         }
 
-        void Update(SDL_Renderer* renderer){
+        void Update(SDL_Renderer* renderer, SDL_Rect& camera){
             for(auto entity: GetSystemEntities()){                                                                              // iterate through all entities associated with system
                 auto transformComponent = entity.GetComponent<TransformComponent>();                                            // get entity's transform component
                 auto boxColliderComponent = entity.GetComponent<BoxColliderComponent>();                                        // get entity's box collider component
 
                 SDL_Rect rect = {                                                                                               // create rectangle for entity's box collider
-                    static_cast<int>(transformComponent.position.x + boxColliderComponent.offset.x),
-                    static_cast<int>(transformComponent.position.y + boxColliderComponent.offset.y),
+                    static_cast<int>(transformComponent.position.x + boxColliderComponent.offset.x - camera.x),
+                    static_cast<int>(transformComponent.position.y + boxColliderComponent.offset.y - camera.y),
                     boxColliderComponent.width,
                     boxColliderComponent.height,
                 };
