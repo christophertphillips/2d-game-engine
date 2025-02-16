@@ -145,6 +145,7 @@ void Game::Setup(){
                 tileSize,                                                               // width
                 tileSize,                                                               // height
                 0,                                                                      // z-index
+                false,                                                                  // isFixed
                 srcRectX,                                                               // source rect x position
                 srcRectY                                                                // source rect y position
             );
@@ -171,7 +172,7 @@ void Game::Setup(){
     Entity radar = registry->CreateEntity();                                            // add radar entity
     radar.AddComponent<TransformComponent>(glm::vec2(windowWidth - 74, 10.0), glm::vec2(1.0, 1.0), 0.0);    // add transform component to radar
     // radar.AddComponent<RigidBodyComponent>(glm::vec2(0.0, 0.0));                     // add rigid body component to radar
-    radar.AddComponent<SpriteComponent>("radar-image", 64, 64, 1);                      // add sprite component to chopper
+    radar.AddComponent<SpriteComponent>("radar-image", 64, 64, 1, true);                // add sprite component to radar
     radar.AddComponent<AnimationComponent>(8,5);                                        // add animation component to chopper
 
     Entity tank = registry->CreateEntity();                                             // create tank entity
