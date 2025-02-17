@@ -24,6 +24,7 @@
 #include "../Components/CameraFollowComponent.h"
 #include "../Systems/CameraMovementSystem.h"
 #include "../Components/ProjectileEmitterComponent.h"
+#include "../Systems/ProjectileEmitSystem.h"
 
 int Game::windowWidth;
 int Game::windowHeight;
@@ -107,6 +108,7 @@ void Game::Setup(){
     registry->AddSystem<DamageSystem>();                                                // add damage system
     registry->AddSystem<KeyboardControlSystem>();                                       // add keyboard control system
     registry->AddSystem<CameraMovementSystem>();
+    registry->AddSystem<ProjectileEmitSystem>();                                        // add projectile emit system
 
     assetStore->AddTexture(renderer, "tank-image", "./assets/images/tank-panther-right.png");   // add tank texture
     assetStore->AddTexture(renderer, "truck-image", "./assets/images/truck-ford-right.png");    // add truck texture
@@ -229,6 +231,7 @@ void Game::Update(){
     registry->GetSystem<MovementSystem>().Update(deltaTime);                            // update movement system
     registry->GetSystem<AnimationSystem>().Update();                                    // update animation system
     registry->GetSystem<CollisionSystem>().Update(eventBus);                            // update collision system
+    registry->GetSystem<ProjectileEmitSystem>().Update(registry);                       // update projectile emit system
     registry->GetSystem<CameraMovementSystem>().Update(camera);                         // update camera movement system
 
     registry->Update();                                                                 // update registry (add and remove entities)
