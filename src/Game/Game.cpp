@@ -112,6 +112,7 @@ void Game::Setup(){
     assetStore->AddTexture(renderer, "chopper-image", "./assets/images/chopper-spritesheet.png");   // add chopper spritesheet
     assetStore->AddTexture(renderer, "radar-image", "./assets/images/radar.png");       // add radar texture
     assetStore->AddTexture(renderer, "jungle-map", "./assets/tilemaps/jungle.png");     // add jungle texture
+    assetStore->AddTexture(renderer, "bullet-image", "./assets/images/bullet.png") ;     // add bullet texture
 
     int tileSize = 32;                                                                  // initialize tile size (32 x 32)
     double tileScale = 2.0;                                                             // initialize tile scale
