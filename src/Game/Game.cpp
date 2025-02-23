@@ -26,6 +26,7 @@
 #include "../Components/ProjectileEmitterComponent.h"
 #include "../Systems/ProjectileEmitSystem.h"
 #include "../Components/HealthComponent.h"
+#include "../Systems/ProjectileLifecycleSystem.h"
 
 int Game::windowWidth;
 int Game::windowHeight;
@@ -110,6 +111,7 @@ void Game::Setup(){
     registry->AddSystem<KeyboardControlSystem>();                                       // add keyboard control system
     registry->AddSystem<CameraMovementSystem>();
     registry->AddSystem<ProjectileEmitSystem>();                                        // add projectile emit system
+    registry->AddSystem<ProjectileLifecycleSystem>();                                   // add projectile lifecycle system
 
     assetStore->AddTexture(renderer, "tank-image", "./assets/images/tank-panther-right.png");   // add tank texture
     assetStore->AddTexture(renderer, "truck-image", "./assets/images/truck-ford-right.png");    // add truck texture
@@ -186,7 +188,7 @@ void Game::Setup(){
     tank.AddComponent<RigidBodyComponent>(glm::vec2(0.0, 0.0));                        // add rigid body component to tank
     tank.AddComponent<SpriteComponent>("tank-image", 32, 32, 1);                        // add sprite component to tank
     tank.AddComponent<BoxColliderComponent>(32, 32);
-    tank.AddComponent<ProjectileEmitterComponent>(glm::vec2(0.0, 100.0), 1000, 10000, 0, false);   // add projectile emitter component to tank
+    tank.AddComponent<ProjectileEmitterComponent>(glm::vec2(0.0, 100.0), 1000, 4000, 0, false);   // add projectile emitter component to tank
     tank.AddComponent<HealthComponent>(100);                                            // add health component to tank
 
     Entity truck = registry->CreateEntity();                                             // create truck entity
@@ -194,7 +196,7 @@ void Game::Setup(){
     truck.AddComponent<RigidBodyComponent>(glm::vec2(0.0, 0.0));                        // add rigid body component to truck
     truck.AddComponent<SpriteComponent>("truck-image", 32, 32, 1);                      // add sprite component to truck
     truck.AddComponent<BoxColliderComponent>(32, 32);
-    truck.AddComponent<ProjectileEmitterComponent>(glm::vec2(100.0, 0.0), 1000, 10000, 0, false);   // add projectile emitter component to truck
+    truck.AddComponent<ProjectileEmitterComponent>(glm::vec2(100.0, 0.0), 1000, 2000, 0, false);   // add projectile emitter component to truck
     truck.AddComponent<HealthComponent>(100);                                           // add health component to truck
 }
 
@@ -237,6 +239,7 @@ void Game::Update(){
     registry->GetSystem<CollisionSystem>().Update(eventBus);                            // update collision system
     registry->GetSystem<ProjectileEmitSystem>().Update(registry);                       // update projectile emit system
     registry->GetSystem<CameraMovementSystem>().Update(camera);                         // update camera movement system
+    registry->GetSystem<ProjectileLifecycleSystem>().Update();                          // update projectile lifecycle system
 
     registry->Update();                                                                 // update registry (add and remove entities)
 }
