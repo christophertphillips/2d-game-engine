@@ -8,6 +8,7 @@
 #include "../Components/SpriteComponent.h"
 #include "../Components/BoxColliderComponent.h"
 #include "../Components/ProjectileComponent.h"
+#include "../EventBus/EventBus.h"
 #include "../Events/KeyPressedEvent.h"
 #include "../Components/CameraFollowComponent.h"
 #include <SDL2/SDL.h>
@@ -17,6 +18,10 @@ class ProjectileEmitSystem: public System{
         ProjectileEmitSystem(){
             RequireComponent<ProjectileEmitterComponent>();                                                                 // entity must have projectile emitter component
             RequireComponent<TransformComponent>();                                                                         // entity must have transform component
+        }
+
+        void SubscribeToEvents(std::unique_ptr<EventBus>& eventBus){
+            eventBus->SubscribeEventCallback<ProjectileEmitSystem, KeyPressedEvent>(this, &ProjectileEmitSystem::OnKeyPressed);
         }
 
         void OnKeyPressed(KeyPressedEvent& event){
