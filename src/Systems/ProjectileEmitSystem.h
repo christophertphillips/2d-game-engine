@@ -67,7 +67,7 @@ class ProjectileEmitSystem: public System{
                 auto& projectileEmitterComponent = entity.GetComponent<ProjectileEmitterComponent>();                       // get entity's projectile emitter component
                 const auto transformComponent = entity.GetComponent<TransformComponent>();                                  // get entity's transform component
 
-                if((SDL_GetTicks() - projectileEmitterComponent.lastEmissionTime) > projectileEmitterComponent.repeatFrequency){    // if the time elapsed since the last emission is greater than the repeat frequency...
+                if((projectileEmitterComponent.repeatFrequency != 0) && ((SDL_GetTicks() - projectileEmitterComponent.lastEmissionTime) > projectileEmitterComponent.repeatFrequency)){    // if the repeat frequency is nonzero and the time elapsed since the last emission is greater than the repeat frequency...
                     Entity projectile = registry->CreateEntity();                                                           // add projectile entity
 
                     glm::vec2 projectilePosition = transformComponent.position;                                             // set projectile position to entity's position (via its transform component)
