@@ -234,6 +234,7 @@ void Game::Update(){
     eventBus->Reset();                                                                  // reset event bus subscribers
     registry->GetSystem<DamageSystem>().SubscribeToEvents(eventBus);                    // subscribe damage system to event bus
     registry->GetSystem<KeyboardControlSystem>().SubscribeToEvents(eventBus);           // subscribe keyboard control system to event bus
+    registry->GetSystem<ProjectileEmitSystem>().SubscribeToEvents(eventBus);            // subscribe projectile emit system to event bus
 
     registry->GetSystem<MovementSystem>().Update(deltaTime);                            // update movement system
     registry->GetSystem<AnimationSystem>().Update();                                    // update animation system
