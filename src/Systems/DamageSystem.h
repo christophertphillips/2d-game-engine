@@ -20,8 +20,21 @@ class DamageSystem: public System{
 
         void onCollision(CollisionEvent& event){
             Logger::Log("The damage system received a collision event between entities " + std::to_string(event.a.GetId()) + " and " + std::to_string(event.b.GetId()));
-            event.a.KillEntity();                                                                                           // kill entity a
-            event.b.KillEntity();                                                                                           // kill entity b
+            Entity aEntity = event.a;                                                                                       // get entity a from event
+            Entity bEntity = event.b;                                                                                       // get entity b from event
+
+            if(aEntity.BelongsToGroup("projectiles") && bEntity.HasTag("player")){                                          // did a projectile collide with an enemy?
+                onProjectileHitsPlayer(aEntity, bEntity);                                                                   // if yes, call onProjectileHitsEnemy()
+            }
+            else if(bEntity.BelongsToGroup("projectiles") && aEntity.HasTag("player")){                                     // (same as above)
+                onProjectileHitsPlayer(bEntity, aEntity);                                                                   // (same as above)
+            }
+            else if(aEntity.BelongsToGroup("projectiles") && bEntity.BelongsToGroup("enemies")){                            // did a projectile collide with an enemy?
+                onProjectileHitsEnemy(aEntity, bEntity);                                                                    // if yes, call onProjectileHitsEnemy()
+            }
+            else if(bEntity.BelongsToGroup("projectiles") && aEntity.BelongsToGroup("enemies")){                            // (same as above)
+                onProjectileHitsEnemy(bEntity, aEntity);                                                                    // (same as above)
+            }
         }
 
         void onProjectileHitsPlayer(Entity projectile, Entity player){
