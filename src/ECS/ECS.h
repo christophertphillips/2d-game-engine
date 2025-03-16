@@ -154,6 +154,14 @@ class Registry{
         };
         Entity CreateEntity();                                                          // create entity, add to entitiesToBeAdded, and return copy
         void KillEntity(Entity entity);                                                 // remove entity from registry
+        void TagEntity(Entity entity, const std::string& tag);                          // set entity's tag
+        bool EntityHasTag(Entity entity, const std::string& tag) const;                 // determine if entity has specified tag
+        Entity GetEntityByTag(const std::string& tag) const;                            // get entity associated with specified tag
+        void RemoveEntityTag(Entity entity);                                            // remove entity's tag
+        void GroupEntity(Entity entity, const std::string& group);                      // add entity to group
+        bool EntityBelongsToGroup(Entity entity, const std::string& group) const;       // determine if entity belongs to specified group
+        std::vector<Entity> GetEntitiesByGroup(const std::string& group) const;         // get entities associated with specified group
+        void RemoveEntityGroup(Entity entity);                                          // remove entity from group
         template <typename T, typename ...TArgs> void AddComponent(Entity entity, TArgs&& ...args); // add component of type T and args of types TArgs to specified entity
         template <typename T> void RemoveComponent(Entity entity);                      // remove component of type T from specified entity
         template <typename T> bool HasComponent(Entity entity) const;                   // determine if specified entity has component of type T

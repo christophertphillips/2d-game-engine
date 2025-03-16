@@ -101,6 +101,65 @@ void Registry::RemoveEntityFromSystems(Entity entity){                          
     }
 }
 
+void Registry::TagEntity(Entity entity, const std::string& tag){
+    tagToEntity.emplace(tag, entity);                                                   // add (tag, entity) pair to tagToEntity
+    entityToTag.emplace(entity.GetId(), tag);                                           // add (entity.id, tag) pair to entityToTag
+}
+
+bool Registry::EntityHasTag(Entity entity, const std::string& tag) const{
+    auto entityToTagIterator = entityToTag.find(entity.GetId());                        // find entity in entityToTag
+    if(entityToTagIterator != entityToTag.end()){                                       // was the entity found in entityToTag?
+        return (entityToTagIterator->second == tag);                                    // if yes, compare associated tag (if found) with specified tag and return result
+    }
+    else{
+        return false;                                                                   // else, return faslse
+    }
+}
+
+Entity Registry::GetEntityByTag(const std::string& tag) const{
+    return tagToEntity.at(tag);                                                         // return tag asssociated with entity
+}
+
+void Registry::RemoveEntityTag(Entity entity){
+    auto entityToTagIterator = entityToTag.find(entity.GetId());                        // find entity in entityToTag
+    if(entityToTagIterator != entityToTag.end()){                                       // was the entity found in in entityToTag?
+        auto tag = entityToTagIterator->second;                                         // if yes, get tag associated with entity
+        entityToTag.erase(entityToTagIterator);                                         // remove (entity.id, tag) pair from entityToTag (via iterator argument)
+        tagToEntity.erase(tag);                                                         // remove (tag, entity) pair from tagToEntity (via key argument)
+    }
+}
+
+void Registry::GroupEntity(Entity entity, const std::string& group){
+    groupToEntities.emplace(group, std::set<Entity>());                                 // if (group, set<Entity>) doesn't already exist, create it
+    groupToEntities[group].emplace(entity);                                             // add entity to entities set associated with specified group in groupToEntities
+    entityToGroup.emplace(entity.GetId(), group);                                       // add (entity.id, group) pair to entityToGroup
+}
+
+bool Registry::EntityBelongsToGroup(Entity entity, const std::string& group) const{
+    auto entityToGroupIterator = entityToGroup.find(entity.GetId());                    // find entity in entityToGroup
+    if(entityToGroupIterator != entityToGroup.end()){                                   // was the entity found in entityToGroup?
+        return (entityToGroupIterator->second == group);                                // if yes, compare associated group (if found) with specified gropup and return result
+    }
+    else{
+        return false;                                                                   // else, return false
+    }
+}
+
+std::vector<Entity> Registry::GetEntitiesByGroup(const std::string& group) const{
+    auto& entities = groupToEntities.at(group);                                         // get reference to  entities set associated with specified group (maybe gives better performance?)
+    return std::vector<Entity>(entities.begin(), entities.end());                       // return vector created from entities
+}
+
+void Registry::RemoveEntityGroup(Entity entity){
+    auto entityToGroupIterator = entityToGroup.find(entity.GetId());                    // find entity in entityToGroup
+    if(entityToGroupIterator != entityToGroup.end()){                                   // was the entity found in entityToGroup?
+        auto group = entityToGroupIterator->second;                                     // if yes, get group associated with entity
+        auto& entities = groupToEntities.at(group);                                     // get reference to entities set associated with group
+        entities.erase(entity);                                                         // remove entity from (group, entities) set
+        entityToGroup.erase(entityToGroupIterator);                                     // remove (entity.id, group) pair from entityToGroup (via iterator argument)
+    }
+}
+
 void Registry::Update(){                                                                // add/remove entities waiting to be added/removed
     for (auto entity: entitiesToBeAdded){                                               // iterate through all entities to be added
         AddEntityToSystems(entity);                                                     // add entity to all systems interested in the entity
