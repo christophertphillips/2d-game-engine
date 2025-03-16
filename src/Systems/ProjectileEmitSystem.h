@@ -34,6 +34,7 @@ class ProjectileEmitSystem: public System{
                         const auto rigidBodyComponent = entity.GetComponent<RigidBodyComponent>();                          // get entity's rigid body component
 
                         Entity projectile = entity.registry->CreateEntity();                                                // add projectile entity (NOTE: all entities have a pointer to the registry object)
+                        projectile.Group("projectiles");                                                                    // add 'projectile' group to projectile entity
 
                         glm::vec2 projectilePosition = transformComponent.position;                                         // set projectile position to entity's position (via its transform component)
                         if(entity.HasComponent<SpriteComponent>()){                                                         // if entity has a sprite component...
@@ -69,6 +70,7 @@ class ProjectileEmitSystem: public System{
 
                 if((projectileEmitterComponent.repeatFrequency != 0) && ((SDL_GetTicks() - projectileEmitterComponent.lastEmissionTime) > projectileEmitterComponent.repeatFrequency)){    // if the repeat frequency is nonzero and the time elapsed since the last emission is greater than the repeat frequency...
                     Entity projectile = registry->CreateEntity();                                                           // add projectile entity
+                    projectile.Group("projectiles");                                                                        // add 'projectile' group to projectile entity
 
                     glm::vec2 projectilePosition = transformComponent.position;                                             // set projectile position to entity's position (via its transform component)
                     if(entity.HasComponent<SpriteComponent>()){                                                             // if entity has a sprite component...

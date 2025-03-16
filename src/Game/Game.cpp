@@ -140,6 +140,7 @@ void Game::Setup(){
             double backgroundTileYPos = tileIndexY * tileSize * tileScale;              // calculate background tile y position
 
             Entity backgroundTile = registry->CreateEntity();                           // create background tile entity
+            backgroundTile.Group("tiles");
             tilesAdded++;                                                               // increment tiles added
 
             backgroundTile.AddComponent<TransformComponent>(                            // add transform component to background tile entity
@@ -169,6 +170,7 @@ void Game::Setup(){
     fieldHeight = tileIndexY * tileSize * tileScale;                                    // calculate height of field = (num of tiles tall) * (tile size in pixels) * (tile scale)
 
     Entity chopper = registry->CreateEntity();                                          // create chopper entity
+    chopper.Tag("player");                                                              // add 'player' tag to chopper
     chopper.AddComponent<TransformComponent>(glm::vec2(100.0, 100.0), glm::vec2(1.0, 1.0), 0.0);    // add transform component to chopper
     chopper.AddComponent<RigidBodyComponent>(glm::vec2(0.0, 0.0));                      // add rigid body component to chopper
     chopper.AddComponent<SpriteComponent>("chopper-image", 32, 32, 1);                  // add sprite component to chopper
@@ -185,6 +187,7 @@ void Game::Setup(){
     radar.AddComponent<AnimationComponent>(8,5);                                        // add animation component to chopper
 
     Entity tank = registry->CreateEntity();                                             // create tank entity
+    tank.Group("enemies");                                                              // add 'enemies' tag to tank
     tank.AddComponent<TransformComponent>(glm::vec2(10.0, 10.0), glm::vec2(1.0, 1.0), 0.0);  // add transform component to tank
     tank.AddComponent<RigidBodyComponent>(glm::vec2(0.0, 0.0));                        // add rigid body component to tank
     tank.AddComponent<SpriteComponent>("tank-image", 32, 32, 1);                        // add sprite component to tank
@@ -193,6 +196,7 @@ void Game::Setup(){
     tank.AddComponent<HealthComponent>(100);                                            // add health component to tank
 
     Entity truck = registry->CreateEntity();                                             // create truck entity
+    truck.Group("enemies");                                                             // add 'enemies' tag to truck
     truck.AddComponent<TransformComponent>(glm::vec2(250.0, 10.0), glm::vec2(1.0, 1.0), 0.0);  // add transform component to truck
     truck.AddComponent<RigidBodyComponent>(glm::vec2(0.0, 0.0));                        // add rigid body component to truck
     truck.AddComponent<SpriteComponent>("truck-image", 32, 32, 1);                      // add sprite component to truck
