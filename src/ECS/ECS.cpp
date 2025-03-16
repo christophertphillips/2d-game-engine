@@ -186,6 +186,8 @@ void Registry::Update(){                                                        
         RemoveEntityFromSystems(entity);                                                // remove entity from all systems
         entityComponentSignatures[entity.GetId()].reset();                              // clear entity's component signature
         freeEntityIds.push_back(entity.GetId());                                        // add entity id to freeEntityIds for reuse
+        RemoveEntityTag(entity);                                                        // remove tag associated with entity (if any)
+        RemoveEntityGroup(entity);                                                      // remove group associated with entity (if any)
     }
     entitiesToBeKilled.clear();                                                         // clear entitiesToBeKilled set after all entities have been added
 };
