@@ -139,6 +139,10 @@ class Registry{
         std::unordered_map<std::type_index, std::shared_ptr<System>> systems;           // unordered map containing pointers to systems
         std::set<Entity> entitiesToBeAdded;                                             // set containing entities to be added at end of frame
         std::set<Entity> entitiesToBeKilled;                                            // set containing entities to be killed at end of frame
+        std::unordered_map<std::string, Entity> tagToEntity;                            // unordered map mapping tag to entity
+        std::unordered_map<int, std::string> entityToTag;                               // unordered map mapping entity (ID) to tag
+        std::unordered_map<std::string, std::set<Entity>> groupToEntities;              // unordered map mapping group to (set of) entities
+        std::unordered_map<int, std::string> entityToGroup;                             // unordered map mpaping entity (ID) to group
         std::deque<int> freeEntityIds;                                                  // deque of previously-used entity ids that are available for reuse
 
     public:
