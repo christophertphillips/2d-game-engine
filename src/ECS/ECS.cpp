@@ -17,6 +17,22 @@ void Entity::KillEntity(){                                                      
     registry->KillEntity(*this);                                                        // call Registry::KillEntity()
 }
 
+void Entity::Tag(const std::string& tag){
+    registry->TagEntity(*this, tag);                                                    // call Registry::TagEntity() (passing entity as an argument)
+}
+
+bool Entity::HasTag(const std::string& tag) const{
+    return registry->EntityHasTag(*this, tag);                                          // call Registry::EntityHasTag() (passing entity as an argument)
+}
+
+void Entity::Group(const std::string& group){
+    registry->GroupEntity(*this, group);                                                // call Registry::GroupEntity() (passing entity as an argument)
+}
+
+bool Entity::BelongsToGroup(const std::string& group) const{
+    return registry->EntityBelongsToGroup(*this, group);                                // call Registry::EntityBelongsToGroup() (passing entity as an argument)
+}
+
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // System
 

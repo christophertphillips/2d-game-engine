@@ -42,6 +42,10 @@ class Entity{
         Entity(const Entity& entity) = default;                                         // entity copy constructor
         int GetId() const;																// entity id getter
         void KillEntity();                                                              // remove entity from registry
+        void Tag(const std::string& tag);                                               // set entity's tag
+        bool HasTag(const std::string& tag) const;                                      // determine if entity has specified tag
+        void Group(const std::string& group);                                           // add entity to group
+        bool BelongsToGroup(const std::string& group) const;                            // determine if entity belongs to specified group
         Entity& operator =(const Entity& other) = default;                              // overload copy assignment operator
         bool operator ==(const Entity& other) const { return id == other.id; }          // overload equality to test entity equality
         bool operator !=(const Entity& other) const { return id != other.id; }          // overload non-equality to test entity non-equality
