@@ -179,7 +179,7 @@ void Game::Setup(){
     chopper.AddComponent<KeyboardControlledComponent>(glm::vec2(0, -80), glm::vec2(80, 0), glm::vec2(0, 80), glm::vec2(-80, 0)); // add keyboard controlled component to chopper
     chopper.AddComponent<CameraFollowComponent>();                                      // add camera follow component to chopper
     chopper.AddComponent<HealthComponent>(100);                                         // add health component to chopper
-    chopper.AddComponent<ProjectileEmitterComponent>(glm::vec2(200.0, 200.0), 0, 4000, 0, true);    // add projectile emitter component to chopper
+    chopper.AddComponent<ProjectileEmitterComponent>(glm::vec2(200.0, 200.0), 0, 4000, 25, true);    // add projectile emitter component to chopper
 
     Entity radar = registry->CreateEntity();                                            // add radar entity
     radar.AddComponent<TransformComponent>(glm::vec2(windowWidth - 74, 10.0), glm::vec2(1.0, 1.0), 0.0);    // add transform component to radar
@@ -193,7 +193,7 @@ void Game::Setup(){
     tank.AddComponent<RigidBodyComponent>(glm::vec2(0.0, 0.0));                        // add rigid body component to tank
     tank.AddComponent<SpriteComponent>("tank-image", 32, 32, 1);                        // add sprite component to tank
     tank.AddComponent<BoxColliderComponent>(32, 32);
-    tank.AddComponent<ProjectileEmitterComponent>(glm::vec2(0.0, 100.0), 1000, 4000, 0, false);   // add projectile emitter component to tank
+    tank.AddComponent<ProjectileEmitterComponent>(glm::vec2(0.0, 100.0), 1000, 4000, 25, false);   // add projectile emitter component to tank
     tank.AddComponent<HealthComponent>(100);                                            // add health component to tank
 
     Entity truck = registry->CreateEntity();                                             // create truck entity
@@ -202,7 +202,7 @@ void Game::Setup(){
     truck.AddComponent<RigidBodyComponent>(glm::vec2(0.0, 0.0));                        // add rigid body component to truck
     truck.AddComponent<SpriteComponent>("truck-image", 32, 32, 1);                      // add sprite component to truck
     truck.AddComponent<BoxColliderComponent>(32, 32);
-    truck.AddComponent<ProjectileEmitterComponent>(glm::vec2(100.0, 0.0), 1000, 2000, 0, false);   // add projectile emitter component to truck
+    truck.AddComponent<ProjectileEmitterComponent>(glm::vec2(100.0, 0.0), 1000, 2000, 25, false);   // add projectile emitter component to truck
     truck.AddComponent<HealthComponent>(100);                                           // add health component to truck
 }
 
