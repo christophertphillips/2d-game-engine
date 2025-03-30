@@ -89,6 +89,10 @@ template <typename T>
 class Pool: public IPool{
     private:
         std::vector<T> data;                                                            // vector that is "wrapped" by the Pool class
+        int size;                                                                       // int of how many components are in the pool
+
+        std::unordered_map<int, int> entityIdToIndex;                                   // unordered map mapping entity (ID) to pool index
+        std::unordered_map<int, int> indexToEntityId;                                   // unordered map mapping pool index to entity (ID)
 
     public:
         Pool(int size = 100){                                                           // default pool size = 100
