@@ -125,6 +125,21 @@ class Pool: public IPool{
             data[index] = object;                                                       // set object at specified pool index
         }
 
+        void Remove(int entityId){
+            int indexOfRemoved = entityIdToIndex[entityId];                             // get index of component to be removed
+            int indexOfLast = size - 1;                                                 // get index of last component (to be moved to removed component's index)
+            int entityIdOfLast = indexToEntityId[indexOfLast];                          // get entityId of last component
+
+            data[indexOfRemoved] = data[indexOfLast];                                   // overwrite component to remove with last component
+            entityIdToIndex[entityIdOfLast] = indexOfRemoved;                           // update (entityId, index) for last component in entityIdToIndex
+            indexToEntityId[indexOfRemoved] = entityIdOfLast;                           // update (index, entityId) for last component in indexToEntityId
+
+            entityIdToIndex.erase(entityId);                                            // remove outdated (entityId, index) for removed component
+            indexToEntityId.erase(indexOfLast);                                         // remove outdated (index, entityId) for last component
+
+            size--;                                                                     // decrement pool size
+        }
+
         T& Get(int index){
             return static_cast<T&>(data[index]);                                        // return object at specified pool index
         }                                                                               // (static cast is probably unnecessary here)
