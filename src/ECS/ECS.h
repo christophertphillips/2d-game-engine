@@ -82,7 +82,7 @@ class System{
 
 class IPool{                                                                            // (base class used to allow creation of componentPool w/o specifying T)
     public:
-        virtual ~IPool() {}
+        virtual ~IPool() = default;
         virtual void RemoveIfPresent(int entityId) = 0;                                 // remove component from pool if present in pool
 };
 
@@ -96,18 +96,19 @@ class Pool: public IPool{
         std::unordered_map<int, int> indexToEntityId;                                   // unordered map mapping pool index to entity (ID)
 
     public:
-        Pool(int size = 100){                                                           // default pool size = 100
-            data.resize(size);
+        Pool(int capacity = 100){                                                       // default pool capacity = 100
+            size = 0;                                                                   // initialize pool size to 0
+            data.resize(capacity);                                                      // resize pool to starting capacity
         }
 
         virtual ~Pool() = default;                                                      // (virtual is probably unnecessary here)
 
         bool IsEmpty() const {
-            return data.empty();                                                        // return pool "emptiness" value
+            return (size == 0);                                                         // return whether pool is empty or not
         }
 
         int GetSize() const {
-            return data.size();                                                         // return size of pool
+            return size;                                                                // return count of components in pool
         }
 
         void Resize(int n) {
@@ -116,14 +117,32 @@ class Pool: public IPool{
 
         void Clear(){
             data.clear();                                                               // clear data from pool
+            size = 0;                                                                   // reset count of components in pool to 0
+            entityIdToIndex.clear();                                                    // clear entityIdToIndex (probably necessary)
+            indexToEntityId.clear();                                                    // clear indexToEntityId (probably necessary)
         }
 
         void Add(T object){
             data.push_back(object);                                                     // add object to pool
         }
 
-        void Set(int index, T object){
-            data[index] = object;                                                       // set object at specified pool index
+        void Set(int entityId, T object){
+            if(entityIdToIndex.find(entityId) != entityIdToIndex.end()){                // if a component already exists for the entity in the pool...
+                int index = entityIdToIndex[entityId];                                  // ... get the index associated with the component
+                data[index] = object;                                                   // and overwrite the old component at the index
+            }
+            else{                                                                       // else...
+                int index = size;                                                       // get the index at the last position of the pool
+                entityIdToIndex.emplace(entityId, index);                               // add (entityId, index) pair to entityIdToIndex
+                indexToEntityId.emplace(index, entityId);                               // add (index, entityId) pair to indexToEntityId
+
+                if(index >= data.capacity()){                                           // if the capacity of the pool has been reached...
+                    data.resize(size * 2);                                              // ... resize the pool by doubling its capacity
+                }
+
+                data[index] = object;                                                   // assign component to last index position
+                size++;                                                                 // increment pool size
+            }
         }
 
         void Remove(int entityId){
@@ -147,7 +166,8 @@ class Pool: public IPool{
             }
         }
 
-        T& Get(int index){
+        T& Get(int entityId){
+            int index = entityIdToIndex[entityId];                                      // get index associated with specified entity id
             return static_cast<T&>(data[index]);                                        // return object at specified pool index
         }                                                                               // (static cast is probably unnecessary here)
 
@@ -260,10 +280,6 @@ void Registry::AddComponent(Entity entity, TArgs&& ...args){                    
 
     std::shared_ptr<Pool<T>> componentPool = std::static_pointer_cast<Pool<T>>(componentPools[componentId]);    // get component pool associated with component id
 
-    if(entityId >= componentPool->GetSize()){                                           // if component pool isn't big enough to accomodate entity...
-        componentPool->Resize(numEntities);                                             // ... increase size of component pool to match # of entities
-    }
-
     T newComponent(std::forward<TArgs>(args)...);                                       // create new component of type T on stack, forwarding component args
     componentPool->Set(entityId, newComponent);                                         // set component at specified entity index in componentPool
     entityComponentSignatures[entityId].set(componentId);                               // set component bit to 1 in entity's component signature bitset
@@ -277,6 +293,9 @@ void Registry::RemoveComponent(Entity entity){                                  
     const auto entityId = entity.GetId();                                               // get entity id
 
     entityComponentSignatures[entityId].set(componentId, false);                        // set component bit to 0 in entity's component signature bitset
+
+    std::shared_ptr<Pool<T>> componentPool = std::static_pointer_cast<Pool<T>>(componentPools[componentId]);    // get T component pool
+    componentPool->Remove(entityId);                                                    // remove component associated with entity from T component pool
 }
 
 template <typename T>

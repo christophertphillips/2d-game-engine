@@ -188,6 +188,10 @@ void Registry::Update(){                                                        
         freeEntityIds.push_back(entity.GetId());                                        // add entity id to freeEntityIds for reuse
         RemoveEntityTag(entity);                                                        // remove tag associated with entity (if any)
         RemoveEntityGroup(entity);                                                      // remove group associated with entity (if any)
+
+        for (auto pool: componentPools){                                                // iterate through all pools in registry
+            pool->RemoveIfPresent(entity.GetId());                                      // if component is in pool, remove it
+        }
     }
     entitiesToBeKilled.clear();                                                         // clear entitiesToBeKilled set after all entities have been added
 };
