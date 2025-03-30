@@ -83,6 +83,7 @@ class System{
 class IPool{                                                                            // (base class used to allow creation of componentPool w/o specifying T)
     public:
         virtual ~IPool() {}
+        virtual void RemoveIfPresent(int entityId) = 0;                                 // remove component from pool if present in pool
 };
 
 template <typename T>
@@ -138,6 +139,12 @@ class Pool: public IPool{
             indexToEntityId.erase(indexOfLast);                                         // remove outdated (index, entityId) for last component
 
             size--;                                                                     // decrement pool size
+        }
+
+        void RemoveIfPresent(int entityId) override {
+            if(entityIdToIndex.find(entityId) != entityIdToIndex.end()){                // if the entity is present in the pool...
+                Remove(entityId);                                                       // ... remove the entity from the pool
+            }
         }
 
         T& Get(int index){
