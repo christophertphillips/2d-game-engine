@@ -28,6 +28,7 @@
 #include "../Components/HealthComponent.h"
 #include "../Systems/ProjectileLifecycleSystem.h"
 #include <SDL2/SDL_ttf.h>
+#include "../Components/TextLabelComponent.h"
 
 int Game::windowWidth;
 int Game::windowHeight;
@@ -211,6 +212,11 @@ void Game::Setup(){
     truck.AddComponent<BoxColliderComponent>(32, 32);
     truck.AddComponent<ProjectileEmitterComponent>(glm::vec2(100.0, 0.0), 1000, 2000, 25, false);   // add projectile emitter component to truck
     truck.AddComponent<HealthComponent>(100);                                           // add health component to truck
+
+    Entity label = registry->CreateEntity();                                            // create label entity
+    label.AddComponent<TransformComponent>(glm::vec2((windowWidth/2.0) - 40.0, 10.0), glm::vec2(1.0, 1.0), 0.0);  // add transform component to label
+    SDL_Color green = { 0, 255, 0 };                                                    // create SLD_Color struct
+    label.AddComponent<TextLabelComponent>("CHOPPER 1.0", "charriot-font", green, true);  // add text label component to label
 }
 
 void Game::ProcessInput(){
