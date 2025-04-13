@@ -1,6 +1,7 @@
 #include "./AssetStore.h"
 #include "../Logger/Logger.h"
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 
 AssetStore::AssetStore(){                                                               // AssetStore constructor
     Logger::Log("AssetStore constructor called!");
@@ -30,4 +31,12 @@ void AssetStore::AddTexture(SDL_Renderer* renderer, const std::string& assetId, 
 
 SDL_Texture* AssetStore::GetTexture(const std::string& assetId) const{                  // get texture from textures map
     return textures.at(assetId);                                                        // get texture with associated id
+}
+
+void AssetStore::AddFont(const std::string& assetId, const std::string& filePath, int fontSize){
+    fonts.emplace(assetId, TTF_OpenFont(filePath.c_str(), fontSize));                   // add font to fonts map
+}
+
+TTF_Font* AssetStore::GetFont(const std::string& assetId){
+    return fonts.at(assetId);                                                           // get font with associated id
 }

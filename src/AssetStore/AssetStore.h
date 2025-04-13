@@ -17,6 +17,8 @@ class AssetStore{
         void ClearAssets();                                                             // clear/destroy all assets in asset maps
         void AddTexture(SDL_Renderer* renderer, const std::string& assetId, const std::string& filePath);   // add texture to textures map
         SDL_Texture* GetTexture(const std::string& assetId) const;                      // get texture from textures map
+        void AddFont(const std::string& assetId, const std::string& filePath, int fontSize);    // add font to fonts map
+        TTF_Font* GetFont(const std::string& assetId);                                  // get font from fonts map
 };
 
 #endif
