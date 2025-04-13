@@ -125,6 +125,7 @@ void Game::Setup(){
     assetStore->AddTexture(renderer, "radar-image", "./assets/images/radar.png");       // add radar texture
     assetStore->AddTexture(renderer, "jungle-map", "./assets/tilemaps/jungle.png");     // add jungle texture
     assetStore->AddTexture(renderer, "bullet-image", "./assets/images/bullet.png") ;     // add bullet texture
+    assetStore->AddFont("charriot-font", "./assets/fonts/charriot.ttf", 24);            // add charriot font
 
     int tileSize = 32;                                                                  // initialize tile size (32 x 32)
     double tileScale = 2.0;                                                             // initialize tile scale
