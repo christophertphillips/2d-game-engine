@@ -29,6 +29,7 @@
 #include "../Systems/ProjectileLifecycleSystem.h"
 #include <SDL2/SDL_ttf.h>
 #include "../Components/TextLabelComponent.h"
+#include "../Systems/RenderTextSystem.h"
 
 int Game::windowWidth;
 int Game::windowHeight;
@@ -119,6 +120,7 @@ void Game::Setup(){
     registry->AddSystem<CameraMovementSystem>();
     registry->AddSystem<ProjectileEmitSystem>();                                        // add projectile emit system
     registry->AddSystem<ProjectileLifecycleSystem>();                                   // add projectile lifecycle system
+    registry->AddSystem<RenderTextSystem>();                                            // add render-text system
 
     assetStore->AddTexture(renderer, "tank-image", "./assets/images/tank-panther-right.png");   // add tank texture
     assetStore->AddTexture(renderer, "truck-image", "./assets/images/truck-ford-right.png");    // add truck texture
@@ -269,6 +271,7 @@ void Game::Render(){
     SDL_RenderClear(renderer);                                                          // clear renderer
 
     registry->GetSystem<RenderSystem>().Update(renderer, assetStore, camera);           // update render system
+    registry->GetSystem<RenderTextSystem>().Update(renderer, assetStore, camera);       // update render-text system
     if(isDebug){                                                                        // if debug mode is active...
         registry->GetSystem<RenderCollisionSystem>().Update(renderer, camera);          // ...update render-collision system
     }
