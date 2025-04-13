@@ -27,6 +27,7 @@
 #include "../Systems/ProjectileEmitSystem.h"
 #include "../Components/HealthComponent.h"
 #include "../Systems/ProjectileLifecycleSystem.h"
+#include <SDL2/SDL_ttf.h>
 
 int Game::windowWidth;
 int Game::windowHeight;
@@ -49,6 +50,11 @@ Game::~Game(){
 void Game::Initialize(){
     if(SDL_Init(SDL_INIT_EVERYTHING) != 0){                                             // initialize SDL and catch errors
         Logger::Err("Error installing SDL.");
+        return;
+    }
+
+    if(TTF_Init() != 0){                                                                // initialize TTF and catch errors
+        Logger::Err("Error initializing SDL TTF");
         return;
     }
 
