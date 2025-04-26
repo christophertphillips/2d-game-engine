@@ -129,6 +129,7 @@ void Game::Setup(){
     assetStore->AddTexture(renderer, "jungle-map", "./assets/tilemaps/jungle.png");     // add jungle texture
     assetStore->AddTexture(renderer, "bullet-image", "./assets/images/bullet.png") ;     // add bullet texture
     assetStore->AddFont("charriot-font", "./assets/fonts/charriot.ttf", 24);            // add charriot font
+    assetStore->AddFont("charriot-font-12", "./assets/fonts/charriot.ttf", 12);         // add charriot (size 12) font
 
     int tileSize = 32;                                                                  // initialize tile size (32 x 32)
     double tileScale = 2.0;                                                             // initialize tile scale
