@@ -12,6 +12,7 @@ class RenderTextSystem: public System {
     public:
         RenderTextSystem(){
             RequireComponent<TextLabelComponent>();
+            RequireComponent<TransformComponent>();
         }
 
         void Update(SDL_Renderer* renderer, std::unique_ptr<AssetStore>& AssetStore, const SDL_Rect& camera){
