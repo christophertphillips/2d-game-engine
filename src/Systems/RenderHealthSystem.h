@@ -82,6 +82,8 @@ class RenderHealthSystem: public System {
                     NULL,                                                                                                   // source rectangle (SDL_Rect*)
                     &dstRect                                                                                                // destination rectnagle (SDL_Rect*)
                 );
+
+                SDL_DestroyTexture(texture);                                                                                // destroy texture
             }
         }
 };
