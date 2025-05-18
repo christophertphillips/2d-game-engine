@@ -300,7 +300,7 @@ void Game::Render(){
     registry->GetSystem<RenderHealthSystem>().Update(renderer, assetStore, camera);     // update render-health system
     if(isDebug){                                                                        // if debug mode is active...
         registry->GetSystem<RenderCollisionSystem>().Update(renderer, camera);          // ...update render-collision system
-        registry->GetSystem<RenderGUISystem>().Update(renderer, registry);              // ...update render-gui system
+        registry->GetSystem<RenderGUISystem>().Update(renderer, registry, camera);      // ...update render-gui system
     }
 
     SDL_RenderPresent(renderer);                                                        // swap back buffer with front buffer
