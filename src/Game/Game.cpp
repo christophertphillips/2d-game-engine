@@ -34,6 +34,7 @@
 #include <imgui/imgui.h>
 #include <imgui/imgui_impl_sdl2.h>
 #include <imgui/imgui_impl_sdlrenderer2.h>
+#include "../Systems/RenderGUISystem.h"
 
 int Game::windowWidth;
 int Game::windowHeight;
@@ -134,6 +135,7 @@ void Game::Setup(){
     registry->AddSystem<ProjectileLifecycleSystem>();                                   // add projectile lifecycle system
     registry->AddSystem<RenderTextSystem>();                                            // add render-text system
     registry->AddSystem<RenderHealthSystem>();                                          // add render-health system
+    registry->AddSystem<RenderGUISystem>();                                             // add render-gui system
 
     assetStore->AddTexture(renderer, "tank-image", "./assets/images/tank-panther-right.png");   // add tank texture
     assetStore->AddTexture(renderer, "truck-image", "./assets/images/truck-ford-right.png");    // add truck texture
@@ -298,13 +300,7 @@ void Game::Render(){
     registry->GetSystem<RenderHealthSystem>().Update(renderer, assetStore, camera);     // update render-health system
     if(isDebug){                                                                        // if debug mode is active...
         registry->GetSystem<RenderCollisionSystem>().Update(renderer, camera);          // ...update render-collision system
-
-        ImGui_ImplSDLRenderer2_NewFrame();                                              // render ImGui...
-        ImGui_ImplSDL2_NewFrame();                                                      // ...
-        ImGui::NewFrame();                                                              // ...
-        ImGui::ShowDemoWindow();                                                        // ...
-        ImGui::Render();                                                                // ...
-        ImGui_ImplSDLRenderer2_RenderDrawData(ImGui::GetDrawData(), renderer);          // ...
+        registry->GetSystem<RenderGUISystem>().Update(renderer, registry);              // ...update render-gui system
     }
 
     SDL_RenderPresent(renderer);                                                        // swap back buffer with front buffer
