@@ -19,7 +19,6 @@ class DamageSystem: public System{
         }
 
         void onCollision(CollisionEvent& event){
-            Logger::Log("The damage system received a collision event between entities " + std::to_string(event.a.GetId()) + " and " + std::to_string(event.b.GetId()));
             Entity aEntity = event.a;                                                                                       // get entity a from event
             Entity bEntity = event.b;                                                                                       // get entity b from event
 
@@ -41,6 +40,9 @@ class DamageSystem: public System{
             auto projectileComponent = projectile.GetComponent<ProjectileComponent>();                                      // get projectile's projectile component
 
             if(!projectileComponent.isFriendly){                                                                            // is the projectile non-friendly (e.g., fired by an enemy)?
+
+                Logger::Log("Projectile (" + std::to_string(projectile.GetId()) + ") collided with player (" + std::to_string(player.GetId()) + ")");
+
                 auto& healthComponent = player.GetComponent<HealthComponent>();                                             // if yes, get player's health component
 
                 healthComponent.healthPercentage -= projectileComponent.hitPercentDamange;                                  // subtract projectile's hitPercentDamage from enemy's healthPercentage
@@ -56,6 +58,9 @@ class DamageSystem: public System{
             auto projectileComponent = projectile.GetComponent<ProjectileComponent>();                                      // get projectile's projectile component
 
             if(projectileComponent.isFriendly){                                                                             // is the projectile friendly (e.g., fired by the player)?
+
+                Logger::Log("Projectile (" + std::to_string(projectile.GetId()) + ") collided with enemy (" + std::to_string(enemy.GetId()) + ")");
+
                 auto& healthComponent = enemy.GetComponent<HealthComponent>();                                              // if yes, get enemy's health component
 
                 healthComponent.healthPercentage -= projectileComponent.hitPercentDamange;                                  // subtract projectile's hitPercentDamage from enemy's healthPercentage

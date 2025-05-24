@@ -42,8 +42,6 @@ class CollisionSystem: public System{
                     );
 
                     if(result){
-                        Logger::Log("Collision occurred between entity " + std::to_string(aEntity.GetId()) + " and entity " + std::to_string(bEntity.GetId()));
-
                         eventBus->EmitEvent<CollisionEvent>(aEntity, bEntity);                                              // emit collision event between entity A and entity B
                     }
                 }
