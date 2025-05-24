@@ -4,12 +4,49 @@
 #include "../ECS/ECS.h"
 #include "../Components/TransformComponent.h"
 #include "../Components/RigidBodyComponent.h"
+#include "../Components/SpriteComponent.h"
+#include "../EventBus/EventBus.h"
+#include "../Events/CollisionEvent.h"
 
 class MovementSystem: public System{
     public:
         MovementSystem(){
             RequireComponent<TransformComponent>();                                     // require transform component
             RequireComponent<RigidBodyComponent>();                                     // require rigid body component
+        }
+
+        void SubscribeToEvents(std::unique_ptr<EventBus>& eventBus){
+            eventBus->SubscribeEventCallback<MovementSystem, CollisionEvent>(this, &MovementSystem::onCollision);           // subscribe onCollision callback function pointer to event bus
+        }
+
+        void onCollision(CollisionEvent& event){
+            Entity aEntity = event.a;                                                                                       // get entity a from event
+            Entity bEntity = event.b;                                                                                       // get entity b from event
+
+            if(aEntity.BelongsToGroup("obstacles") && bEntity.BelongsToGroup("enemies")){                                   // did an enemy collide with an obstacle?
+                onEnemyHitsObstacle(aEntity, bEntity);                                                                      // if yes, call onEnemyHitsObstacle()
+            }
+            else if(bEntity.BelongsToGroup("obstacles") && aEntity.BelongsToGroup("enemies")){                              // (same as above)
+                onEnemyHitsObstacle(bEntity, aEntity);                                                                      // (same as above)
+            }
+        }
+
+        void onEnemyHitsObstacle(Entity obstacle, Entity enemy){
+            if(enemy.HasComponent<RigidBodyComponent>() && enemy.HasComponent<SpriteComponent>()){                          // if enemy has a rigid body component and sprite component...
+
+                auto& rigidBodyComponent = enemy.GetComponent<RigidBodyComponent>();                                        // get enemy's rigid body component
+                auto& spriteComponent = enemy.GetComponent<SpriteComponent>();                                              // get enemy's sprite component
+
+                if(rigidBodyComponent.velocity.x != 0){                                                                     // if enemy's x velocity is nonzero...
+                    rigidBodyComponent.velocity.x *= -1;                                                                    // ... reverse x velocity
+                    spriteComponent.flip = (spriteComponent.flip == SDL_FLIP_NONE ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE);   // ... flip sprite horizontally
+                }
+
+                if(rigidBodyComponent.velocity.y != 0){                                                                     // if enemy's y velocity is nonzero...
+                    rigidBodyComponent.velocity.y *= -1;                                                                    // ... reverse y velocity
+                    spriteComponent.flip = (spriteComponent.flip == SDL_FLIP_NONE ? SDL_FLIP_VERTICAL : SDL_FLIP_NONE);     // ... flip sprite horizontally
+                }
+            }
         }
 
         void Update(double deltaTime){
