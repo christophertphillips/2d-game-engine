@@ -190,7 +190,9 @@ void Registry::Update(){                                                        
         RemoveEntityGroup(entity);                                                      // remove group associated with entity (if any)
 
         for (auto pool: componentPools){                                                // iterate through all pools in registry
-            pool->RemoveIfPresent(entity.GetId());                                      // if component is in pool, remove it
+            if(pool != nullptr){                                                        // NOTE: needed in case component has an ID, but no components of that type have been created, and thus no pool for that component exists
+                pool->RemoveIfPresent(entity.GetId());                                  // if component is in pool, remove it
+            }
         }
     }
     entitiesToBeKilled.clear();                                                         // clear entitiesToBeKilled set after all entities have been added
