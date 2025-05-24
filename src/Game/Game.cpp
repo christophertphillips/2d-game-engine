@@ -290,6 +290,7 @@ void Game::Update(){
     millisecsPreviousFrame = SDL_GetTicks();                                            // set current milliseconds for next Update() call
 
     eventBus->Reset();                                                                  // reset event bus subscribers
+    registry->GetSystem<MovementSystem>().SubscribeToEvents(eventBus);                  // subscribe movement system to event bus
     registry->GetSystem<DamageSystem>().SubscribeToEvents(eventBus);                    // subscribe damage system to event bus
     registry->GetSystem<KeyboardControlSystem>().SubscribeToEvents(eventBus);           // subscribe keyboard control system to event bus
     registry->GetSystem<ProjectileEmitSystem>().SubscribeToEvents(eventBus);            // subscribe projectile emit system to event bus
