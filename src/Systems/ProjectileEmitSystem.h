@@ -76,7 +76,7 @@ class ProjectileEmitSystem: public System{
                     if(entity.HasComponent<SpriteComponent>()){                                                             // if entity has a sprite component...
                         const auto spriteComponent = entity.GetComponent<SpriteComponent>();                                // get entity's sprite component
                         projectilePosition.x += (spriteComponent.width / 2);                                                // offset projectile x position to sprite x-midpoint
-                        projectilePosition.y += (spriteComponent.height / 2) + 16;                                          // offset projectile y position to sprite y-midpoint (NOTE: remove + 16 later)
+                        projectilePosition.y += (spriteComponent.height / 2);                                               // offset projectile y position to sprite y-midpoint
                     }
 
                     projectile.AddComponent<TransformComponent>(projectilePosition, glm::vec2(1.0, 1.0), 0.0);              // add transform component to projectile entity
