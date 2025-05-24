@@ -139,6 +139,7 @@ void Game::Setup(){
 
     assetStore->AddTexture(renderer, "tank-image", "./assets/images/tank-panther-right.png");   // add tank texture
     assetStore->AddTexture(renderer, "truck-image", "./assets/images/truck-ford-right.png");    // add truck texture
+    assetStore->AddTexture(renderer, "tree-image", "./assets/images/tree.png");         // add tree texture
     assetStore->AddTexture(renderer, "chopper-image", "./assets/images/chopper-spritesheet.png");   // add chopper spritesheet
     assetStore->AddTexture(renderer, "radar-image", "./assets/images/radar.png");       // add radar texture
     assetStore->AddTexture(renderer, "jungle-map", "./assets/tilemaps/jungle.png");     // add jungle texture
@@ -230,6 +231,18 @@ void Game::Setup(){
     truck.AddComponent<BoxColliderComponent>(32, 32);
     truck.AddComponent<ProjectileEmitterComponent>(glm::vec2(100.0, 0.0), 1000, 2000, 25, false);   // add projectile emitter component to truck
     truck.AddComponent<HealthComponent>(100);                                           // add health component to truck
+
+    Entity treeA = registry->CreateEntity();                                            // create treeA entity
+    treeA.Group("obstacles");                                                           // add treeA to group "obstacles"
+    treeA.AddComponent<TransformComponent>(glm::vec2(400.0, 495.0), glm::vec2(1.0, 1.0), 0.0);  // add transform component to treeA
+    treeA.AddComponent<SpriteComponent>("tree-image", 16, 32, 1);                       // add sprite component to treeA
+    treeA.AddComponent<BoxColliderComponent>(16, 32);                                   // add box collider component to treeA
+
+    Entity treeB = registry->CreateEntity();                                            // create treeB entity
+    treeB.Group("obstacles");                                                           // add treeB to group "obstacles"
+    treeB.AddComponent<TransformComponent>(glm::vec2(600.0, 495.0), glm::vec2(1.0, 1.0), 0.0);  // add transform component to treeB
+    treeB.AddComponent<SpriteComponent>("tree-image", 16, 32, 1);                       // add sprite component to treeB
+    treeB.AddComponent<BoxColliderComponent>(16, 32);                                   // add box collider component to treeB
 
     Entity label = registry->CreateEntity();                                            // create label entity
     label.AddComponent<TransformComponent>(glm::vec2((windowWidth/2.0) - 40.0, 10.0), glm::vec2(1.0, 1.0), 0.0);  // add transform component to label
