@@ -20,6 +20,17 @@ class MovementSystem: public System{
                 transformComponent.position.x += rigidBodyComponent.velocity.x * deltaTime; // set entity x position using velocity x offset
                 transformComponent.position.y += rigidBodyComponent.velocity.y * deltaTime; // set entity y position using velocity y offset
 
+                bool isOutsideMap = (                                                                                       // determine if entity is outside map bounds
+                    transformComponent.position.x < 0 ||
+                    transformComponent.position.x > Game::fieldWidth ||
+                    transformComponent.position.y < 0 ||
+                    transformComponent.position.y > Game::fieldHeight
+                );
+
+                if(isOutsideMap && !entity.HasTag("player")){                                                               // if entity is outside map bounds and is not the player...
+                    entity.KillEntity();                                                                                    // ... kill the entity
+                }
+
                 // Logger::Log(
                 //     "Entity id = " +
                 //     std::to_string(entity.GetId()) +
