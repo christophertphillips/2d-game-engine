@@ -40,7 +40,7 @@ class RenderSystem: public System {
                 &dstRect,                                                               // destination rectangle (SDL rectangle pointer)
                 transformComponent.rotation,                                            // angle of rotation (double)
                 NULL,                                                                   // center of rotation (NULL == cetroid of sprite)
-                SDL_FLIP_NONE                                                           // sprite flipping (none specified)
+                spriteComponent.flip                                                    // sprite flipping
             );
         }
     }
