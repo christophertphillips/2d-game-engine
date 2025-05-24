@@ -88,7 +88,7 @@ Entity Registry::CreateEntity(){
     entity.registry = this;                                                             // set Entity's registry member to point to registry object
     entitiesToBeAdded.insert(entity);                                                   // add entity to entitiesToBeAdded set
 
-    Logger::Log("Entity created with id = " + std::to_string(entityId));                // log entity creation message
+    // Logger::Log("Entity created with id = " + std::to_string(entityId));                // log entity creation message
     return entity;                                                                      // return (copy of) entity
 };
 

@@ -284,7 +284,7 @@ void Registry::AddComponent(Entity entity, TArgs&& ...args){                    
     componentPool->Set(entityId, newComponent);                                         // set component at specified entity index in componentPool
     entityComponentSignatures[entityId].set(componentId);                               // set component bit to 1 in entity's component signature bitset
 
-    Logger::Log("Component id = " + std::to_string(componentId) + " was added to entity id = " + std::to_string(entityId));
+    // Logger::Log("Component id = " + std::to_string(componentId) + " was added to entity id = " + std::to_string(entityId));
 }
 
 template <typename T>
