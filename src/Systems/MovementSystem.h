@@ -57,12 +57,14 @@ class MovementSystem: public System{
                 transformComponent.position.x += rigidBodyComponent.velocity.x * deltaTime; // set entity x position using velocity x offset
                 transformComponent.position.y += rigidBodyComponent.velocity.y * deltaTime; // set entity y position using velocity y offset
 
-                bool isOutsideMap = (                                                                                       // determine if entity is outside map bounds
-                    transformComponent.position.x < 0 ||
-                    transformComponent.position.x > Game::fieldWidth ||
-                    transformComponent.position.y < 0 ||
-                    transformComponent.position.y > Game::fieldHeight
-                );
+                int xOffset = (entity.HasComponent<SpriteComponent>() ? entity.GetComponent<SpriteComponent>().width  : 0); // calculate horizontal sprite offset
+                int yOffset = (entity.HasComponent<SpriteComponent>() ? entity.GetComponent<SpriteComponent>().height : 0); // calculate vertical sprite offset
+
+                bool isOutsideMapW = transformComponent.position.x < 0;                                                     // determine if entity is beyond field boundary (west)
+                bool isOutsideMapE = transformComponent.position.x > Game::fieldWidth - xOffset;                            // determine if entity is beyond field boundary (east)
+                bool isOutsideMapN = transformComponent.position.y < 0;                                                     // determine if entity is beyond field boundary (north)
+                bool isOutsideMapS = transformComponent.position.y > Game::fieldHeight - yOffset;                           // determine if entity is beyond field boundary (south)
+                bool isOutsideMap = ( isOutsideMapW || isOutsideMapE || isOutsideMapN | isOutsideMapS );                    // determine if entity is beyond field boundary (any)
 
                 if(isOutsideMap && !entity.HasTag("player")){                                                               // if entity is outside map bounds and is not the player...
                     entity.KillEntity();                                                                                    // ... kill the entity
