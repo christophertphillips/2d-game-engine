@@ -66,8 +66,24 @@ class MovementSystem: public System{
                 bool isOutsideMapS = transformComponent.position.y > Game::fieldHeight - yOffset;                           // determine if entity is beyond field boundary (south)
                 bool isOutsideMap = ( isOutsideMapW || isOutsideMapE || isOutsideMapN | isOutsideMapS );                    // determine if entity is beyond field boundary (any)
 
-                if(isOutsideMap && !entity.HasTag("player")){                                                               // if entity is outside map bounds and is not the player...
-                    entity.KillEntity();                                                                                    // ... kill the entity
+                if(isOutsideMap){                                                                                           // if the entity is outside the map bounds...
+                    if(!entity.HasTag("player")){                                                                           // ... and the entity is not the player...
+                        entity.KillEntity();                                                                                // ... kill the entity
+                    }
+                    else{                                                                                                   // else, entity must be be the player...
+                        if(isOutsideMapW){
+                            transformComponent.position.x = 0;                                                              // block movement beyond west of field
+                        }
+                        if(isOutsideMapE){
+                            transformComponent.position.x = Game::fieldWidth - xOffset;                                     // block movement beyond east of field
+                        }
+                        if(isOutsideMapN){
+                            transformComponent.position.y = 0;                                                              // block movement beyond north of field
+                        }
+                        if(isOutsideMapS){
+                            transformComponent.position.y = Game::fieldHeight- yOffset;                                     // block movement beyond south of field
+                        }
+                    }
                 }
 
                 // Logger::Log(
