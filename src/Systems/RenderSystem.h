@@ -22,7 +22,7 @@ class RenderSystem: public System {
         std::copy_if(entities.begin(), entities.end(), std::back_inserter(onscreenEntities), [&camera](Entity& entity) {    // cull offscreen entities
             const auto transformComponent = entity.GetComponent<TransformComponent>();                                      // get entity's transform component
             const auto spriteComponent = entity.GetComponent<SpriteComponent>();                                            // get entity's sprite component
-            return !(                                                                                                       // return true if inside screen bounds
+            return spriteComponent.isFixed || !(                                                                            // return true if fixed or inside screen bounds
                 transformComponent.position.x + (spriteComponent.width * transformComponent.scale.x) < camera.x ||          // determine if entity is beyond field boundary (west)
                 transformComponent.position.x > camera.x + camera.w ||                                                      // determine if entity is beyond field boundary (east)
                 transformComponent.position.y + (spriteComponent.height * transformComponent.scale.y) < camera.y ||         // determine if entity is beyond field boundary (north)
