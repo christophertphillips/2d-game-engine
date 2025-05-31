@@ -6,6 +6,7 @@
 #include "../Components/SpriteComponent.h"
 #include <SDL2/SDL.h>
 #include "../AssetStore/AssetStore.h"
+#include <algorithm>
 
 class RenderSystem: public System {
     public:
@@ -16,11 +17,24 @@ class RenderSystem: public System {
 
     void Update(SDL_Renderer* renderer, std::unique_ptr<AssetStore>& assetStore, SDL_Rect& camera){
         std::vector<Entity> entities = GetSystemEntities();                             // get all entities associated with system
-        std::sort(entities.begin(), entities.end(), [](Entity& entity0, Entity& entity1){   // sort entities by ascending z-index
+        std::vector<Entity> onscreenEntities;                                                                               // create vector to hold onscreen (non-culled) entities
+
+        std::copy_if(entities.begin(), entities.end(), std::back_inserter(onscreenEntities), [&camera](Entity& entity) {    // cull offscreen entities
+            const auto transformComponent = entity.GetComponent<TransformComponent>();                                      // get entity's transform component
+            const auto spriteComponent = entity.GetComponent<SpriteComponent>();                                            // get entity's sprite component
+            return !(                                                                                                       // return true if inside screen bounds
+                transformComponent.position.x + (spriteComponent.width * transformComponent.scale.x) < camera.x ||          // determine if entity is beyond field boundary (west)
+                transformComponent.position.x > camera.x + camera.w ||                                                      // determine if entity is beyond field boundary (east)
+                transformComponent.position.y + (spriteComponent.height * transformComponent.scale.y) < camera.y ||         // determine if entity is beyond field boundary (north)
+                transformComponent.position.y > camera.y + camera.h                                                         // determine if entity is beyond field boundary (south)
+            );
+        });
+
+        std::sort(onscreenEntities.begin(), onscreenEntities.end(), [](Entity& entity0, Entity& entity1){                   // sort (onscreen) entities by ascending z-index
             return entity0.GetComponent<SpriteComponent>().zIndex < entity1.GetComponent<SpriteComponent>().zIndex;
         });
 
-        for(auto entity: entities){                                                     // iterate through all (sorted) entities associated with system
+        for(auto entity: onscreenEntities){                                             // iterate through all (sorted, onscreen) entities associated with system
             const auto transformComponent = entity.GetComponent<TransformComponent>();  // get entity's transform component
             const auto spriteComponent = entity.GetComponent<SpriteComponent>();        // get entity's sprite component
 
