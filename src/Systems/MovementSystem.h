@@ -57,8 +57,8 @@ class MovementSystem: public System{
                 transformComponent.position.x += rigidBodyComponent.velocity.x * deltaTime; // set entity x position using velocity x offset
                 transformComponent.position.y += rigidBodyComponent.velocity.y * deltaTime; // set entity y position using velocity y offset
 
-                int xOffset = (entity.HasComponent<SpriteComponent>() ? entity.GetComponent<SpriteComponent>().width  : 0); // calculate horizontal sprite offset
-                int yOffset = (entity.HasComponent<SpriteComponent>() ? entity.GetComponent<SpriteComponent>().height : 0); // calculate vertical sprite offset
+                int xOffset = (entity.HasComponent<SpriteComponent>() ? (entity.GetComponent<SpriteComponent>().width  * transformComponent.scale.x) : 0);  // calculate horizontal sprite offset
+                int yOffset = (entity.HasComponent<SpriteComponent>() ? (entity.GetComponent<SpriteComponent>().height * transformComponent.scale.y) : 0);  // calculate vertical sprite offset
 
                 bool isOutsideMapW = transformComponent.position.x < 0;                                                     // determine if entity is beyond field boundary (west)
                 bool isOutsideMapE = transformComponent.position.x > Game::fieldWidth - xOffset;                            // determine if entity is beyond field boundary (east)
