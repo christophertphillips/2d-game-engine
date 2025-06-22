@@ -143,16 +143,6 @@ void Game::Setup(){
     lua.open_libraries(sol::lib::base, sol::lib::math);                                 // load libraries into Lua virtual machine
     levelLoader.LoadLevel(lua, renderer, registry, assetStore, 1);                      // load first level
 
-    assetStore->AddTexture(renderer, "tank-image", "./assets/images/tank-panther-right.png");   // add tank texture
-    assetStore->AddTexture(renderer, "truck-image", "./assets/images/truck-ford-right.png");    // add truck texture
-    assetStore->AddTexture(renderer, "tree-image", "./assets/images/tree.png");         // add tree texture
-    assetStore->AddTexture(renderer, "chopper-image", "./assets/images/chopper-spritesheet.png");   // add chopper spritesheet
-    assetStore->AddTexture(renderer, "radar-image", "./assets/images/radar.png");       // add radar texture
-    assetStore->AddTexture(renderer, "jungle-map", "./assets/tilemaps/jungle.png");     // add jungle texture
-    assetStore->AddTexture(renderer, "bullet-image", "./assets/images/bullet.png") ;     // add bullet texture
-    assetStore->AddFont("charriot-font", "./assets/fonts/charriot.ttf", 24);            // add charriot font
-    assetStore->AddFont("charriot-font-12", "./assets/fonts/charriot.ttf", 12);         // add charriot (size 12) font
-
     int tileSize = 32;                                                                  // initialize tile size (32 x 32)
     double tileScale = 2.0;                                                             // initialize tile scale
     int tileIndexX = 0;                                                                 // initialize tile x index

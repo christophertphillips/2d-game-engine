@@ -30,4 +30,20 @@ void LevelLoader::LoadLevel(sol::state& lua, SDL_Renderer* renderer, const std::
 
     lua.script_file(luaScriptPath);                                                                                         // load (and execute) the Lua script
 
+    // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    // Load assets
+
+    sol::table assets = lua["level"]["assets"];                                                                             // load Lua table "level/assets"
+    for(int i = 0; i <= assets.size(); i++){                                                                                // iterate through items in "level/assets" table...
+
+        sol::table asset = assets[i];                                                                                       // get asset (Lua table "level/assets/[assset[i]]")
+        std::string assetType = asset["type"];                                                                              // get asset type
+        if(assetType == "texture"){                                                                                         // if asset is a texture...
+            assetStore->AddTexture(renderer, asset["id"], asset["file_path"]);                                              // ... load texture into asset store
+        }
+        else if(assetType == "font"){                                                                                       // ... else if asset is a font...
+            assetStore->AddFont(asset["id"], asset["file_path"], asset["font_size"]);                                       // ... load font into the asset store
+        }
+    }
+
 }
