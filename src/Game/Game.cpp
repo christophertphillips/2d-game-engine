@@ -35,6 +35,8 @@
 #include <imgui/imgui_impl_sdl2.h>
 #include <imgui/imgui_impl_sdlrenderer2.h>
 #include "../Systems/RenderGUISystem.h"
+#include "./LevelLoader.h"
+#include <sol/sol.hpp>
 
 int Game::windowWidth;
 int Game::windowHeight;
@@ -136,6 +138,10 @@ void Game::Setup(){
     registry->AddSystem<RenderTextSystem>();                                            // add render-text system
     registry->AddSystem<RenderHealthSystem>();                                          // add render-health system
     registry->AddSystem<RenderGUISystem>();                                             // add render-gui system
+
+    LevelLoader levelLoader;                                                            // create LevelLoader instance
+    lua.open_libraries(sol::lib::base, sol::lib::math);                                 // load libraries into Lua virtual machine
+    levelLoader.LoadLevel(lua, renderer, registry, assetStore, 1);                      // load first level
 
     assetStore->AddTexture(renderer, "tank-image", "./assets/images/tank-panther-right.png");   // add tank texture
     assetStore->AddTexture(renderer, "truck-image", "./assets/images/truck-ford-right.png");    // add truck texture
