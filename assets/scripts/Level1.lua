@@ -10,5 +10,11 @@ level = {
         { type = "texture", id = "tree-image",       file_path = "./assets/images/tree.png"                                },
         { type = "font",    id = "charriot-font",    file_path = "./assets/fonts/charriot.ttf",             font_size = 24 },
         { type = "font",    id = "charriot-font-12", file_path = "./assets/fonts/charriot.ttf",             font_size = 12 },
+    },
+    tilemap = {
+        map_file_path = "./assets/tilemaps/jungle.map",
+        texture_id = "tilemap-texture",
+        tile_size = 32,
+        tile_scale = 2.0
     }
 }
