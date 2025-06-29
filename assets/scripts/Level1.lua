@@ -16,5 +16,29 @@ level = {
         texture_id = "tilemap-texture",
         tile_size = 32,
         tile_scale = 2.0
+    },
+    entities = {
+        [0] =
+        {
+            tag = "player",
+        },
+        {
+
+        },
+        {
+            group = "enemies",
+        },
+        {
+            group = "enemies",
+        },
+        {
+            group = "obstacles",
+        },
+        {
+            group = "obstacles",
+        },
+        {
+
+        },
     }
 }

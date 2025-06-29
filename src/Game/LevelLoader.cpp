@@ -118,7 +118,6 @@ void LevelLoader::LoadLevel(sol::state& lua, SDL_Renderer* renderer, const std::
     // Load entities and assign components
 
     Entity chopper = registry->CreateEntity();                                          // create chopper entity
-    chopper.Tag("player");                                                              // add 'player' tag to chopper
     chopper.AddComponent<TransformComponent>(glm::vec2(100.0, 100.0), glm::vec2(1.0, 1.0), 0.0);    // add transform component to chopper
     chopper.AddComponent<RigidBodyComponent>(glm::vec2(0.0, 0.0));                      // add rigid body component to chopper
     chopper.AddComponent<SpriteComponent>("chopper-image", 32, 32, 1);                  // add sprite component to chopper
@@ -136,7 +135,6 @@ void LevelLoader::LoadLevel(sol::state& lua, SDL_Renderer* renderer, const std::
     radar.AddComponent<AnimationComponent>(8,5);                                        // add animation component to chopper
 
     Entity tank = registry->CreateEntity();                                             // create tank entity
-    tank.Group("enemies");                                                              // add 'enemies' tag to tank
     tank.AddComponent<TransformComponent>(glm::vec2(500.0, 500.0), glm::vec2(1.0, 1.0), 0.0);  // add transform component to tank
     tank.AddComponent<RigidBodyComponent>(glm::vec2(25.0, 0.0));                        // add rigid body component to tank
     tank.AddComponent<SpriteComponent>("tank-image", 32, 32, 1);                        // add sprite component to tank
@@ -145,7 +143,6 @@ void LevelLoader::LoadLevel(sol::state& lua, SDL_Renderer* renderer, const std::
     tank.AddComponent<HealthComponent>(100);                                            // add health component to tank
 
     Entity truck = registry->CreateEntity();                                             // create truck entity
-    truck.Group("enemies");                                                             // add 'enemies' tag to truck
     truck.AddComponent<TransformComponent>(glm::vec2(115.0, 500.0), glm::vec2(1.0, 1.0), 0.0);  // add transform component to truck
     truck.AddComponent<RigidBodyComponent>(glm::vec2(0.0, 0.0));                        // add rigid body component to truck
     truck.AddComponent<SpriteComponent>("truck-image", 32, 32, 1);                      // add sprite component to truck
@@ -154,13 +151,11 @@ void LevelLoader::LoadLevel(sol::state& lua, SDL_Renderer* renderer, const std::
     truck.AddComponent<HealthComponent>(100);                                           // add health component to truck
 
     Entity treeA = registry->CreateEntity();                                            // create treeA entity
-    treeA.Group("obstacles");                                                           // add treeA to group "obstacles"
     treeA.AddComponent<TransformComponent>(glm::vec2(400.0, 495.0), glm::vec2(1.0, 1.0), 0.0);  // add transform component to treeA
     treeA.AddComponent<SpriteComponent>("tree-image", 16, 32, 1);                       // add sprite component to treeA
     treeA.AddComponent<BoxColliderComponent>(16, 32);                                   // add box collider component to treeA
 
     Entity treeB = registry->CreateEntity();                                            // create treeB entity
-    treeB.Group("obstacles");                                                           // add treeB to group "obstacles"
     treeB.AddComponent<TransformComponent>(glm::vec2(600.0, 495.0), glm::vec2(1.0, 1.0), 0.0);  // add transform component to treeB
     treeB.AddComponent<SpriteComponent>("tree-image", 16, 32, 1);                       // add sprite component to treeB
     treeB.AddComponent<BoxColliderComponent>(16, 32);                                   // add box collider component to treeB
@@ -170,4 +165,20 @@ void LevelLoader::LoadLevel(sol::state& lua, SDL_Renderer* renderer, const std::
     SDL_Color green = { 0, 255, 0 };                                                    // create SLD_Color struct
     label.AddComponent<TextLabelComponent>("CHOPPER 1.0", "charriot-font", green, true);  // add text label component to label
 
+    std::vector<Entity> initializedEntities = {chopper, radar, tank, truck, treeA, treeB, label};                           // [temporary vector for storing initialized entities]
+
+    sol::table entitiesTable = lua["level"]["entities"];                                                                    // get entities table ("level/entities")
+    for(int i = 0; i <= entitiesTable.size(); i++){                                                                         // iterate through items in "level/entities" table...
+        sol::table entityTable = entitiesTable[i];                                                                          // get entity table ("level/entities/[entity[i]]")
+
+        sol::optional<std::string> hasTag = entityTable["tag"];                                                             // if entity has a tag...
+        if(hasTag != sol::nullopt){                                                                                         // ...
+            initializedEntities[i].Tag(entityTable["tag"]);                                                                 // add tag to entity
+        }
+
+        sol::optional<std::string> hasGroup = entityTable["group"];                                                         // if entity has a group...
+        if(hasGroup != sol::nullopt){                                                                                       // ...
+            initializedEntities[i].Group(entityTable["group"]);                                                             // add group to entity
+        }
+    }
 }
