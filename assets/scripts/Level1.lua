@@ -21,24 +21,113 @@ level = {
         [0] =
         {
             tag = "player",
+            components = {
+                transform_component = {
+                    position = {
+                        x = 100.0,
+                        y = 100.0,
+                    },
+                    scale = {
+                        x = 1.0,
+                        y = 1.0,
+                    },
+                    rotation = 0.0,
+                },
+            },
         },
         {
-
+            components = {
+                transform_component = {
+                    position = {
+                        x = 726.0,
+                        y = 10.0,
+                    },
+                    scale = {
+                        x = 1.0,
+                        y = 1.0,
+                    },
+                    rotation = 0.0,
+                },
+            },
         },
         {
             group = "enemies",
+            components = {
+                transform_component = {
+                    position = {
+                        x = 500.0,
+                        y = 500.0,
+                    },
+                    scale = {
+                        x = 1.0,
+                        y = 1.0,
+                    },
+                    rotation = 0.0,
+                },
+            },
         },
         {
             group = "enemies",
+            components = {
+                transform_component = {
+                    position = {
+                        x = 115.0,
+                        y = 500.0,
+                    },
+                    scale = {
+                        x = 1.0,
+                        y = 1.0,
+                    },
+                    rotation = 0.0,
+                },
+            },
         },
         {
             group = "obstacles",
+            components = {
+                transform_component = {
+                    position = {
+                        x = 400.0,
+                        y = 490.0,
+                    },
+                    scale = {
+                        x = 1.0,
+                        y = 1.0,
+                    },
+                    rotation = 0.0,
+                },
+            },
         },
         {
             group = "obstacles",
+            components = {
+                transform_component = {
+                    position = {
+                        x = 600.0,
+                        y = 495.0,
+                    },
+                    scale = {
+                        x = 1.0,
+                        y = 1.0,
+                    },
+                    rotation = 0.0,
+                },
+            },
         },
         {
-
+            components = {
+                transform_component = {
+                    position = {
+                        x = 360.0,
+                        y = 10.0,
+                    },
+                    scale = {
+                        x = 1.0,
+                        y = 1.0,
+                    },
+                    rotation = 0.0,
+                },
+            },
         },
     }
 }

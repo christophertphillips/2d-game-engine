@@ -118,7 +118,6 @@ void LevelLoader::LoadLevel(sol::state& lua, SDL_Renderer* renderer, const std::
     // Load entities and assign components
 
     Entity chopper = registry->CreateEntity();                                          // create chopper entity
-    chopper.AddComponent<TransformComponent>(glm::vec2(100.0, 100.0), glm::vec2(1.0, 1.0), 0.0);    // add transform component to chopper
     chopper.AddComponent<RigidBodyComponent>(glm::vec2(0.0, 0.0));                      // add rigid body component to chopper
     chopper.AddComponent<SpriteComponent>("chopper-image", 32, 32, 1);                  // add sprite component to chopper
     chopper.AddComponent<BoxColliderComponent>(32, 32);                                 // add box collider component to chopper
@@ -129,13 +128,11 @@ void LevelLoader::LoadLevel(sol::state& lua, SDL_Renderer* renderer, const std::
     chopper.AddComponent<ProjectileEmitterComponent>(glm::vec2(200.0, 200.0), 0, 4000, 25, true);    // add projectile emitter component to chopper
 
     Entity radar = registry->CreateEntity();                                            // add radar entity
-    radar.AddComponent<TransformComponent>(glm::vec2(Game::windowWidth - 74, 10.0), glm::vec2(1.0, 1.0), 0.0);    // add transform component to radar
     // radar.AddComponent<RigidBodyComponent>(glm::vec2(0.0, 0.0));                     // add rigid body component to radar
     radar.AddComponent<SpriteComponent>("radar-image", 64, 64, 1, true);                // add sprite component to radar
     radar.AddComponent<AnimationComponent>(8,5);                                        // add animation component to chopper
 
     Entity tank = registry->CreateEntity();                                             // create tank entity
-    tank.AddComponent<TransformComponent>(glm::vec2(500.0, 500.0), glm::vec2(1.0, 1.0), 0.0);  // add transform component to tank
     tank.AddComponent<RigidBodyComponent>(glm::vec2(25.0, 0.0));                        // add rigid body component to tank
     tank.AddComponent<SpriteComponent>("tank-image", 32, 32, 1);                        // add sprite component to tank
     tank.AddComponent<BoxColliderComponent>(32, 32);
@@ -143,7 +140,6 @@ void LevelLoader::LoadLevel(sol::state& lua, SDL_Renderer* renderer, const std::
     tank.AddComponent<HealthComponent>(100);                                            // add health component to tank
 
     Entity truck = registry->CreateEntity();                                             // create truck entity
-    truck.AddComponent<TransformComponent>(glm::vec2(115.0, 500.0), glm::vec2(1.0, 1.0), 0.0);  // add transform component to truck
     truck.AddComponent<RigidBodyComponent>(glm::vec2(0.0, 0.0));                        // add rigid body component to truck
     truck.AddComponent<SpriteComponent>("truck-image", 32, 32, 1);                      // add sprite component to truck
     truck.AddComponent<BoxColliderComponent>(32, 32);
@@ -151,17 +147,14 @@ void LevelLoader::LoadLevel(sol::state& lua, SDL_Renderer* renderer, const std::
     truck.AddComponent<HealthComponent>(100);                                           // add health component to truck
 
     Entity treeA = registry->CreateEntity();                                            // create treeA entity
-    treeA.AddComponent<TransformComponent>(glm::vec2(400.0, 495.0), glm::vec2(1.0, 1.0), 0.0);  // add transform component to treeA
     treeA.AddComponent<SpriteComponent>("tree-image", 16, 32, 1);                       // add sprite component to treeA
     treeA.AddComponent<BoxColliderComponent>(16, 32);                                   // add box collider component to treeA
 
     Entity treeB = registry->CreateEntity();                                            // create treeB entity
-    treeB.AddComponent<TransformComponent>(glm::vec2(600.0, 495.0), glm::vec2(1.0, 1.0), 0.0);  // add transform component to treeB
     treeB.AddComponent<SpriteComponent>("tree-image", 16, 32, 1);                       // add sprite component to treeB
     treeB.AddComponent<BoxColliderComponent>(16, 32);                                   // add box collider component to treeB
 
     Entity label = registry->CreateEntity();                                            // create label entity
-    label.AddComponent<TransformComponent>(glm::vec2((Game::windowWidth/2.0) - 40.0, 10.0), glm::vec2(1.0, 1.0), 0.0);  // add transform component to label
     SDL_Color green = { 0, 255, 0 };                                                    // create SLD_Color struct
     label.AddComponent<TextLabelComponent>("CHOPPER 1.0", "charriot-font", green, true);  // add text label component to label
 
@@ -179,6 +172,29 @@ void LevelLoader::LoadLevel(sol::state& lua, SDL_Renderer* renderer, const std::
         sol::optional<std::string> hasGroup = entityTable["group"];                                                         // if entity has a group...
         if(hasGroup != sol::nullopt){                                                                                       // ...
             initializedEntities[i].Group(entityTable["group"]);                                                             // add group to entity
+        }
+
+        sol::optional<sol::table> hasComponents = entityTable["components"];                                                // if entity has components...
+        if(hasComponents != sol::nullopt){                                                                                  // ...
+
+            sol::optional<sol::table> hasTransformComponent = entityTable["components"]["transform_component"];             // if entity has transform component...
+            if(hasTransformComponent != sol::nullopt){                                                                      // ...
+
+                sol::table transformComponentTable = entityTable["components"]["transform_component"];                      // get transform component table ("level/entities/[entity[i]]/transform_component")
+                initializedEntities[i].AddComponent<TransformComponent>(                                                    // add transform component to entity
+                    glm::vec2(
+                        transformComponentTable["position"]["x"],                                                           // x position
+                        transformComponentTable["position"]["y"]                                                            // y position
+                    ),
+                    glm::vec2(
+                        transformComponentTable["scale"]["x"].get_or(1.0),                                                  // x scale
+                        transformComponentTable["scale"]["y"].get_or(1.0)                                                   // y scale
+                    ),
+                    transformComponentTable["rotation"].get_or(0.0)                                                         // rotation
+                );
+
+            }
+
         }
     }
 }
