@@ -48,6 +48,18 @@ level = {
                     src_rect_x = 0,
                     src_rect_y = 0,
                 },
+                box_collider_component = {
+                    width = 32,
+                    height = 32,
+                    scale = {
+                        x = 1.0,
+                        y = 1.0,
+                    },
+                    offset = {
+                        x = 0.0,
+                        y = 0.0,
+                    },
+                },
             },
         },
         {
@@ -103,6 +115,18 @@ level = {
                     src_rect_x = 0,
                     src_rect_y = 0,
                 },
+                box_collider_component = {
+                    width = 32,
+                    height = 32,
+                    scale = {
+                        x = 1.0,
+                        y = 1.0,
+                    },
+                    offset = {
+                        x = 0.0,
+                        y = 0.0,
+                    },
+                },
             },
         },
         {
@@ -134,6 +158,18 @@ level = {
                     src_rect_x = 0,
                     src_rect_y = 0,
                 },
+                box_collider_component = {
+                    width = 32,
+                    height = 32,
+                    scale = {
+                        x = 1.0,
+                        y = 1.0,
+                    },
+                    offset = {
+                        x = 0.0,
+                        y = 0.0,
+                    },
+                },
             },
         },
         {
@@ -159,6 +195,18 @@ level = {
                     src_rect_x = 0,
                     src_rect_y = 0,
                 },
+                box_collider_component = {
+                    width = 16,
+                    height = 32,
+                    scale = {
+                        x = 1.0,
+                        y = 1.0,
+                    },
+                    offset = {
+                        x = 0.0,
+                        y = 0.0,
+                    },
+                },
             },
         },
         {
@@ -183,6 +231,18 @@ level = {
                     is_fixed = false,
                     src_rect_x = 0,
                     src_rect_y = 0,
+                },
+                box_collider_component = {
+                    width = 16,
+                    height = 32,
+                    scale = {
+                        x = 1.0,
+                        y = 1.0,
+                    },
+                    offset = {
+                        x = 0.0,
+                        y = 0.0,
+                    },
                 },
             },
         },

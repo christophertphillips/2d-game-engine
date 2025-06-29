@@ -119,7 +119,6 @@ void LevelLoader::LoadLevel(sol::state& lua, SDL_Renderer* renderer, const std::
     // Load entities and assign components
 
     Entity chopper = registry->CreateEntity();                                          // create chopper entity
-    chopper.AddComponent<BoxColliderComponent>(32, 32);                                 // add box collider component to chopper
     chopper.AddComponent<AnimationComponent>(2, 15);                                    // add animation component to chopper
     chopper.AddComponent<KeyboardControlledComponent>(glm::vec2(0, -80), glm::vec2(80, 0), glm::vec2(0, 80), glm::vec2(-80, 0)); // add keyboard controlled component to chopper
     chopper.AddComponent<CameraFollowComponent>();                                      // add camera follow component to chopper
@@ -130,20 +129,16 @@ void LevelLoader::LoadLevel(sol::state& lua, SDL_Renderer* renderer, const std::
     radar.AddComponent<AnimationComponent>(8,5);                                        // add animation component to chopper
 
     Entity tank = registry->CreateEntity();                                             // create tank entity
-    tank.AddComponent<BoxColliderComponent>(32, 32);
     tank.AddComponent<ProjectileEmitterComponent>(glm::vec2(0.0, -100.0), 1000, 4000, 25, false);   // add projectile emitter component to tank
     tank.AddComponent<HealthComponent>(100);                                            // add health component to tank
 
     Entity truck = registry->CreateEntity();                                             // create truck entity
-    truck.AddComponent<BoxColliderComponent>(32, 32);
     truck.AddComponent<ProjectileEmitterComponent>(glm::vec2(0.0, -100.0), 1000, 2000, 25, false);   // add projectile emitter component to truck
     truck.AddComponent<HealthComponent>(100);                                           // add health component to truck
 
     Entity treeA = registry->CreateEntity();                                            // create treeA entity
-    treeA.AddComponent<BoxColliderComponent>(16, 32);                                   // add box collider component to treeA
 
     Entity treeB = registry->CreateEntity();                                            // create treeB entity
-    treeB.AddComponent<BoxColliderComponent>(16, 32);                                   // add box collider component to treeB
 
     Entity label = registry->CreateEntity();                                            // create label entity
     SDL_Color green = { 0, 255, 0 };                                                    // create SLD_Color struct
@@ -211,6 +206,25 @@ void LevelLoader::LoadLevel(sol::state& lua, SDL_Renderer* renderer, const std::
                     spriteComponentTable["is_fixed"].get_or(false),                                                         // is sprite fixed onscreen
                     spriteComponentTable["src_rec_x"],                                                                      // source rectangle x
                     spriteComponentTable["src_rec_y"]                                                                       // source rectangle y
+                );
+
+            }
+
+            sol::optional<sol::table> hasBoxColliderComponentTable = entityTable["components"]["box_collider_component"];   // if entity has box collider component...
+            if(hasBoxColliderComponentTable != sol::nullopt){                                                               // ...
+
+                sol::table boxColliderComponentTable = entityTable["components"]["box_collider_component"];                 // get box collider component table ("level/entities/[entity[i]]/box_collider_component")
+                initializedEntities[i].AddComponent<BoxColliderComponent>(                                                  // add box collider component to entity
+                    boxColliderComponentTable["width"],                                                                     // box collider width
+                    boxColliderComponentTable["height"],                                                                    // box collider height
+                    glm::vec2(
+                        boxColliderComponentTable["scale"]["x"].get_or(1.0),                                                // box collider x scale
+                        boxColliderComponentTable["scale"]["y"].get_or(1.0)                                                 // box collider y scale
+                    ),
+                    glm::vec2(
+                        boxColliderComponentTable["offset"]["x"],                                                           // box collider x offset
+                        boxColliderComponentTable["offset"]["y"]                                                            // box collider y offset
+                    )
                 );
 
             }
