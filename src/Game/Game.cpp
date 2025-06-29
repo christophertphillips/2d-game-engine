@@ -5,30 +5,20 @@
 #include <glm/glm.hpp>
 #include <iostream>
 #include "../ECS/ECS.h"
-#include "../Components/TransformComponent.h"
-#include "../Components/RigidBodyComponent.h"
 #include "../Systems/MovementSystem.h"
 #include "../Systems/RenderSystem.h"
-#include "../Components/SpriteComponent.h"
 #include <fstream>
 #include <sstream>
 #include "../Systems/AnimationSystem.h"
-#include "../Components/AnimationComponent.h"
 #include "../Systems/CollisionSystem.h"
-#include "../Components/BoxColliderComponent.h"
 #include "../Systems/RenderCollisionSystem.h"
 #include "../Systems/DamageSystem.h"
 #include "../Systems/KeyboardControlSystem.h"
 #include "../Events/KeyPressedEvent.h"
-#include "../Components/KeyboardControlledComponent.h"
-#include "../Components/CameraFollowComponent.h"
 #include "../Systems/CameraMovementSystem.h"
-#include "../Components/ProjectileEmitterComponent.h"
 #include "../Systems/ProjectileEmitSystem.h"
-#include "../Components/HealthComponent.h"
 #include "../Systems/ProjectileLifecycleSystem.h"
 #include <SDL2/SDL_ttf.h>
-#include "../Components/TextLabelComponent.h"
 #include "../Systems/RenderTextSystem.h"
 #include "../Systems/RenderHealthSystem.h"
 #include <imgui/imgui.h>
@@ -142,59 +132,6 @@ void Game::Setup(){
     LevelLoader levelLoader;                                                            // create LevelLoader instance
     lua.open_libraries(sol::lib::base, sol::lib::math);                                 // load libraries into Lua virtual machine
     levelLoader.LoadLevel(lua, renderer, registry, assetStore, 1);                      // load first level
-
-    Entity chopper = registry->CreateEntity();                                          // create chopper entity
-    chopper.Tag("player");                                                              // add 'player' tag to chopper
-    chopper.AddComponent<TransformComponent>(glm::vec2(100.0, 100.0), glm::vec2(1.0, 1.0), 0.0);    // add transform component to chopper
-    chopper.AddComponent<RigidBodyComponent>(glm::vec2(0.0, 0.0));                      // add rigid body component to chopper
-    chopper.AddComponent<SpriteComponent>("chopper-image", 32, 32, 1);                  // add sprite component to chopper
-    chopper.AddComponent<BoxColliderComponent>(32, 32);                                 // add box collider component to chopper
-    chopper.AddComponent<AnimationComponent>(2, 15);                                    // add animation component to chopper
-    chopper.AddComponent<KeyboardControlledComponent>(glm::vec2(0, -80), glm::vec2(80, 0), glm::vec2(0, 80), glm::vec2(-80, 0)); // add keyboard controlled component to chopper
-    chopper.AddComponent<CameraFollowComponent>();                                      // add camera follow component to chopper
-    chopper.AddComponent<HealthComponent>(100);                                         // add health component to chopper
-    chopper.AddComponent<ProjectileEmitterComponent>(glm::vec2(200.0, 200.0), 0, 4000, 25, true);    // add projectile emitter component to chopper
-
-    Entity radar = registry->CreateEntity();                                            // add radar entity
-    radar.AddComponent<TransformComponent>(glm::vec2(windowWidth - 74, 10.0), glm::vec2(1.0, 1.0), 0.0);    // add transform component to radar
-    // radar.AddComponent<RigidBodyComponent>(glm::vec2(0.0, 0.0));                     // add rigid body component to radar
-    radar.AddComponent<SpriteComponent>("radar-image", 64, 64, 1, true);                // add sprite component to radar
-    radar.AddComponent<AnimationComponent>(8,5);                                        // add animation component to chopper
-
-    Entity tank = registry->CreateEntity();                                             // create tank entity
-    tank.Group("enemies");                                                              // add 'enemies' tag to tank
-    tank.AddComponent<TransformComponent>(glm::vec2(500.0, 500.0), glm::vec2(1.0, 1.0), 0.0);  // add transform component to tank
-    tank.AddComponent<RigidBodyComponent>(glm::vec2(25.0, 0.0));                        // add rigid body component to tank
-    tank.AddComponent<SpriteComponent>("tank-image", 32, 32, 1);                        // add sprite component to tank
-    tank.AddComponent<BoxColliderComponent>(32, 32);
-    tank.AddComponent<ProjectileEmitterComponent>(glm::vec2(0.0, -100.0), 1000, 4000, 25, false);   // add projectile emitter component to tank
-    tank.AddComponent<HealthComponent>(100);                                            // add health component to tank
-
-    Entity truck = registry->CreateEntity();                                             // create truck entity
-    truck.Group("enemies");                                                             // add 'enemies' tag to truck
-    truck.AddComponent<TransformComponent>(glm::vec2(115.0, 500.0), glm::vec2(1.0, 1.0), 0.0);  // add transform component to truck
-    truck.AddComponent<RigidBodyComponent>(glm::vec2(0.0, 0.0));                        // add rigid body component to truck
-    truck.AddComponent<SpriteComponent>("truck-image", 32, 32, 1);                      // add sprite component to truck
-    truck.AddComponent<BoxColliderComponent>(32, 32);
-    truck.AddComponent<ProjectileEmitterComponent>(glm::vec2(0.0, -100.0), 1000, 2000, 25, false);   // add projectile emitter component to truck
-    truck.AddComponent<HealthComponent>(100);                                           // add health component to truck
-
-    Entity treeA = registry->CreateEntity();                                            // create treeA entity
-    treeA.Group("obstacles");                                                           // add treeA to group "obstacles"
-    treeA.AddComponent<TransformComponent>(glm::vec2(400.0, 495.0), glm::vec2(1.0, 1.0), 0.0);  // add transform component to treeA
-    treeA.AddComponent<SpriteComponent>("tree-image", 16, 32, 1);                       // add sprite component to treeA
-    treeA.AddComponent<BoxColliderComponent>(16, 32);                                   // add box collider component to treeA
-
-    Entity treeB = registry->CreateEntity();                                            // create treeB entity
-    treeB.Group("obstacles");                                                           // add treeB to group "obstacles"
-    treeB.AddComponent<TransformComponent>(glm::vec2(600.0, 495.0), glm::vec2(1.0, 1.0), 0.0);  // add transform component to treeB
-    treeB.AddComponent<SpriteComponent>("tree-image", 16, 32, 1);                       // add sprite component to treeB
-    treeB.AddComponent<BoxColliderComponent>(16, 32);                                   // add box collider component to treeB
-
-    Entity label = registry->CreateEntity();                                            // create label entity
-    label.AddComponent<TransformComponent>(glm::vec2((windowWidth/2.0) - 40.0, 10.0), glm::vec2(1.0, 1.0), 0.0);  // add transform component to label
-    SDL_Color green = { 0, 255, 0 };                                                    // create SLD_Color struct
-    label.AddComponent<TextLabelComponent>("CHOPPER 1.0", "charriot-font", green, true);  // add text label component to label
 }
 
 void Game::ProcessInput(){
