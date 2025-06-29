@@ -33,6 +33,12 @@ level = {
                     },
                     rotation = 0.0,
                 },
+                rigid_body_component = {
+                    velocity = {
+                        x = 0.0,
+                        y = 0.0,
+                    },
+                },
             },
         },
         {
@@ -64,6 +70,12 @@ level = {
                     },
                     rotation = 0.0,
                 },
+                rigid_body_component = {
+                    velocity = {
+                        x = 25.0,
+                        y = 0.0,
+                    },
+                },
             },
         },
         {
@@ -79,6 +91,12 @@ level = {
                         y = 1.0,
                     },
                     rotation = 0.0,
+                },
+                rigid_body_component = {
+                    velocity = {
+                        x = 0.0,
+                        y = 0.0,
+                    },
                 },
             },
         },

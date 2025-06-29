@@ -118,7 +118,6 @@ void LevelLoader::LoadLevel(sol::state& lua, SDL_Renderer* renderer, const std::
     // Load entities and assign components
 
     Entity chopper = registry->CreateEntity();                                          // create chopper entity
-    chopper.AddComponent<RigidBodyComponent>(glm::vec2(0.0, 0.0));                      // add rigid body component to chopper
     chopper.AddComponent<SpriteComponent>("chopper-image", 32, 32, 1);                  // add sprite component to chopper
     chopper.AddComponent<BoxColliderComponent>(32, 32);                                 // add box collider component to chopper
     chopper.AddComponent<AnimationComponent>(2, 15);                                    // add animation component to chopper
@@ -128,19 +127,16 @@ void LevelLoader::LoadLevel(sol::state& lua, SDL_Renderer* renderer, const std::
     chopper.AddComponent<ProjectileEmitterComponent>(glm::vec2(200.0, 200.0), 0, 4000, 25, true);    // add projectile emitter component to chopper
 
     Entity radar = registry->CreateEntity();                                            // add radar entity
-    // radar.AddComponent<RigidBodyComponent>(glm::vec2(0.0, 0.0));                     // add rigid body component to radar
     radar.AddComponent<SpriteComponent>("radar-image", 64, 64, 1, true);                // add sprite component to radar
     radar.AddComponent<AnimationComponent>(8,5);                                        // add animation component to chopper
 
     Entity tank = registry->CreateEntity();                                             // create tank entity
-    tank.AddComponent<RigidBodyComponent>(glm::vec2(25.0, 0.0));                        // add rigid body component to tank
     tank.AddComponent<SpriteComponent>("tank-image", 32, 32, 1);                        // add sprite component to tank
     tank.AddComponent<BoxColliderComponent>(32, 32);
     tank.AddComponent<ProjectileEmitterComponent>(glm::vec2(0.0, -100.0), 1000, 4000, 25, false);   // add projectile emitter component to tank
     tank.AddComponent<HealthComponent>(100);                                            // add health component to tank
 
     Entity truck = registry->CreateEntity();                                             // create truck entity
-    truck.AddComponent<RigidBodyComponent>(glm::vec2(0.0, 0.0));                        // add rigid body component to truck
     truck.AddComponent<SpriteComponent>("truck-image", 32, 32, 1);                      // add sprite component to truck
     truck.AddComponent<BoxColliderComponent>(32, 32);
     truck.AddComponent<ProjectileEmitterComponent>(glm::vec2(0.0, -100.0), 1000, 2000, 25, false);   // add projectile emitter component to truck
@@ -191,6 +187,19 @@ void LevelLoader::LoadLevel(sol::state& lua, SDL_Renderer* renderer, const std::
                         transformComponentTable["scale"]["y"].get_or(1.0)                                                   // y scale
                     ),
                     transformComponentTable["rotation"].get_or(0.0)                                                         // rotation
+                );
+
+            }
+
+            sol::optional<sol::table> hasRigidBodyComponent = entityTable["components"]["rigid_body_component"];            // if entity  has rigid body component...
+            if(hasRigidBodyComponent != sol::nullopt){                                                                      // ...
+
+                sol::table rigidBodyComponentTable = entityTable["components"]["rigid_body_component"];                     // get rigid body component table ("level/entities/[entity[i]]/rigid_body_component")
+                initializedEntities[i].AddComponent<RigidBodyComponent>(                                                    // add rigid body component to entity
+                    glm::vec2(
+                        rigidBodyComponentTable["velocity"]["x"],                                                           // x velocity
+                        rigidBodyComponentTable["velocity"]["y"]                                                            // y velocity
+                    )
                 );
 
             }
