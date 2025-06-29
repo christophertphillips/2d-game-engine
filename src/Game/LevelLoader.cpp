@@ -7,6 +7,7 @@
 #include "./Game.h"
 #include <fstream>
 #include <sstream>
+#include <string>
 #include "../Components/TransformComponent.h"
 #include "../Components/SpriteComponent.h"
 #include "../Components/RigidBodyComponent.h"
@@ -118,7 +119,6 @@ void LevelLoader::LoadLevel(sol::state& lua, SDL_Renderer* renderer, const std::
     // Load entities and assign components
 
     Entity chopper = registry->CreateEntity();                                          // create chopper entity
-    chopper.AddComponent<SpriteComponent>("chopper-image", 32, 32, 1);                  // add sprite component to chopper
     chopper.AddComponent<BoxColliderComponent>(32, 32);                                 // add box collider component to chopper
     chopper.AddComponent<AnimationComponent>(2, 15);                                    // add animation component to chopper
     chopper.AddComponent<KeyboardControlledComponent>(glm::vec2(0, -80), glm::vec2(80, 0), glm::vec2(0, 80), glm::vec2(-80, 0)); // add keyboard controlled component to chopper
@@ -127,27 +127,22 @@ void LevelLoader::LoadLevel(sol::state& lua, SDL_Renderer* renderer, const std::
     chopper.AddComponent<ProjectileEmitterComponent>(glm::vec2(200.0, 200.0), 0, 4000, 25, true);    // add projectile emitter component to chopper
 
     Entity radar = registry->CreateEntity();                                            // add radar entity
-    radar.AddComponent<SpriteComponent>("radar-image", 64, 64, 1, true);                // add sprite component to radar
     radar.AddComponent<AnimationComponent>(8,5);                                        // add animation component to chopper
 
     Entity tank = registry->CreateEntity();                                             // create tank entity
-    tank.AddComponent<SpriteComponent>("tank-image", 32, 32, 1);                        // add sprite component to tank
     tank.AddComponent<BoxColliderComponent>(32, 32);
     tank.AddComponent<ProjectileEmitterComponent>(glm::vec2(0.0, -100.0), 1000, 4000, 25, false);   // add projectile emitter component to tank
     tank.AddComponent<HealthComponent>(100);                                            // add health component to tank
 
     Entity truck = registry->CreateEntity();                                             // create truck entity
-    truck.AddComponent<SpriteComponent>("truck-image", 32, 32, 1);                      // add sprite component to truck
     truck.AddComponent<BoxColliderComponent>(32, 32);
     truck.AddComponent<ProjectileEmitterComponent>(glm::vec2(0.0, -100.0), 1000, 2000, 25, false);   // add projectile emitter component to truck
     truck.AddComponent<HealthComponent>(100);                                           // add health component to truck
 
     Entity treeA = registry->CreateEntity();                                            // create treeA entity
-    treeA.AddComponent<SpriteComponent>("tree-image", 16, 32, 1);                       // add sprite component to treeA
     treeA.AddComponent<BoxColliderComponent>(16, 32);                                   // add box collider component to treeA
 
     Entity treeB = registry->CreateEntity();                                            // create treeB entity
-    treeB.AddComponent<SpriteComponent>("tree-image", 16, 32, 1);                       // add sprite component to treeB
     treeB.AddComponent<BoxColliderComponent>(16, 32);                                   // add box collider component to treeB
 
     Entity label = registry->CreateEntity();                                            // create label entity
@@ -200,6 +195,22 @@ void LevelLoader::LoadLevel(sol::state& lua, SDL_Renderer* renderer, const std::
                         rigidBodyComponentTable["velocity"]["x"],                                                           // x velocity
                         rigidBodyComponentTable["velocity"]["y"]                                                            // y velocity
                     )
+                );
+
+            }
+
+            sol::optional<sol::table> hasSpriteComponent = entityTable["components"]["sprite_component"];                   // if entity  has sprite component...
+            if(hasSpriteComponent != sol::nullopt){                                                                         // ...
+
+                sol::table spriteComponentTable = entityTable["components"]["sprite_component"];                            // get sprite component table ("level/entities/[entity[i]]/sprite_component")
+                initializedEntities[i].AddComponent<SpriteComponent>(                                                       // add sprite component to entity
+                    spriteComponentTable["asset_id"].get_or(static_cast<std::string>("")),                                  // sprite asset id (NOTE- default value "" is invalid, included here for consistency)
+                    spriteComponentTable["width"],                                                                          // sprite width
+                    spriteComponentTable["height"],                                                                         // sprite height
+                    spriteComponentTable["z_index"],                                                                        // sprite z-index
+                    spriteComponentTable["is_fixed"].get_or(false),                                                         // is sprite fixed onscreen
+                    spriteComponentTable["src_rec_x"],                                                                      // source rectangle x
+                    spriteComponentTable["src_rec_y"]                                                                       // source rectangle y
                 );
 
             }
