@@ -60,6 +60,9 @@ level = {
                         y = 0.0,
                     },
                 },
+                health_component = {
+                    health_percentage = 100,
+                },
             },
         },
         {
@@ -127,6 +130,9 @@ level = {
                         y = 0.0,
                     },
                 },
+                health_component = {
+                    health_percentage = 100,
+                },
             },
         },
         {
@@ -169,6 +175,9 @@ level = {
                         x = 0.0,
                         y = 0.0,
                     },
+                },
+                health_component = {
+                    health_percentage = 100,
                 },
             },
         },

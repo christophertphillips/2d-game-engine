@@ -122,7 +122,6 @@ void LevelLoader::LoadLevel(sol::state& lua, SDL_Renderer* renderer, const std::
     chopper.AddComponent<AnimationComponent>(2, 15);                                    // add animation component to chopper
     chopper.AddComponent<KeyboardControlledComponent>(glm::vec2(0, -80), glm::vec2(80, 0), glm::vec2(0, 80), glm::vec2(-80, 0)); // add keyboard controlled component to chopper
     chopper.AddComponent<CameraFollowComponent>();                                      // add camera follow component to chopper
-    chopper.AddComponent<HealthComponent>(100);                                         // add health component to chopper
     chopper.AddComponent<ProjectileEmitterComponent>(glm::vec2(200.0, 200.0), 0, 4000, 25, true);    // add projectile emitter component to chopper
 
     Entity radar = registry->CreateEntity();                                            // add radar entity
@@ -130,11 +129,9 @@ void LevelLoader::LoadLevel(sol::state& lua, SDL_Renderer* renderer, const std::
 
     Entity tank = registry->CreateEntity();                                             // create tank entity
     tank.AddComponent<ProjectileEmitterComponent>(glm::vec2(0.0, -100.0), 1000, 4000, 25, false);   // add projectile emitter component to tank
-    tank.AddComponent<HealthComponent>(100);                                            // add health component to tank
 
     Entity truck = registry->CreateEntity();                                             // create truck entity
     truck.AddComponent<ProjectileEmitterComponent>(glm::vec2(0.0, -100.0), 1000, 2000, 25, false);   // add projectile emitter component to truck
-    truck.AddComponent<HealthComponent>(100);                                           // add health component to truck
 
     Entity treeA = registry->CreateEntity();                                            // create treeA entity
 
@@ -225,6 +222,16 @@ void LevelLoader::LoadLevel(sol::state& lua, SDL_Renderer* renderer, const std::
                         boxColliderComponentTable["offset"]["x"],                                                           // box collider x offset
                         boxColliderComponentTable["offset"]["y"]                                                            // box collider y offset
                     )
+                );
+
+            }
+
+            sol::optional<sol::table> hasHealthComponent = entityTable["components"]["health_component"];                   // if entity has health component...
+            if(hasHealthComponent != sol::nullopt){                                                                         // ...
+
+                sol::table healthComponentTable = entityTable["components"]["health_component"];                            // get health component table ("level/entities/[entity[i]]/health_component")
+                initializedEntities[i].AddComponent<HealthComponent>(                                                       // add health component to entity
+                    static_cast<int>(healthComponentTable["health_percentage"])                                             // health percentage (NOTE- static cast needed to prevent ambiguous constructor call, for reasons unclear)
                 );
 
             }
