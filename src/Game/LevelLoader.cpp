@@ -122,16 +122,13 @@ void LevelLoader::LoadLevel(sol::state& lua, SDL_Renderer* renderer, const std::
     chopper.AddComponent<AnimationComponent>(2, 15);                                    // add animation component to chopper
     chopper.AddComponent<KeyboardControlledComponent>(glm::vec2(0, -80), glm::vec2(80, 0), glm::vec2(0, 80), glm::vec2(-80, 0)); // add keyboard controlled component to chopper
     chopper.AddComponent<CameraFollowComponent>();                                      // add camera follow component to chopper
-    chopper.AddComponent<ProjectileEmitterComponent>(glm::vec2(200.0, 200.0), 0, 4000, 25, true);    // add projectile emitter component to chopper
 
     Entity radar = registry->CreateEntity();                                            // add radar entity
     radar.AddComponent<AnimationComponent>(8,5);                                        // add animation component to chopper
 
     Entity tank = registry->CreateEntity();                                             // create tank entity
-    tank.AddComponent<ProjectileEmitterComponent>(glm::vec2(0.0, -100.0), 1000, 4000, 25, false);   // add projectile emitter component to tank
 
     Entity truck = registry->CreateEntity();                                             // create truck entity
-    truck.AddComponent<ProjectileEmitterComponent>(glm::vec2(0.0, -100.0), 1000, 2000, 25, false);   // add projectile emitter component to truck
 
     Entity treeA = registry->CreateEntity();                                            // create treeA entity
 
@@ -234,6 +231,24 @@ void LevelLoader::LoadLevel(sol::state& lua, SDL_Renderer* renderer, const std::
                     static_cast<int>(healthComponentTable["health_percentage"])                                             // health percentage (NOTE- static cast needed to prevent ambiguous constructor call, for reasons unclear)
                 );
 
+            }
+
+            sol::optional<sol::table> hasProjectileEmitterComponent = entityTable["components"]["projectile_emitter_component"];    // if entity has projectile emitter component...
+            if(hasProjectileEmitterComponent != sol::nullopt){                                                                      // ...
+
+                sol::table projectileEmitterComponentTable = entityTable["components"]["projectile_emitter_component"];     // get projectile emitter component table ("level/entities/[entity[i]]/projectile_emitter_component")
+                initializedEntities[i].AddComponent<ProjectileEmitterComponent>(                                            // add projectile emitter component to entity
+                    glm::vec2(
+                        projectileEmitterComponentTable["projectile_velocity"]["x"],                                        // projectile velocity x
+                        projectileEmitterComponentTable["projectile_velocity"]["y"]                                         // projectile velocity y
+                    ),
+                    projectileEmitterComponentTable["repeat_frequency"].get_or(1) * 1000,                                   // projectile repeat frequency (in milliseconds)
+                    projectileEmitterComponentTable["projectile_duration"].get_or(1) * 1000,                                // projectile duration (in milliseconds)
+                    projectileEmitterComponentTable["hit_percentage_damage"].get_or(10),                                    // projecitle hit percentage damage
+                    projectileEmitterComponentTable["is_friendly"].get_or(false)                                            // is projectile friendly
+                );
+
+                Logger::Log("Added projectile emitter component to chopper");
             }
 
         }

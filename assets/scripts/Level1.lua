@@ -63,6 +63,16 @@ level = {
                 health_component = {
                     health_percentage = 100,
                 },
+                projectile_emitter_component = {
+                    projectile_velocity = {
+                        x = 200.0,
+                        y = 200.0
+                    },
+                    repeat_frequency = 0,
+                    projectile_duration = 4,
+                    hit_percentage_damage = 25,
+                    is_friendly = true,
+                },
             },
         },
         {
@@ -133,6 +143,16 @@ level = {
                 health_component = {
                     health_percentage = 100,
                 },
+                projectile_emitter_component = {
+                    projectile_velocity = {
+                        x = 0.0,
+                        y = -100.0
+                    },
+                    repeat_frequency = 1,
+                    projectile_duration = 4,
+                    hit_percentage_damage = 25,
+                    is_friendly = false,
+                },
             },
         },
         {
@@ -178,6 +198,16 @@ level = {
                 },
                 health_component = {
                     health_percentage = 100,
+                },
+                projectile_emitter_component = {
+                    projectile_velocity = {
+                        x = 0.0,
+                        y = -100.0
+                    },
+                    repeat_frequency = 1,
+                    projectile_duration = 2,
+                    hit_percentage_damage = 25,
+                    is_friendly = false,
                 },
             },
         },
