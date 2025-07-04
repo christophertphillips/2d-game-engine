@@ -65,6 +65,24 @@ level = {
                         y = 0.0,
                     },
                 },
+                keyboard_controlled_component = {
+                    up_velocity = {
+                        x = 0.0,
+                        y = -80.0,
+                    },
+                    right_velocity = {
+                        x = 80.0,
+                        y = 0.0,
+                    },
+                    down_velocity = {
+                        x = 0.0,
+                        y = 80.0,
+                    },
+                    left_velocity = {
+                        x = -80.0,
+                        y = 0.0,
+                    },
+                },
                 health_component = {
                     health_percentage = 100,
                 },

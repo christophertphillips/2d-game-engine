@@ -119,7 +119,6 @@ void LevelLoader::LoadLevel(sol::state& lua, SDL_Renderer* renderer, const std::
     // Load entities and assign components
 
     Entity chopper = registry->CreateEntity();                                          // create chopper entity
-    chopper.AddComponent<KeyboardControlledComponent>(glm::vec2(0, -80), glm::vec2(80, 0), glm::vec2(0, 80), glm::vec2(-80, 0)); // add keyboard controlled component to chopper
 
     Entity radar = registry->CreateEntity();                                            // add radar entity
 
@@ -227,6 +226,31 @@ void LevelLoader::LoadLevel(sol::state& lua, SDL_Renderer* renderer, const std::
                     glm::vec2(
                         boxColliderComponentTable["offset"]["x"],                                                           // box collider x offset
                         boxColliderComponentTable["offset"]["y"]                                                            // box collider y offset
+                    )
+                );
+
+            }
+
+            sol::optional<sol::table> hasKeyboardControlledComponent = entityTable["components"]["keyboard_controlled_component"];  // if entity has keyboard controlled component...
+            if(hasKeyboardControlledComponent != sol::nullopt){                                                                     // ...
+
+                sol::table keyboardControlledComponentTable = entityTable["components"]["keyboard_controlled_component"];   // get keyboard controlled component table ("level/entities/[entity[i]]/projectile_emitter_component")
+                initializedEntities[i].AddComponent<KeyboardControlledComponent>(                                           // add keyboard controlled component to entity
+                    glm::vec2(
+                        keyboardControlledComponentTable["up_velocity"]["x"],                                               // up velocity x
+                        keyboardControlledComponentTable["up_velocity"]["y"]                                                // up velocity y
+                    ),
+                    glm::vec2(
+                        keyboardControlledComponentTable["right_velocity"]["x"],                                            // right velocity x
+                        keyboardControlledComponentTable["right_velocity"]["y"]                                             // right velocity y
+                    ),
+                    glm::vec2(
+                        keyboardControlledComponentTable["down_velocity"]["x"],                                             // down velocity x
+                        keyboardControlledComponentTable["down_velocity"]["y"]                                              // down velocity y
+                    ),
+                    glm::vec2(
+                        keyboardControlledComponentTable["left_velocity"]["x"],                                             // left velocity x
+                        keyboardControlledComponentTable["left_velocity"]["y"]                                              // left velocity y
                     )
                 );
 
