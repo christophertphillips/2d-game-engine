@@ -248,7 +248,6 @@ void LevelLoader::LoadLevel(sol::state& lua, SDL_Renderer* renderer, const std::
                     projectileEmitterComponentTable["is_friendly"].get_or(false)                                            // is projectile friendly
                 );
 
-                Logger::Log("Added projectile emitter component to chopper");
             }
 
         }
