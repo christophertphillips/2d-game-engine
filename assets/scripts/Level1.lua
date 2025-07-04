@@ -73,6 +73,9 @@ level = {
                     hit_percentage_damage = 25,
                     is_friendly = true,
                 },
+                camera_follow_component = {
+                    follow = true,
+                },
             },
         },
         {

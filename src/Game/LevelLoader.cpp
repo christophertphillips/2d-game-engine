@@ -121,7 +121,6 @@ void LevelLoader::LoadLevel(sol::state& lua, SDL_Renderer* renderer, const std::
     Entity chopper = registry->CreateEntity();                                          // create chopper entity
     chopper.AddComponent<AnimationComponent>(2, 15);                                    // add animation component to chopper
     chopper.AddComponent<KeyboardControlledComponent>(glm::vec2(0, -80), glm::vec2(80, 0), glm::vec2(0, 80), glm::vec2(-80, 0)); // add keyboard controlled component to chopper
-    chopper.AddComponent<CameraFollowComponent>();                                      // add camera follow component to chopper
 
     Entity radar = registry->CreateEntity();                                            // add radar entity
     radar.AddComponent<AnimationComponent>(8,5);                                        // add animation component to chopper
@@ -247,6 +246,14 @@ void LevelLoader::LoadLevel(sol::state& lua, SDL_Renderer* renderer, const std::
                     projectileEmitterComponentTable["hit_percentage_damage"].get_or(10),                                    // projecitle hit percentage damage
                     projectileEmitterComponentTable["is_friendly"].get_or(false)                                            // is projectile friendly
                 );
+
+            }
+
+            sol::optional<sol::table> hasCameraFollowComponent = entityTable["components"]["camera_follow_component"];      // if entity has camera follow component...
+            if(hasCameraFollowComponent != sol::nullopt){                                                                   // ...
+
+                sol::table cameraFollowComponentTable = entityTable["components"]["camera_follow_component"];               // get camera follow component table ("level/entities/[entity[i]]/camera_follow_component")
+                initializedEntities[i].AddComponent<CameraFollowComponent>();                                               // add camera follow component to entity
 
             }
 
