@@ -48,6 +48,11 @@ level = {
                     src_rect_x = 0,
                     src_rect_y = 0,
                 },
+                animation_component={
+                    num_frames = 2,
+                    frame_speed_rate = 15,
+                    is_loop = true,
+                },
                 box_collider_component = {
                     width = 32,
                     height = 32,
@@ -99,6 +104,11 @@ level = {
                     is_fixed = true,
                     src_rect_x = 0,
                     src_rect_y = 0,
+                },
+                animation_component={
+                    num_frames = 8,
+                    frame_speed_rate = 5,
+                    is_loop = true,
                 },
             },
         },

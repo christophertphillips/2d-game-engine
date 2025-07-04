@@ -119,11 +119,9 @@ void LevelLoader::LoadLevel(sol::state& lua, SDL_Renderer* renderer, const std::
     // Load entities and assign components
 
     Entity chopper = registry->CreateEntity();                                          // create chopper entity
-    chopper.AddComponent<AnimationComponent>(2, 15);                                    // add animation component to chopper
     chopper.AddComponent<KeyboardControlledComponent>(glm::vec2(0, -80), glm::vec2(80, 0), glm::vec2(0, 80), glm::vec2(-80, 0)); // add keyboard controlled component to chopper
 
     Entity radar = registry->CreateEntity();                                            // add radar entity
-    radar.AddComponent<AnimationComponent>(8,5);                                        // add animation component to chopper
 
     Entity tank = registry->CreateEntity();                                             // create tank entity
 
@@ -199,6 +197,18 @@ void LevelLoader::LoadLevel(sol::state& lua, SDL_Renderer* renderer, const std::
                     spriteComponentTable["is_fixed"].get_or(false),                                                         // is sprite fixed onscreen
                     spriteComponentTable["src_rec_x"],                                                                      // source rectangle x
                     spriteComponentTable["src_rec_y"]                                                                       // source rectangle y
+                );
+
+            }
+
+            sol::optional<sol::table> hasAnimationComponent = entityTable["components"]["animation_component"];             // if entity has animation component...
+            if(hasAnimationComponent != sol::nullopt){                                                                      // ...
+
+                sol::table animationComponentTable = entityTable["components"]["animation_component"];                      // get animation component table ("level/entities/[entity[i]]/animation_component")
+                initializedEntities[i].AddComponent<AnimationComponent>(                                                    // add animation component to entity
+                    animationComponentTable["num_frames"].get_or(1),                                                        // number of animation frames
+                    animationComponentTable["frame_speed_rate"].get_or(1),                                                  // animation frame speed rate
+                    animationComponentTable["is_loop"].get_or(true)                                                         // is animation looping
                 );
 
             }
