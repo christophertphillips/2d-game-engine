@@ -131,8 +131,6 @@ void LevelLoader::LoadLevel(sol::state& lua, SDL_Renderer* renderer, const std::
     Entity treeB = registry->CreateEntity();                                            // create treeB entity
 
     Entity label = registry->CreateEntity();                                            // create label entity
-    SDL_Color green = { 0, 255, 0 };                                                    // create SLD_Color struct
-    label.AddComponent<TextLabelComponent>("CHOPPER 1.0", "charriot-font", green, true);  // add text label component to label
 
     std::vector<Entity> initializedEntities = {chopper, radar, tank, truck, treeA, treeB, label};                           // [temporary vector for storing initialized entities]
 
@@ -288,6 +286,24 @@ void LevelLoader::LoadLevel(sol::state& lua, SDL_Renderer* renderer, const std::
 
                 sol::table cameraFollowComponentTable = entityTable["components"]["camera_follow_component"];               // get camera follow component table ("level/entities/[entity[i]]/camera_follow_component")
                 initializedEntities[i].AddComponent<CameraFollowComponent>();                                               // add camera follow component to entity
+
+            }
+
+            sol::optional<sol::table> hasTextLabelComponent = entityTable["components"]["text_label_component"];            // if entity has text label component...
+            if(hasTextLabelComponent != sol::nullopt){                                                                      // ...
+
+                sol::table textLabelComponentTable = entityTable["components"]["text_label_component"];                     // get text label component table ("level/entities/[entity[i]]/text_label_component")
+                SDL_Color color = {                                                                                         // rgb color value
+                    textLabelComponentTable["color"]["red"],                                                                // red value
+                    textLabelComponentTable["color"]["green"],                                                              // green value
+                    textLabelComponentTable["color"]["blue"]                                                                // blue value
+                };
+                initializedEntities[i].AddComponent<TextLabelComponent>(                                                    // add text label component to entity
+                    textLabelComponentTable["text"].get_or(static_cast<std::string>("")),                                   // text to display
+                    textLabelComponentTable["asset_id"].get_or(static_cast<std::string>("")),                               // asset id for font
+                    color,                                                                                                  // text color
+                    textLabelComponentTable["is_fixed"].get_or(false)                                                       // is text fixed
+                );
 
             }
 

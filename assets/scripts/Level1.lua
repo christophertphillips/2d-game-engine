@@ -329,6 +329,16 @@ level = {
                     },
                     rotation = 0.0,
                 },
+                text_label_component = {
+                    text = "CHOPPER 1.0",
+                    asset_id = "charriot-font",
+                    color = {
+                        red = 0,
+                        green = 255,
+                        blue = 0,
+                    },
+                    is_fixed = true,
+                },
             },
         },
     }
