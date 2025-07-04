@@ -118,34 +118,20 @@ void LevelLoader::LoadLevel(sol::state& lua, SDL_Renderer* renderer, const std::
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     // Load entities and assign components
 
-    Entity chopper = registry->CreateEntity();                                          // create chopper entity
-
-    Entity radar = registry->CreateEntity();                                            // add radar entity
-
-    Entity tank = registry->CreateEntity();                                             // create tank entity
-
-    Entity truck = registry->CreateEntity();                                             // create truck entity
-
-    Entity treeA = registry->CreateEntity();                                            // create treeA entity
-
-    Entity treeB = registry->CreateEntity();                                            // create treeB entity
-
-    Entity label = registry->CreateEntity();                                            // create label entity
-
-    std::vector<Entity> initializedEntities = {chopper, radar, tank, truck, treeA, treeB, label};                           // [temporary vector for storing initialized entities]
-
     sol::table entitiesTable = lua["level"]["entities"];                                                                    // get entities table ("level/entities")
     for(int i = 0; i <= entitiesTable.size(); i++){                                                                         // iterate through items in "level/entities" table...
+        Entity entity = registry->CreateEntity();                                                                           // create new entity
+
         sol::table entityTable = entitiesTable[i];                                                                          // get entity table ("level/entities/[entity[i]]")
 
         sol::optional<std::string> hasTag = entityTable["tag"];                                                             // if entity has a tag...
         if(hasTag != sol::nullopt){                                                                                         // ...
-            initializedEntities[i].Tag(entityTable["tag"]);                                                                 // add tag to entity
+            entity.Tag(entityTable["tag"]);                                                                                 // add tag to entity
         }
 
         sol::optional<std::string> hasGroup = entityTable["group"];                                                         // if entity has a group...
         if(hasGroup != sol::nullopt){                                                                                       // ...
-            initializedEntities[i].Group(entityTable["group"]);                                                             // add group to entity
+            entity.Group(entityTable["group"]);                                                                             // add group to entity
         }
 
         sol::optional<sol::table> hasComponents = entityTable["components"];                                                // if entity has components...
@@ -155,7 +141,7 @@ void LevelLoader::LoadLevel(sol::state& lua, SDL_Renderer* renderer, const std::
             if(hasTransformComponent != sol::nullopt){                                                                      // ...
 
                 sol::table transformComponentTable = entityTable["components"]["transform_component"];                      // get transform component table ("level/entities/[entity[i]]/transform_component")
-                initializedEntities[i].AddComponent<TransformComponent>(                                                    // add transform component to entity
+                entity.AddComponent<TransformComponent>(                                                                    // add transform component to entity
                     glm::vec2(
                         transformComponentTable["position"]["x"],                                                           // x position
                         transformComponentTable["position"]["y"]                                                            // y position
@@ -173,7 +159,7 @@ void LevelLoader::LoadLevel(sol::state& lua, SDL_Renderer* renderer, const std::
             if(hasRigidBodyComponent != sol::nullopt){                                                                      // ...
 
                 sol::table rigidBodyComponentTable = entityTable["components"]["rigid_body_component"];                     // get rigid body component table ("level/entities/[entity[i]]/rigid_body_component")
-                initializedEntities[i].AddComponent<RigidBodyComponent>(                                                    // add rigid body component to entity
+                entity.AddComponent<RigidBodyComponent>(                                                                    // add rigid body component to entity
                     glm::vec2(
                         rigidBodyComponentTable["velocity"]["x"],                                                           // x velocity
                         rigidBodyComponentTable["velocity"]["y"]                                                            // y velocity
@@ -186,7 +172,7 @@ void LevelLoader::LoadLevel(sol::state& lua, SDL_Renderer* renderer, const std::
             if(hasSpriteComponent != sol::nullopt){                                                                         // ...
 
                 sol::table spriteComponentTable = entityTable["components"]["sprite_component"];                            // get sprite component table ("level/entities/[entity[i]]/sprite_component")
-                initializedEntities[i].AddComponent<SpriteComponent>(                                                       // add sprite component to entity
+                entity.AddComponent<SpriteComponent>(                                                                       // add sprite component to entity
                     spriteComponentTable["asset_id"].get_or(static_cast<std::string>("")),                                  // sprite asset id (NOTE- default value "" is invalid, included here for consistency)
                     spriteComponentTable["width"],                                                                          // sprite width
                     spriteComponentTable["height"],                                                                         // sprite height
@@ -202,7 +188,7 @@ void LevelLoader::LoadLevel(sol::state& lua, SDL_Renderer* renderer, const std::
             if(hasAnimationComponent != sol::nullopt){                                                                      // ...
 
                 sol::table animationComponentTable = entityTable["components"]["animation_component"];                      // get animation component table ("level/entities/[entity[i]]/animation_component")
-                initializedEntities[i].AddComponent<AnimationComponent>(                                                    // add animation component to entity
+                entity.AddComponent<AnimationComponent>(                                                                    // add animation component to entity
                     animationComponentTable["num_frames"].get_or(1),                                                        // number of animation frames
                     animationComponentTable["frame_speed_rate"].get_or(1),                                                  // animation frame speed rate
                     animationComponentTable["is_loop"].get_or(true)                                                         // is animation looping
@@ -214,7 +200,7 @@ void LevelLoader::LoadLevel(sol::state& lua, SDL_Renderer* renderer, const std::
             if(hasBoxColliderComponentTable != sol::nullopt){                                                               // ...
 
                 sol::table boxColliderComponentTable = entityTable["components"]["box_collider_component"];                 // get box collider component table ("level/entities/[entity[i]]/box_collider_component")
-                initializedEntities[i].AddComponent<BoxColliderComponent>(                                                  // add box collider component to entity
+                entity.AddComponent<BoxColliderComponent>(                                                                  // add box collider component to entity
                     boxColliderComponentTable["width"],                                                                     // box collider width
                     boxColliderComponentTable["height"],                                                                    // box collider height
                     glm::vec2(
@@ -233,7 +219,7 @@ void LevelLoader::LoadLevel(sol::state& lua, SDL_Renderer* renderer, const std::
             if(hasKeyboardControlledComponent != sol::nullopt){                                                                     // ...
 
                 sol::table keyboardControlledComponentTable = entityTable["components"]["keyboard_controlled_component"];   // get keyboard controlled component table ("level/entities/[entity[i]]/projectile_emitter_component")
-                initializedEntities[i].AddComponent<KeyboardControlledComponent>(                                           // add keyboard controlled component to entity
+                entity.AddComponent<KeyboardControlledComponent>(                                                           // add keyboard controlled component to entity
                     glm::vec2(
                         keyboardControlledComponentTable["up_velocity"]["x"],                                               // up velocity x
                         keyboardControlledComponentTable["up_velocity"]["y"]                                                // up velocity y
@@ -258,7 +244,7 @@ void LevelLoader::LoadLevel(sol::state& lua, SDL_Renderer* renderer, const std::
             if(hasHealthComponent != sol::nullopt){                                                                         // ...
 
                 sol::table healthComponentTable = entityTable["components"]["health_component"];                            // get health component table ("level/entities/[entity[i]]/health_component")
-                initializedEntities[i].AddComponent<HealthComponent>(                                                       // add health component to entity
+                entity.AddComponent<HealthComponent>(                                                                       // add health component to entity
                     static_cast<int>(healthComponentTable["health_percentage"])                                             // health percentage (NOTE- static cast needed to prevent ambiguous constructor call, for reasons unclear)
                 );
 
@@ -268,7 +254,7 @@ void LevelLoader::LoadLevel(sol::state& lua, SDL_Renderer* renderer, const std::
             if(hasProjectileEmitterComponent != sol::nullopt){                                                                      // ...
 
                 sol::table projectileEmitterComponentTable = entityTable["components"]["projectile_emitter_component"];     // get projectile emitter component table ("level/entities/[entity[i]]/projectile_emitter_component")
-                initializedEntities[i].AddComponent<ProjectileEmitterComponent>(                                            // add projectile emitter component to entity
+                entity.AddComponent<ProjectileEmitterComponent>(                                                            // add projectile emitter component to entity
                     glm::vec2(
                         projectileEmitterComponentTable["projectile_velocity"]["x"],                                        // projectile velocity x
                         projectileEmitterComponentTable["projectile_velocity"]["y"]                                         // projectile velocity y
@@ -285,7 +271,7 @@ void LevelLoader::LoadLevel(sol::state& lua, SDL_Renderer* renderer, const std::
             if(hasCameraFollowComponent != sol::nullopt){                                                                   // ...
 
                 sol::table cameraFollowComponentTable = entityTable["components"]["camera_follow_component"];               // get camera follow component table ("level/entities/[entity[i]]/camera_follow_component")
-                initializedEntities[i].AddComponent<CameraFollowComponent>();                                               // add camera follow component to entity
+                entity.AddComponent<CameraFollowComponent>();                                                               // add camera follow component to entity
 
             }
 
@@ -298,7 +284,7 @@ void LevelLoader::LoadLevel(sol::state& lua, SDL_Renderer* renderer, const std::
                     textLabelComponentTable["color"]["green"],                                                              // green value
                     textLabelComponentTable["color"]["blue"]                                                                // blue value
                 };
-                initializedEntities[i].AddComponent<TextLabelComponent>(                                                    // add text label component to entity
+                entity.AddComponent<TextLabelComponent>(                                                                    // add text label component to entity
                     textLabelComponentTable["text"].get_or(static_cast<std::string>("")),                                   // text to display
                     textLabelComponentTable["asset_id"].get_or(static_cast<std::string>("")),                               // asset id for font
                     color,                                                                                                  // text color
