@@ -72,7 +72,7 @@ void LevelLoader::LoadLevel(sol::state& lua, SDL_Renderer* renderer, const std::
     int tileIndexY = 0;                                                                                                     // initialize tile y index
     int tilesAdded = 0;                                                                                                     // initialize tiles added
     std::string fileLine;                                                                                                   // delare string to hold current line
-    std::ifstream fileStream("./assets/tilemaps/jungle.map");                                                               // create input stream from file
+    std::ifstream fileStream(mapFilePath);                                                                                  // create input stream from file
 
     while(std::getline(fileStream, fileLine)){                                                                              // iterate through lines of file
 
@@ -95,7 +95,7 @@ void LevelLoader::LoadLevel(sol::state& lua, SDL_Renderer* renderer, const std::
                 0.0                                                                                                         // rotation
             );
             backgroundTile.AddComponent<SpriteComponent>(                                                                   // add sprite component to background tile entity
-                "jungle-map",                                                                                               // asset id
+                textureId,                                                                                                  // asset id
                 tileSize,                                                                                                   // width
                 tileSize,                                                                                                   // height
                 0,                                                                                                          // z-index
