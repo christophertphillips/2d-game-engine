@@ -13,7 +13,7 @@ level = {
     },
     tilemap = {
         map_file_path = "./assets/tilemaps/jungle.map",
-        texture_id = "jungle-map",
+        tilemap_asset_id = "jungle-map",
         tile_size = 32,
         tile_scale = 2.0
     },

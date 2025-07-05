@@ -65,7 +65,7 @@ void LevelLoader::LoadLevel(sol::state& lua, SDL_Renderer* renderer, const std::
 
     sol::table tilemap = lua["level"]["tilemap"];                                                                           // load Lua table "level/tilemap"
     std::string mapFilePath = tilemap["map_file_path"];                                                                     // load map file path
-    std::string textureId = tilemap["texture_id"];                                                                          // load map texture id
+    std::string tilemapAssetId = tilemap["tilemap_asset_id"];                                                                          // load map texture id
     int tileSize = tilemap["tile_size"];                                                                                    // load tile size
     double tileScale = tilemap["tile_scale"];                                                                               // load tile scale
     int tileIndexX = 0;                                                                                                     // initialize tile x index
@@ -95,7 +95,7 @@ void LevelLoader::LoadLevel(sol::state& lua, SDL_Renderer* renderer, const std::
                 0.0                                                                                                         // rotation
             );
             backgroundTile.AddComponent<SpriteComponent>(                                                                   // add sprite component to background tile entity
-                textureId,                                                                                                  // asset id
+                tilemapAssetId,                                                                                                  // asset id
                 tileSize,                                                                                                   // width
                 tileSize,                                                                                                   // height
                 0,                                                                                                          // z-index
