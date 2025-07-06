@@ -1,3 +1,13 @@
+--set day/night tilemap asset id depending on current system hour
+local current_system_hour = os.date("*t").hour                                                                              -- get current system hour
+
+local tilemap_asset_id_day_night                                                                                            -- declare variable to hold tilemap asset id
+if current_system_hour >= 9 and current_system_hour < 18 then                                                               -- if the current system hour is between 9 AM and 5 PM...
+    tilemap_asset_id_day_night = "tilemap-image"                                                                            -- ... set the tilemap asset id to the daytime tile set
+else
+    tilemap_asset_id_day_night = "tilemap-image-night"                                                                      -- ... else, set it to the nighttime tile set
+end
+
 level = {
     assets = {
         [0] =
@@ -79,7 +89,7 @@ level = {
     },
     tilemap = {
         map_file_path = "./assets/tilemaps/jungle.map",
-        tilemap_asset_id = "tilemap-image",
+        tilemap_asset_id = tilemap_asset_id_day_night,
         tile_rows = 20,
         tile_cols = 25,
         tile_size = 32,
