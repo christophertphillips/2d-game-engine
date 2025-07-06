@@ -2,6 +2,7 @@ level = {
     assets = {
         [0] =
         { type = "texture", id = "tilemap-image",             file_path = "./assets/tilemaps/jungle.png" },
+        { type = "texture", id = "tilemap-image-night",       file_path = "./assets/tilemaps/jungle-night.png" },
         { type = "texture", id = "chopper-image",             file_path = "./assets/images/chopper-green-spritesheet.png" },
         { type = "texture", id = "su27-image",                file_path = "./assets/images/su27-spritesheet.png" },
         { type = "texture", id = "f22-image",                 file_path = "./assets/images/f22-spritesheet.png" },
