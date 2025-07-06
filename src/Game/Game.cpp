@@ -131,7 +131,8 @@ void Game::Setup(){
 
     LevelLoader levelLoader;                                                            // create LevelLoader instance
     lua.open_libraries(sol::lib::base, sol::lib::math);                                 // load libraries into Lua virtual machine
-    levelLoader.LoadLevel(lua, renderer, registry, assetStore, 1);                      // load first level
+    // levelLoader.LoadLevel(lua, renderer, registry, assetStore, 1);                   // load first level
+    levelLoader.LoadLevel(lua, renderer, registry, assetStore, 2);                      // load second level
 }
 
 void Game::ProcessInput(){
