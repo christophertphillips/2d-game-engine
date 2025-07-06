@@ -130,7 +130,7 @@ void Game::Setup(){
     registry->AddSystem<RenderGUISystem>();                                             // add render-gui system
 
     LevelLoader levelLoader;                                                            // create LevelLoader instance
-    lua.open_libraries(sol::lib::base, sol::lib::math);                                 // load libraries into Lua virtual machine
+    lua.open_libraries(sol::lib::base, sol::lib::math, sol::lib::os);                   // load libraries into Lua virtual machine
     // levelLoader.LoadLevel(lua, renderer, registry, assetStore, 1);                   // load first level
     levelLoader.LoadLevel(lua, renderer, registry, assetStore, 2);                      // load second level
 }
