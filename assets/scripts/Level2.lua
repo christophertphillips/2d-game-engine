@@ -35,7 +35,6 @@ level = {
         { type = "texture", id = "army-gun-right-image",      file_path = "./assets/images/army-gun-right.png" },
         { type = "texture", id = "army-gun-down-image",       file_path = "./assets/images/army-gun-down.png" },
         { type = "texture", id = "army-gun-left-image",       file_path = "./assets/images/army-gun-left.png" },
-        { type = "texture", id = "army-gun-killed-image",     file_path = "./assets/images/army-gun-killed.png" },
         { type = "texture", id = "sam-truck-right-image",     file_path = "./assets/images/sam-truck-right.png" },
         { type = "texture", id = "sam-tank-left-image",       file_path = "./assets/images/sam-tank-left-spritesheet.png" },
         { type = "texture", id = "sam-tank-right-image",      file_path = "./assets/images/sam-tank-right-spritesheet.png" },
