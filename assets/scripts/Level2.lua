@@ -103,7 +103,7 @@ level = {
                     width = 32,
                     height = 32,
                     z_index = 4,
-                    fixed = false,
+                    is_fixed = false,
                     src_rect_x = 0,
                     src_rect_y = 0
                 },
@@ -183,7 +183,7 @@ level = {
                     width = 64,
                     height = 64,
                     z_index = 10,
-                    fixed = true
+                    is_fixed = true
                 },
                 animation_component = {
                     num_frames = 8,
