@@ -2834,3 +2834,6 @@ level = {
         }
     }
 }
+
+map_width = level.tilemap.tile_cols * level.tilemap.tile_size * level.tilemap.tile_scale
+map_height = level.tilemap.tile_rows * level.tilemap.tile_size * level.tilemap.tile_scale
