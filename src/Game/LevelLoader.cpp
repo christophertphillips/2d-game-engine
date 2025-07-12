@@ -143,8 +143,8 @@ void LevelLoader::LoadLevel(sol::state& lua, SDL_Renderer* renderer, const std::
                 sol::table transformComponentTable = entityTable["components"]["transform_component"];                      // get transform component table ("level/entities/[entity[i]]/transform_component")
                 entity.AddComponent<TransformComponent>(                                                                    // add transform component to entity
                     glm::vec2(
-                        transformComponentTable["position"]["x"],                                                           // x position
-                        transformComponentTable["position"]["y"]                                                            // y position
+                        transformComponentTable["position"]["x"].get_or(0.0),                                               // x position
+                        transformComponentTable["position"]["y"].get_or(0.0)                                                // y position
                     ),
                     glm::vec2(
                         transformComponentTable["scale"]["x"].get_or(1.0),                                                  // x scale
@@ -161,8 +161,8 @@ void LevelLoader::LoadLevel(sol::state& lua, SDL_Renderer* renderer, const std::
                 sol::table rigidBodyComponentTable = entityTable["components"]["rigid_body_component"];                     // get rigid body component table ("level/entities/[entity[i]]/rigid_body_component")
                 entity.AddComponent<RigidBodyComponent>(                                                                    // add rigid body component to entity
                     glm::vec2(
-                        rigidBodyComponentTable["velocity"]["x"],                                                           // x velocity
-                        rigidBodyComponentTable["velocity"]["y"]                                                            // y velocity
+                        rigidBodyComponentTable["velocity"]["x"].get_or(0.0),                                               // x velocity
+                        rigidBodyComponentTable["velocity"]["y"].get_or(0.0)                                                // y velocity
                     )
                 );
 
@@ -174,12 +174,12 @@ void LevelLoader::LoadLevel(sol::state& lua, SDL_Renderer* renderer, const std::
                 sol::table spriteComponentTable = entityTable["components"]["sprite_component"];                            // get sprite component table ("level/entities/[entity[i]]/sprite_component")
                 entity.AddComponent<SpriteComponent>(                                                                       // add sprite component to entity
                     spriteComponentTable["asset_id"].get_or(static_cast<std::string>("")),                                  // sprite asset id (NOTE- default value "" is invalid, included here for consistency)
-                    spriteComponentTable["width"],                                                                          // sprite width
-                    spriteComponentTable["height"],                                                                         // sprite height
-                    spriteComponentTable["z_index"],                                                                        // sprite z-index
+                    spriteComponentTable["width"].get_or(0),                                                                // sprite width
+                    spriteComponentTable["height"].get_or(0),                                                               // sprite height
+                    spriteComponentTable["z_index"].get_or(0),                                                              // sprite z-index
                     spriteComponentTable["is_fixed"].get_or(false),                                                         // is sprite fixed onscreen
-                    spriteComponentTable["src_rec_x"],                                                                      // source rectangle x
-                    spriteComponentTable["src_rec_y"]                                                                       // source rectangle y
+                    spriteComponentTable["src_rec_x"].get_or(0),                                                            // source rectangle x
+                    spriteComponentTable["src_rec_y"].get_or(0)                                                             // source rectangle y
                 );
 
             }
@@ -201,15 +201,15 @@ void LevelLoader::LoadLevel(sol::state& lua, SDL_Renderer* renderer, const std::
 
                 sol::table boxColliderComponentTable = entityTable["components"]["box_collider_component"];                 // get box collider component table ("level/entities/[entity[i]]/box_collider_component")
                 entity.AddComponent<BoxColliderComponent>(                                                                  // add box collider component to entity
-                    boxColliderComponentTable["width"],                                                                     // box collider width
-                    boxColliderComponentTable["height"],                                                                    // box collider height
+                    boxColliderComponentTable["width"].get_or(0),                                                           // box collider width
+                    boxColliderComponentTable["height"].get_or(0),                                                          // box collider height
                     glm::vec2(
                         boxColliderComponentTable["scale"]["x"].get_or(1.0),                                                // box collider x scale
                         boxColliderComponentTable["scale"]["y"].get_or(1.0)                                                 // box collider y scale
                     ),
                     glm::vec2(
-                        boxColliderComponentTable["offset"]["x"],                                                           // box collider x offset
-                        boxColliderComponentTable["offset"]["y"]                                                            // box collider y offset
+                        boxColliderComponentTable["offset"]["x"].get_or(0.0),                                               // box collider x offset
+                        boxColliderComponentTable["offset"]["y"].get_or(0.0)                                                // box collider y offset
                     )
                 );
 
@@ -221,20 +221,20 @@ void LevelLoader::LoadLevel(sol::state& lua, SDL_Renderer* renderer, const std::
                 sol::table keyboardControlledComponentTable = entityTable["components"]["keyboard_controlled_component"];   // get keyboard controlled component table ("level/entities/[entity[i]]/projectile_emitter_component")
                 entity.AddComponent<KeyboardControlledComponent>(                                                           // add keyboard controlled component to entity
                     glm::vec2(
-                        keyboardControlledComponentTable["up_velocity"]["x"],                                               // up velocity x
-                        keyboardControlledComponentTable["up_velocity"]["y"]                                                // up velocity y
+                        keyboardControlledComponentTable["up_velocity"]["x"].get_or(0.0),                                   // up velocity x
+                        keyboardControlledComponentTable["up_velocity"]["y"].get_or(0.0)                                    // up velocity y
                     ),
                     glm::vec2(
-                        keyboardControlledComponentTable["right_velocity"]["x"],                                            // right velocity x
-                        keyboardControlledComponentTable["right_velocity"]["y"]                                             // right velocity y
+                        keyboardControlledComponentTable["right_velocity"]["x"].get_or(0.0),                                // right velocity x
+                        keyboardControlledComponentTable["right_velocity"]["y"].get_or(0.0)                                 // right velocity y
                     ),
                     glm::vec2(
-                        keyboardControlledComponentTable["down_velocity"]["x"],                                             // down velocity x
-                        keyboardControlledComponentTable["down_velocity"]["y"]                                              // down velocity y
+                        keyboardControlledComponentTable["down_velocity"]["x"].get_or(0.0),                                 // down velocity x
+                        keyboardControlledComponentTable["down_velocity"]["y"].get_or(0.0)                                  // down velocity y
                     ),
                     glm::vec2(
-                        keyboardControlledComponentTable["left_velocity"]["x"],                                             // left velocity x
-                        keyboardControlledComponentTable["left_velocity"]["y"]                                              // left velocity y
+                        keyboardControlledComponentTable["left_velocity"]["x"].get_or(0.0),                                 // left velocity x
+                        keyboardControlledComponentTable["left_velocity"]["y"].get_or(0.0)                                  // left velocity y
                     )
                 );
 
@@ -245,7 +245,7 @@ void LevelLoader::LoadLevel(sol::state& lua, SDL_Renderer* renderer, const std::
 
                 sol::table healthComponentTable = entityTable["components"]["health_component"];                            // get health component table ("level/entities/[entity[i]]/health_component")
                 entity.AddComponent<HealthComponent>(                                                                       // add health component to entity
-                    static_cast<int>(healthComponentTable["health_percentage"])                                             // health percentage (NOTE- static cast needed to prevent ambiguous constructor call, for reasons unclear)
+                    static_cast<int>(healthComponentTable["health_percentage"].get_or(0))                                   // health percentage (NOTE- static cast needed to prevent ambiguous constructor call, for reasons unclear)
                 );
 
             }
@@ -256,8 +256,8 @@ void LevelLoader::LoadLevel(sol::state& lua, SDL_Renderer* renderer, const std::
                 sol::table projectileEmitterComponentTable = entityTable["components"]["projectile_emitter_component"];     // get projectile emitter component table ("level/entities/[entity[i]]/projectile_emitter_component")
                 entity.AddComponent<ProjectileEmitterComponent>(                                                            // add projectile emitter component to entity
                     glm::vec2(
-                        projectileEmitterComponentTable["projectile_velocity"]["x"],                                        // projectile velocity x
-                        projectileEmitterComponentTable["projectile_velocity"]["y"]                                         // projectile velocity y
+                        projectileEmitterComponentTable["projectile_velocity"]["x"].get_or(0.0),                            // projectile velocity x
+                        projectileEmitterComponentTable["projectile_velocity"]["y"].get_or(0.0)                             // projectile velocity y
                     ),
                     projectileEmitterComponentTable["repeat_frequency"].get_or(1) * 1000,                                   // projectile repeat frequency (in milliseconds)
                     projectileEmitterComponentTable["projectile_duration"].get_or(1) * 1000,                                // projectile duration (in milliseconds)
@@ -280,9 +280,9 @@ void LevelLoader::LoadLevel(sol::state& lua, SDL_Renderer* renderer, const std::
 
                 sol::table textLabelComponentTable = entityTable["components"]["text_label_component"];                     // get text label component table ("level/entities/[entity[i]]/text_label_component")
                 SDL_Color color = {                                                                                         // rgb color value
-                    textLabelComponentTable["color"]["red"],                                                                // red value
-                    textLabelComponentTable["color"]["green"],                                                              // green value
-                    textLabelComponentTable["color"]["blue"]                                                                // blue value
+                    textLabelComponentTable["color"]["red"].get_or(static_cast<Uint8>(0)),                                  // red value
+                    textLabelComponentTable["color"]["green"].get_or(static_cast<Uint8>(0)),                                // green value
+                    textLabelComponentTable["color"]["blue"].get_or(static_cast<Uint8>(0))                                  // blue value
                 };
                 entity.AddComponent<TextLabelComponent>(                                                                    // add text label component to entity
                     textLabelComponentTable["text"].get_or(static_cast<std::string>("")),                                   // text to display
