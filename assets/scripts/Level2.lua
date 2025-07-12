@@ -2744,5 +2744,93 @@ level = {
                 }
             }
         },
+        {
+            -- SU-27 fighter jet
+            group = "enemies",
+            components = {
+                transform_component = {
+                    position = { x = 317, y = 985 },
+                    scale = { x = 1.0, y = 1.0 },
+                    rotation = 0.0, -- degrees
+                },
+                rigid_body_component = {
+                    velocity = { x = 0.0, y = -50.0 }
+                },
+                sprite_component = {
+                    asset_id = "su27-image",
+                    width = 32,
+                    height = 32,
+                    z_index = 5
+                },
+                animation_component = {
+                    num_frames = 2,
+                    speed_rate = 10 -- fps
+                },
+                box_collider_component = {
+                    width = 32,
+                    height = 32
+                },
+                health_component = {
+                    health_percentage = 100
+                },
+                projectile_emitter_component = {
+                    projectile_velocity = { x = 0, y = -100 },
+                    projectile_duration = 5, -- seconds
+                    repeat_frequency = 1, -- seconds
+                    hit_percentage_damage = 10,
+                    is_friendly = false
+                },
+                script_component = {
+                    [0] =
+                    function(entity, delta_time, ellapsed_time)
+                        print("Executing SU-27 Lua script")
+                    end
+                }
+            }
+        },
+        {
+            -- F-22 fighter jet
+            group = "enemies",
+            components = {
+                transform_component = {
+                    position = { x = 10, y = 10 },
+                    scale = { x = 1.0, y = 1.0 },
+                    rotation = 90.0, -- degrees
+                },
+                rigid_body_component = {
+                    velocity = { x = 0.0, y = 0.0 }
+                },
+                sprite_component = {
+                    asset_id = "f22-image",
+                    width = 32,
+                    height = 32,
+                    z_index = 5
+                },
+                animation_component = {
+                    num_frames = 2,
+                    speed_rate = 10 -- fps
+                },
+                box_collider_component = {
+                    width = 32,
+                    height = 32
+                },
+                health_component = {
+                    health_percentage = 100
+                },
+                projectile_emitter_component = {
+                    projectile_velocity = { x = 200, y = 0 },
+                    projectile_duration = 1, -- secondsm
+                    repeat_frequency = 1, -- seconds
+                    hit_percentage_damage = 10,
+                    friendly = false
+                },
+                script_component = {
+                    [0] =
+                    function(entity, delta_time, ellapsed_time)
+                        print("Executing F-22 Lua script")
+                    end
+                }
+            }
+        }
     }
 }
