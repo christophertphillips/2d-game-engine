@@ -27,6 +27,7 @@
 #include "../Systems/RenderGUISystem.h"
 #include "./LevelLoader.h"
 #include <sol/sol.hpp>
+#include "../Systems/ScriptSystem.h"
 
 int Game::windowWidth;
 int Game::windowHeight;
@@ -128,6 +129,7 @@ void Game::Setup(){
     registry->AddSystem<RenderTextSystem>();                                            // add render-text system
     registry->AddSystem<RenderHealthSystem>();                                          // add render-health system
     registry->AddSystem<RenderGUISystem>();                                             // add render-gui system
+    registry->AddSystem<ScriptSystem>();                                                // add script system
 
     LevelLoader levelLoader;                                                            // create LevelLoader instance
     lua.open_libraries(sol::lib::base, sol::lib::math, sol::lib::os);                   // load libraries into Lua virtual machine
@@ -186,6 +188,7 @@ void Game::Update(){
     registry->GetSystem<ProjectileEmitSystem>().Update(registry);                       // update projectile emit system
     registry->GetSystem<CameraMovementSystem>().Update(camera);                         // update camera movement system
     registry->GetSystem<ProjectileLifecycleSystem>().Update();                          // update projectile lifecycle system
+    registry->GetSystem<ScriptSystem>().Update();                                       // update script system
 
     registry->Update();                                                                 // update registry (add and remove entities)
 }
