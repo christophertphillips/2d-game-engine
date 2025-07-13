@@ -18,6 +18,7 @@
 #include "../Components/ProjectileEmitterComponent.h"
 #include "../Components/HealthComponent.h"
 #include "../Components/TextLabelComponent.h"
+#include "../Components/ScriptComponent.h"
 
 LevelLoader::LevelLoader(){
     Logger::Log("LevelLoader constructor called!");
@@ -293,6 +294,14 @@ void LevelLoader::LoadLevel(sol::state& lua, SDL_Renderer* renderer, const std::
 
             }
 
+            sol::optional<sol::table> hasScriptComponent = entityTable["components"]["script_component"];                   // if entity has script component...
+            if(hasScriptComponent != sol::nullopt){                                                                         // ...
+
+                sol::function func = entityTable["components"]["script_component"][0];                                      // get script function
+                entity.AddComponent<ScriptComponent>(                                                                       // add script component to entity
+                    func                                                                                                    // script function
+                );
+            }
         }
     }
 }
