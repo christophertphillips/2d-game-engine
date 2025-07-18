@@ -2783,7 +2783,25 @@ level = {
                 script_component = {
                     [0] =
                     function(entity, delta_time, ellapsed_time)
-                        print("Executing SU-27 Lua script")
+                        -- this function makes the fighter jet move up and down the map shooting projectiles
+                        local current_position_x, current_position_y = get_entity_position(entity)
+                        local current_velocity_x, current_velocity_y = get_entity_velocity(entity)
+
+                        -- if it reaches the top or the bottom of the map
+                        if current_position_y < 10  or current_position_y > map_height - (32 + 10 + 1) then
+                            set_entity_velocity(entity, 0, current_velocity_y * -1); -- flip the entity y-velocity
+                        else
+                            set_entity_velocity(entity, 0, current_velocity_y); -- do not flip y-velocity
+                        end
+
+                        -- set the transform rotation to match going up or down
+                        if (current_velocity_y < 0) then
+                            set_entity_rotation(entity, 0) -- point up
+                            set_entity_projectile_emitter_velocity(entity, 0, -200) -- shoot projectiles up
+                        else
+                            set_entity_rotation(entity, 180) -- point down
+                            set_entity_projectile_emitter_velocity(entity, 0, 200) -- shoot projectiles down
+                        end
                     end
                 }
             }
