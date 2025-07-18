@@ -131,6 +131,8 @@ void Game::Setup(){
     registry->AddSystem<RenderGUISystem>();                                             // add render-gui system
     registry->AddSystem<ScriptSystem>();                                                // add script system
 
+    registry->GetSystem<ScriptSystem>().CreateLuaBindings(lua);                         // create bindings b/t C++ and Lua functions
+
     LevelLoader levelLoader;                                                            // create LevelLoader instance
     lua.open_libraries(sol::lib::base, sol::lib::math, sol::lib::os);                   // load libraries into Lua virtual machine
     // levelLoader.LoadLevel(lua, renderer, registry, assetStore, 1);                   // load first level
