@@ -10,10 +10,10 @@ class ScriptSystem: public System {
             RequireComponent<ScriptComponent>();                                                                            // entity must have script component
         }
 
-        void Update(){
+        void Update(double deltaTime, double elapsedTime){
             for(auto entity: GetSystemEntities()){
                 const auto scriptComponent = entity.GetComponent<ScriptComponent>();                                        // get entity's script component
-                scriptComponent.func();                                                                                     // execute script function
+                scriptComponent.func(entity, deltaTime, elapsedTime);                                                       // execute script function
             }
         }
 };

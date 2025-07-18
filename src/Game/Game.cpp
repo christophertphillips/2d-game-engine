@@ -188,7 +188,7 @@ void Game::Update(){
     registry->GetSystem<ProjectileEmitSystem>().Update(registry);                       // update projectile emit system
     registry->GetSystem<CameraMovementSystem>().Update(camera);                         // update camera movement system
     registry->GetSystem<ProjectileLifecycleSystem>().Update();                          // update projectile lifecycle system
-    registry->GetSystem<ScriptSystem>().Update();                                       // update script system
+    registry->GetSystem<ScriptSystem>().Update(deltaTime, SDL_GetTicks());              // update script system
 
     registry->Update();                                                                 // update registry (add and remove entities)
 }
