@@ -260,8 +260,8 @@ void LevelLoader::LoadLevel(sol::state& lua, SDL_Renderer* renderer, const std::
                         projectileEmitterComponentTable["projectile_velocity"]["x"].get_or(0.0),                            // projectile velocity x
                         projectileEmitterComponentTable["projectile_velocity"]["y"].get_or(0.0)                             // projectile velocity y
                     ),
-                    projectileEmitterComponentTable["repeat_frequency"].get_or(1) * 1000,                                   // projectile repeat frequency (in milliseconds)
-                    projectileEmitterComponentTable["projectile_duration"].get_or(1) * 1000,                                // projectile duration (in milliseconds)
+                    projectileEmitterComponentTable["repeat_frequency"].get_or(1.0) * 1000,                                 // projectile repeat frequency (in milliseconds)
+                    projectileEmitterComponentTable["projectile_duration"].get_or(1.0) * 1000,                              // projectile duration (in milliseconds)
                     projectileEmitterComponentTable["hit_percentage_damage"].get_or(10),                                    // projecitle hit percentage damage
                     projectileEmitterComponentTable["is_friendly"].get_or(false)                                            // is projectile friendly
                 );
