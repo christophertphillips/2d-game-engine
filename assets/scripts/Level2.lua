@@ -2840,7 +2840,7 @@ level = {
                     projectile_duration = 1, -- secondsm
                     repeat_frequency = 1, -- seconds
                     hit_percentage_damage = 10,
-                    friendly = false
+                    is_friendly = false
                 },
                 script_component = {
                     [0] =
